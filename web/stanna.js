@@ -260,7 +260,8 @@ async function boot() {
   wasm = instance.exports;
   wasm.init((Math.random() * 4294967295) >>> 0);
   const saved = store("stanna_touch");
-  const coarse = matchMedia("(pointer: coarse)").matches || "ontouchstart" in window;
+  const coarse = matchMedia("(pointer: coarse)").matches || "ontouchstart" in window ||
+    navigator.maxTouchPoints > 0;
   setTouch(saved === null ? coarse : saved === "1");
   setMuted(store("stanna_muted") === "1");
   $("loading").classList.add("hidden");
