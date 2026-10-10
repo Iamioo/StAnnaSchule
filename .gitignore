@@ -1,0 +1,5 @@
+build/
+shots/
+StAnnaSchule.zip
+bin/*.idsig
+_site/

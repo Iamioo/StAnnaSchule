@@ -1,0 +1,53 @@
+# Baut die Browser-Version (WebAssembly, mit clang) und veröffentlicht sie
+# über GitHub Pages, zusammen mit den Downloads und dem Quelltext.
+name: Webseite
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: clang und wasm-ld
+        run: sudo apt-get update && sudo apt-get install -y clang lld
+      - name: Datencheck
+        run: python3 tools/check_art.py src/game_data.inc
+      - name: WebAssembly bauen
+        run: |
+          mkdir -p _site/downloads
+          clang --target=wasm32 -O2 -ffreestanding -nostdlib -Wall -Wno-pointer-sign \
+            -Wl,--no-entry -Wl,-z,stack-size=262144 -Wl,--strip-all \
+            -o _site/stanna.wasm src/game.c src/plat_web.c
+          ls -l _site/stanna.wasm
+      - name: Seite zusammenstellen
+        run: |
+          cp web/index.html web/stanna.js web/icon.png _site/
+          cp bin/StAnna.exe bin/StAnna.apk bin/StAnna.nro _site/downloads/
+          git archive --format=zip --prefix=StAnnaSchule/ -o _site/downloads/StAnnaSchule-Quelltext.zip HEAD
+          touch _site/.nojekyll
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
