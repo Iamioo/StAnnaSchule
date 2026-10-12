@@ -18,7 +18,7 @@ Nur für den Privatgebrauch.
 |---|---|---|---|
 | Laufen | Pfeiltasten / WASD | Stick / Steuerkreuz | Steuerkreuz links |
 | Rennen (kostet Puste, ist laut) | Shift | B / ZR / R | RENNEN |
-| Aktion: verstecken, reden, Klavier, Sicherungen | E / Leertaste | A | AKTION |
+| Aktion: verstecken, reden, Klavier, Sicherungen, auf-/absteigen | E / Leertaste | A | AKTION |
 | Handy: Conjoke anrufen / rangehen | Q oder F | Y / X | HANDY |
 | Start / weiter | Enter | + | Bild antippen |
 | Zurück / Menü | Esc | – | Zurück-Taste |
@@ -29,11 +29,16 @@ Nur für den Privatgebrauch.
 | Etage | Was dort ist |
 |---|---|
 | 6 | Haupteingang, Sekretariat, Hausmeister – hier ist der Ausgang. 7.–9. Etage: gesperrt |
-| 5 | Draußen: Schulhof, Sportplatz und die Mensa |
-| 4 | Naturwissenschaften – hier fängst du an (Chemieraum) |
-| 3 | Musik- und Kunsträume |
+| 5 | Umgang Forum (Ring aus rotem Pflaster um den Luftraum) und der Schulhof mit Dachfläche E4 – manchmal stehen hier E-Scooter und Fahrräder |
+| 4 | Chemie und Musik: 4.36 Chemie-Hörsaal (hier fängst du an), 4.34/4.35 Chemie-Sammlung, 4.33 Chemie-Übung, 4.32 Musik-Vorbereitung, 4.25 und 4.26 Musik |
+| 3 | Kunst und Physik: 3.32 und 3.26 Umkleide, 3.23 und 3.20 Kunstraum, 3.14 Kunst-Vorbereitung, 3.14 A Kunst/Werkraum, 3.13 und 3.09 Physik-Raum, 3.12 Physik-Vorbereitung, 3.04 Bücher-Keller – Frau Niehaus ist hier |
 | 2 | Sporthalle |
 | 1 | Schwimmbad (die Schwimmhalle ist abgeschlossen) |
+
+Die Etagen 3, 4 und 5 sind nach den echten Flucht- und Rettungsplänen (Ebene 3, 4, 5)
+gebaut: Der orangefarbene Flur läuft um den **Luftraum Forum** herum – durch die
+Glasscheiben schaust du hinunter auf die Sitzreihen des Forums. Die Pläne sind dafür
+oben und unten gespiegelt, damit das Treppenhaus wie auf jeder Etage unten links liegt.
 
 Das Treppenhaus ist immer unten links. **Hoch** geht es an der linken Wand, **runter**
 an der rechten. Man kommt in der Mitte an und läuft immer von der Treppe weg – so
@@ -46,7 +51,7 @@ Jede erledigte Aufgabe öffnet den Weg weiter:
 
 1. **4. Etage:** Taschenlampe schnappen (liegt neben dir) und den **Treppenschlüssel** finden → Gitter zur 3. Etage geht auf
 2. **3. Etage:** Herrn Lerschs **4 Notenblätter** einsammeln
-3. **3. Etage:** das Lied **am Klavier spielen** – ein Geheimfach mit dem Hallenschlüssel springt auf (das hört Herr Thüner!) → 2. Etage
+3. **4. Etage:** das Lied **am Klavier spielen** (Musikraum 4.25 oder 4.26) – ein Geheimfach mit dem Hallenschlüssel springt auf (das hört Herr Thüner!) → 2. Etage
 4. **2. Etage:** **3 Sicherungen** suchen
 5. **2. Etage:** Sicherungen in den **Sicherungskasten** im Flur → das Licht geht an, Gitter zur 1. Etage öffnet sich
 6. **1. Etage:** den **Bademeister-Schlüssel** finden
@@ -67,8 +72,23 @@ Runde woanders.
   dich damit, musst du deinen Namen aufschreiben und bei ihm warten – und das Handy ist
   für den Rest der Runde weg. Klingelt dein Handy, hört er das und kommt angerannt:
   verstecken oder schnell rangehen!
-- **Herr Lersch** (graue Haare, Brille) wartet immer auf der Etage deiner aktuellen
-  Aufgabe und verrät dir, in welchem Raum das nächste Teil liegt.
+- **Herr Lersch** (Anfang 30, kurze hellbraune Haare, eckige Brille, dunkelblaues Hemd,
+  Tablet in der Hand, redet mit den Händen) wartet immer auf der Etage deiner aktuellen
+  Aufgabe und verrät dir, in welchem Raum das nächste Teil liegt. Wenn er redet, siehst
+  du sein Porträt.
+- **Frau Niehaus** (hellbrauner Dutt, lange Haare über einer Schulter, goldene Brille,
+  goldene Creolen, salbeigrüner Rollkragenpullover) gibt es nur in der **3. Etage**. Sie
+  geht von Klassenraum zu Klassenraum und summt – ihre Noten siehst du auch im Dunkeln.
+  Bist du mit ihr **im selben Klassenraum** und gehst nicht schnell weg, **musst du mit ihr
+  singen**: ein paar Sekunden kannst du dich nicht bewegen, und **Herr Thüner wird
+  alarmiert** (auch von einer anderen Etage). Hast du Herrn Lerschs Notenblätter dabei,
+  will sie doppelt so schnell singen. Im Flur oder im Spind bist du sicher.
+- **Die Putzkräfte** (blaue Uniform, Mütze, Wischmopp) wischen die Flure und ziehen von
+  Etage zu Etage. Wo sie gewischt haben, glänzt der Boden nass und steht ein gelbes
+  Warnschild. **Rennst** du über nassen Boden oder direkt an ihnen vorbei, **rutschst du
+  aus** (das ist laut). Gehen ist kein Problem. Sehen sie dich zu lange („?“, dann „!“),
+  **rufen sie Herrn Thüner**. Aber: Auch Herr Thüner und Herr Kirschbaum rutschen aus,
+  wenn sie hinter dir her über den nassen Boden rennen!
 - **Conjoke** ist groß und stark. Ruf ihn an (oder geh ran, wenn er anruft), dann kommt er
   und prügelt sich mit einem Lehrer – der ist danach eine Weile langsamer.
 
@@ -82,6 +102,11 @@ Runde woanders.
 | Stinkbombe | rettet dich einmal, wenn Herr Thüner dich packt |
 | 18 St.-Anna-Sticker | 3 pro Etage, gut versteckt (sie glitzern nicht) – zum Sammeln |
 
+**E-Scooter und Fahrräder (5. Etage):** Manchmal stehen auf dem Schulhof welche.
+Mit der Aktionstaste steigst du auf und bist richtig schnell – aber nur ein paar
+Sekunden: Beim E-Scooter ist der Akku leer, beim Fahrrad reißt die Kette. Dann ist er
+kaputt. Oben siehst du, wie viel Akku oder Kette noch übrig ist.
+
 **Checkpoints:** Wenn Herr Thüner dich erwischt, geht es im Treppenhaus der aktuellen
 Etage weiter. Alles, was du aufgesammelt hast, behältst du. Am Ende siehst du deine Zeit,
 deine Sticker und wie oft du erwischt wurdest.
@@ -91,9 +116,9 @@ deine Sticker und wie oft du erwischt wurdest.
 | Plattform | Datei | Status |
 |---|---|---|
 | Browser (PC und Handy) | `web/` + `src/plat_web.c` | wird von GitHub Actions gebaut und auf GitHub Pages veröffentlicht |
-| Windows 95 bis 11 | `bin/StAnna.exe` | gebaut und getestet, mit Musik |
-| Android 4.1+ (ARM64 + ARMv7) | `bin/StAnna.apk` | gebaut und im Emulator getestet, Ton ab Android 8 |
-| Nintendo Switch (Homebrew) | `bin/StAnna.nro` | gebaut, startet in Ryujinx |
+| Windows 95 bis 11 | `bin/StAnna.exe` | gebaut und getestet, mit Musik – **noch die alte Version** (mit `build_windows.bat` neu bauen) |
+| Android 4.1+ (ARM64 + ARMv7) | `bin/StAnna.apk` | gebaut und im Emulator getestet, Ton ab Android 8 – **noch die alte Version** |
+| Nintendo Switch (Homebrew) | `bin/StAnna.nro` | gebaut, startet in Ryujinx – **noch die alte Version** |
 | Linux / Unix (X11) | `build_linux.sh` | Quelltext fertig und syntaxgeprüft, hier **nicht gelinkt** (kein Linux auf diesem PC) |
 | TempleOS | `templeos/StAnna.HC` | HolyC-Quelltext generiert, **ungetestet** |
 

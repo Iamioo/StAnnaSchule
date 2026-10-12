@@ -158,7 +158,16 @@ int main(int argc, char **argv)
             check(sa_it_got[k], "item not picked up");
           }
       } else if (task == 2) {
-        put(1, 3);
+        /* the piano: in the music rooms of the 4th floor */
+        int px = -1, py = -1, x, y;
+        for (y = 0; y < 28; y++)
+          for (x = 0; x < MAP_W; x++)
+            if (sa_map[y * MAP_W + x] == 'M' && px < 0) {
+              px = x;
+              py = y + 1;
+            }
+        check(px >= 0, "no piano on the task floor");
+        put(px, py);
         press(K_ACT);
       } else if (task == 4) {
         put(36, 13);

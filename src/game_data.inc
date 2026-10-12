@@ -69,10 +69,21 @@
 #define ART_FUSE 746
 #define ART_NOTE 754
 #define ART_KEY2 762
-#define ART_COUNT 770
+#define ART_NI_D 770
+#define ART_NI_U 780
+#define ART_NI_S 790
+#define ART_CL_D 800
+#define ART_CL_U 810
+#define ART_CL_S 820
+#define ART_SCOOTER 830
+#define ART_BIKE 840
+#define ART_POR_LE 850
+#define ART_POR_NI 874
+#define ART_POR_CL 898
+#define ART_COUNT 922
 
-#define NROOMS 49
-#define NLABELS 47
+#define NROOMS 53
+#define NLABELS 45
 
 U8 sa_pal[48] = {
   0x00, 0x00, 0x00,  0x14, 0x10, 0x1c,  0x2e, 0x2a, 0x40,  0x4c, 0x47, 0x66,
@@ -250,15 +261,15 @@ CH *sa_art[ART_COUNT] = {
   /* ART_KB_S */
   "..5.55.5..", ".5555555..", "55455555..", "5559999999", "55a9444449",
   "55a94x6449", ".599999999", ".a9999999.", "..a99911..", "...aaaa...",
-  /* ART_LE_D: Herr Lersch - grey hair, dark glasses */
-  "..444444..", ".44444444.", "4434444344", "4999999994", "a11111111a",
-  "a1x1991x1a", ".99999999.", ".999aa999.", "..9b66b9..", "...9999...",
+  /* ART_LE_D: Herr Lersch - short light brown hair, rectangular glasses */
+  "..888888..", ".8a8a8a88.", "8888888888", "8999999998", "a11111111a",
+  "a15x11x51a", ".11199111.", ".999aa999.", "..9a66a9..", "...9999...",
   /* ART_LE_U */
-  "..444444..", ".44444444.", "4444444444", "4434444344", "a44444444a",
-  "a44444444a", ".44444444.", ".a444444a.", "..aaaaaa..", "...9999...",
+  "..888888..", ".8a8a8a88.", "88888a8888", "8888888888", "a88888888a",
+  "a88888888a", ".a888888a.", "..999999..", "..999999..", "...9999...",
   /* ART_LE_S */
-  "..44444...", ".4444444..", "443444444.", "4444999999", "44a9111119",
-  "44a91x1199", ".499999999", ".a999999a.", "..9999b1..", "...9999...",
+  "..88888...", ".8a8a888..", "88888888a.", "8888999999", "88a9111119",
+  "88a915x199", ".899111999", ".a9999999.", "..9999a6..", "...9999...",
   /* ART_CJ_D: Conjoke - wet hair combed back */
   "..888888..", ".88878788.", "8899999988", "8999999998", "a97799779a",
   "a9xx99xx9a", ".99999999.", ".999aa999.", "..99aa99..", "...9999...",
@@ -378,7 +389,108 @@ CH *sa_art[ART_COUNT] = {
   /* ART_NOTE: yellow note with a number */
   ".ffffff.", ".f1f11f.", ".ffffff.", ".f11f1f.", ".ffffff.", ".f111ff.", ".ffffff.", "........",
   /* ART_KEY2: white key with a red tag */
-  "..111...", ".16661..", ".16.61c.", ".16661cc", "..161...", "..1661..", "..161...", "..1661.."
+  "..111...", ".16661..", ".16.61c.", ".16661cc", "..161...", "..1661..", "..161...", "..1661..",
+  /* ART_NI_D: Frau Niehaus - half-up bun, gold glasses, hoop earrings */
+  "...8aa8...", "..88a888..", ".8a8888a8.", "8a999999a8", "8fxf99fxf8",
+  "8999999998", "f99999999f", ".99a99a99.", "..99cc99..", "...9999...",
+  /* ART_NI_U */
+  "...8aa8...", "..888888..", ".8888a888.", "88a88888a8", "8888888888",
+  "88888888a8", "8a88888888", ".8888888a.", "..888888..", "...8888...",
+  /* ART_NI_S */
+  "..8aa8....", ".8888888..", "8a888a88..", "8888999999", "88a99fxf99",
+  "88f9999999", ".899999999", ".889999c9.", ".88999999.", ".888999...",
+  /* ART_CL_D: Putzkraft - blue cap and uniform */
+  "..dddddd..", ".dddd6ddd.", "2222222222", "7999999997", "a99999999a",
+  "a9x9999x9a", ".99999999.", ".999aa999.", "..9a66a9..", "...9999...",
+  /* ART_CL_U */
+  "..dddddd..", ".dddddddd.", "dddddddddd", "7777777777", "a77777777a",
+  "a77777777a", ".77777777.", ".a777777a.", "..999999..", "...9999...",
+  /* ART_CL_S */
+  "..ddddd...", ".dddd6dd..", ".dddddd222", "7777999999", "77a9999999",
+  "77a9999x99", ".799999999", ".a9999999.", "..9999a6..", "...9999...",
+  /* ART_SCOOTER: e-scooter, side view */
+  "............11..", "............5...", "............5...", "............5...",
+  "............5...", "...........e5...", "...........5....", ".ffeeeeeeee5....",
+  "1eeeeeeeeeee5...", "151........151..",
+  /* ART_BIKE: bicycle, side view */
+  "................", "...11......1....", "....c.....11....", "....c.....c.....",
+  "...cccccccc.....", "..1.c....cc.1...", ".1.1.c..c.c1.1..", "1...1.cc.1.1..1.",
+  ".1.1...4..1.1.1.", "..1.........1...",
+  /* ART_POR_LE: portrait Herr Lersch (24x24, dialog) */
+  "222222222222222222222222",
+  "2eeeeeeeeeeeeeeeeeeeeee2",
+  "2ee6e6eeeeeeeeeeeee66ee2",
+  "2eeee6ee88888888eeeeeee2",
+  "2eeeeee88a8a8a888eeeeee2",
+  "2eeeee888888888888eeeee2",
+  "2eeeee889999999988eeeee2",
+  "2eeee28999999999982eeee2",
+  "2eeee2a1111991111a2eeee2",
+  "2eeee2a1505115051a2eeee2",
+  "2eeee2a1111991111a2eeee2",
+  "2eeee229999aa99992eeeee2",
+  "222222299999999992222222",
+  "4444444999a66a9994444444",
+  "444444449999999944444444",
+  "4999444444999944444ddd44",
+  "49994444dd2992dd44d1dd44",
+  "4499ddddd2d22d2ddd1dd1d4",
+  "444dddddddd2dddddd1ddd14",
+  "44ddddddddd6ddddd99dddd4",
+  "4dddddddddd2ddddd99dddd4",
+  "4dddddddddd6dddddddddd44",
+  "4dddddddddd2dddddddddd44",
+  "4dddddddddd6dddddddddd44",
+  /* ART_POR_NI: portrait Frau Niehaus */
+  "555555555555555555555555",
+  "55555555558aa85555555555",
+  "5555555558aa8a8555555555",
+  "555555558888a88885555555",
+  "5555558a8888888a85555555",
+  "555558a8a888888a88555555",
+  "555555889999999999885555",
+  "555588999999999999885555",
+  "55558ffff99ff99ffff85555",
+  "55558f9xf99ff99fx9f85555",
+  "55558ffff999999ffff85555",
+  "5555889999999999999f5555",
+  "5555889999aa999999f85555",
+  "555588f99999999999988555",
+  "55558a89999c66c999988555",
+  "5588a889999cc99999885555",
+  "5558a8889999999999885555",
+  "5558a88eeeeeeeeeeee85555",
+  "55a888eeeeeeeeeeeeee5555",
+  "558a8eeeeeeeeeeeeeeeee55",
+  "55a88eeeeeeeeeeeeeeeee55",
+  "558a8eeeeeeeeeeeeeeeee55",
+  "55a8eeeeeeeeeeeeeeeeee55",
+  "558eeeeeeeeeeeeeeeeeee55",
+  /* ART_POR_CL: portrait Putzkraft */
+  "333333333333333333333333",
+  "333333333333333333333333",
+  "33333333dddddddd33333333",
+  "3333333dddd66dddd3333333",
+  "333333dddddddddddd333333",
+  "333333322222222222223333",
+  "333333799999999997333333",
+  "333333799999999997333333",
+  "33333a99x999999x99a33333",
+  "33333a99999999999a333333",
+  "3333339999aa999999333333",
+  "333333399999999999933333",
+  "333333399a6666a993333333",
+  "333333339999999933333333",
+  "333333333399999333333333",
+  "333dddddddd99ddddddd8333",
+  "33dddddddddddddddddd8333",
+  "3dddddddd6dd6dddddd98333",
+  "3ddddddddddddddddddd8333",
+  "3ddddddddddddddddddd8333",
+  "3ddddd2222222222dddd8333",
+  "3ddddd2dddddddd2dddd8333",
+  "3ddddd2dddddddd2ddd555f3",
+  "3ddddd2dddddddd2dd55555f"
 };
 
 /* The six floors of the school, from the swimming pool (1st) up to the
@@ -388,8 +500,10 @@ CH *sa_art[ART_COUNT] = {
  *   y wall bars, j basketball hoop, q glass, F fence.
  * Doors: D open, X locked, E main entrance, e schoolyard gate, g locked
  *   stairs to floors 7-9.  Stairs: ^ up, v down.
- * Floors: . corridor, , wood, c tiles, t small tiles, h hall, f gym,
- *   m gym mat, _ asphalt, ; grass.  Water: ~
+ * Floors: - orange corridor (like the real one), . grey floor, , wood,
+ *   c tiles, t small tiles, h hall, f gym, m gym mat, _ asphalt, ; grass,
+ *   r red brick (Umgang Forum).  Water: ~   Luftraum Forum (the void
+ *   in the middle of floors 3-5, you look down into it): A
  * Objects: L locker (hide), B lab bench, S sink, G chemicals, T desk,
  *   R shelf, O plant, Z skeleton, M piano, U toilet, V vending machine,
  *   Q drums, J easel, o equipment, N bench, Y tree, k counter, I trophies,
@@ -409,10 +523,10 @@ CH *sa_floor_src[168] = {
   "#tttttttttttttttttttttttttttttttttttttttttttttttttttttt#",
   "#tNNttttttttttttttttttttttttttttttttttttttttttttttttNNt#",
   "##qqqq##qqqq##qqqq##qqqq###XX###qqqq##qqqq##qqqq##qqqq##",
-  "#........NN............................NN..............#",
-  "#.....................................................V#",
-  "#......................................................#",
-  "#...LLL......LLL........................LLL.......LLL..#",
+  "#--------NN----------------------------NN--------------#",
+  "#-----------------------------------------------------V#",
+  "#------------------------------------------------------#",
+  "#---LLL------LLL------------------------LLL-------LLL--#",
   "##..zz######D############D########D############D########",
   "#......#LLLLttttLLLLL#ttttttt#LLLLttttLLLL#............#",
   "#^.....#ttttttttttttt#ttttttt#tttttttttttt#R..TTT....RR#",
@@ -438,10 +552,10 @@ CH *sa_floor_src[168] = {
   "#fNNNNffffffffffffffffffffffffffffffffNNNNf#...........#",
   "#ffffffffffffffffffffffffffffffffffffffffff#L........LL#",
   "##########DD########n##########DD###u#############D#####",
-  "#..............LLLL.....LLLL...........................#",
-  "#.....................................................V#",
-  "#......................................................#",
-  "#...LLL......LLL........................LLL.......LLL..#",
+  "#--------------LLLL-----LLLL---------------------------#",
+  "#-----------------------------------------------------V#",
+  "#------------------------------------------------------#",
+  "#---LLL------LLL------------------------LLL-------LLL--#",
   "##..zz######D############D########D############D########",
   "#......#LLLLttttLLLLL#ttttttt#LLLLttttLLLL#,,,,,,,,,,,,#",
   "#^....v#ttttttttttttt#ttttttt#tttttttttttt#R,,TTT,,,,RR#",
@@ -453,93 +567,93 @@ CH *sa_floor_src[168] = {
   "########ttttttttttttt#ttttttt#tttttttttttt#,,,,,,,,,,,,#",
   "########LLLLLLLLLLLLL#S#S#S#S#LLLLLLLLLLLL#RRR,,,,,,LLL#",
   "########################################################",
-  /* ---- 3. Etage: Musik und Kunst ---- */
-  "##w##bbbbb##n#w####w#bbbbb##w###w#bbbbb##w###w#n#w#n#w##",
-  "#,,,,,,,,,,,,,,,,#,,,,,,,,,,,,#,,,,,,,,,,,,#,,,,,,,,,,,#",
-  "#MM,,,,,,,,,,,,MM#QQ,,,,,,,,MM#J,J,J,,J,J,J#QQ,,,,,,,MM#",
-  "#,,,,,,,,,,,,,,,,#,,,,,,,,,,,,#,,,,,,,,,,,,#,,,,,,,,,,,#",
-  "#,T,T,T,T,T,T,,,,#,T,T,T,T,T,,#,TT,TT,TT,TT#,,,,,,,,,,,#",
-  "#,,,,,,,,,,,,,,,,#,,,,,,,,,,,,#,,,,,,,,,,,,#oo,,,,,,,oo#",
-  "#,T,T,T,T,T,T,,,,#,T,T,T,T,T,,#,TT,TT,TT,TT#,,,,,,,,,,,#",
-  "#,,,,,,,,,,,,,,,,#,,,,,,,,,,,,#,,,,,,,,,,,,#,,,,,,,,,,,#",
-  "#,T,T,T,T,T,T,,,,#,,,,,,,,,,,,#J,J,,,,,,J,J#,,,,,,,,,,,#",
-  "#,,,,,,,,,,,,,,,,#O,,,,,,,,,,O#,,,,,,,,,,,,#O,,,,,,,,,O#",
-  "#,,,,,,,,,,,,K,,,#,,,,,,,,,,,,#,,,,,,,,,,K,#,,,,,,,,,,,#",
-  "#RR,,,,,,,,,,,,O,#R,,,,,,,,,,R#RR,,,,,,,,,R#,,,,,,,,,,,#",
-  "###D####n#####D####D##n###D######D###n##D#####D##n##D###",
-  "#....LLL..LLL...LL.....LL...LLLL...LL.....LLL........LL#",
-  "#.....................................................V#",
-  "#......................................................#",
-  "#...LLL......LLL.....LL...............LL.....LL.....LLL#",
-  "##..zz######D############D########D############D########",
-  "#......#RRRR....RRRRR#ttttttt#,,,,,,,,,,,,#,,,,,,,,,,,,#",
-  "#^....v#.............#SSttttt#O,,,,MM,,,,O#R,,TTT,,,,RR#",
-  "#^....v#MM...QQ...MM.Dttttttt#,,,,,,,,,,,,#,,,,,,,,,,,,#",
-  "#^....v#.............#ttttttt#,T,T,T,T,T,,#,,,,,,,,,,,,#",
-  "########RRR.......RRR#ttttttt#,,,,,,,,,,,,D,,,,,,,,,,,,#",
-  "########.............#ttttttt#,T,T,T,T,T,,#,,,,,,,,,,,,#",
-  "########....K........#ttttttt#,,,,,,,,,,,,#,,,,,,K,,,,,#",
-  "########.............#ttttttt#,T,T,T,T,T,,#,,,,,,,,,,,,#",
-  "########LLL.......LLL#U#U#U#U#RR,,,,,,,,,R#RRR,,,,,,LLL#",
+  /* ---- 3. Etage: Kunst und Physik (Fluchtplan Ebene 3, gespiegelt) ---- */
   "########################################################",
-  /* ---- 4. Etage: Naturwissenschaften (start) ---- */
-  "##w##bbbbb##p#w####w#bbbbb##w###w#bbbbb##w###w#bbbbb#w##",
-  "#cccccccccccccccc#,,,,,,,,,,,,#,,,,,,,,,,,,#,,,,,,,,,,,#",
-  "#GccccccHccccccGc#Z,,,TTT,,,,O#O,,,TTT,,,,O#O,,,TTT,,,O#",
-  "#cccccTTTTTcccccc#,,,,,,,,,,,,#,,,,,,,,,,,,#,,,,,,,,,,,#",
-  "#cccccccccccccccc#,TT,TT,TT,TT#,TT,TT,TT,TT#,TT,TT,TT,,#",
-  "#cBBBBScccSBBBBcc#,,,,,,,,,,,,#,,,,,,,,,,,,#,,,,,,,,,,,#",
-  "#cccccccccccccccc#,TT,TT,TT,TT#,TT,TT,TT,TT#,TT,TT,TT,,#",
-  "#cBBBBScccSBBBBcc#,,,,,,,,,,,,#,,,,,,,,,,,,#,,,,,,,,,,,#",
-  "#cccccccccccccccc#,TT,TT,TT,TT#,TT,TT,TT,TT#,TT,TT,TT,,#",
-  "#cBBBBScccSBBBBcc#,,,,,,,,,,,,#,,,,,,,,,,,,#,,,,,,,,,K,#",
-  "#ccccccccccccPccc#R,,,,,,,,,KR#,,,,,,,,,,,,#,,,,,,,,,,,#",
-  "#RRccccccccccccOc#R,,,,,,,,,,R#RR,,,,,,,,,R#RR,,,,,,,,R#",
-  "###D####n#####D####D##n###D######D###n##D#####D##n##D###",
-  "#....LLL..LLL...LL.....LL...LLLL...LL.....LLL........LL#",
-  "#.....................................................V#",
-  "#......................................................#",
-  "#...LLL......LLL.....LL...............LL.....LL.....LLL#",
-  "##..zz######D############D########D############D########",
-  "#......#,,,,,,,,,,,,,#ttttttt#,,,,,,,,,,,,#............#",
-  "#^....v#R,,,,,,,,,,,R#SSttttt#O,,,TTT,,,,O#RRR.RRR.RRR.#",
-  "#^....v#,,TTTTTTTTT,,Dttttttt#,,,,,,,,,,,,#............#",
-  "#^....v#,,TTTTTTTTT,,#ttttttt#,TT,TT,TT,TT#RRR.RRR.RRR.#",
-  "########,,,,,,,,,,,,,#ttttttt#,,,,,,,,,,,,D............#",
-  "########,,,,,,,,,,,,,#ttttttt#,TT,TT,TT,TT#.K..........#",
-  "########RR,,,,,,,K,RR#ttttttt#,,,,,,,,,,,,#RRR.RRR.RRR.#",
-  "########,,,,,,,,,,,,,#ttttttt#,TT,TT,TT,TT#............#",
-  "########O,,,,,,,,,,,O#U#U#U#U#RR,,,,,,,,,R#L..........L#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAqRRR,RRR,R#o,,#UtU#,,TTT,,#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAq,,,,,,,,,#,,,#ttt#,,,,,,,#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAq,,,,,,R,,#,,,#ttt#,TT,,,,#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAq####D######D###D#####D####",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAq------------------------V#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAq-----LLL---LL---LL-------#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAq--################D#######",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAq--#RRR,,,,RRRR#RR,,,,RR,,#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAqq--D,,,,,,,,,,,#,,,,,,,,,,#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAqq---#,,,,,,,o,o,#,TTT,TTT,,#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAqq---#######D######,,,,,,,,,,#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAqq---D,#,,,,,,,,,,,#,TTT,,TT,,#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAqq---#,,D,TTT,TTT,TTT#####D#####",
+  "#qqqqqqqqqqqqqqqqqqqqqqqq---#,,,#,,,,,,,,,,,#,,,,,,,,,,#",
+  "#---------------------------#,,,#,TTT,TTT,,J#,,,,,,,,,,#",
+  "#------------LL---LLL-------#RRO#,,,,,,,,,,,#GGG,,,R,,,#",
+  "##..zz####D####D######D####D##############D#######D#####",
+  "#......#LL,LL#UttU#LLL,LLL#,,,,,,,,,,,,,,#,,,,,,,,,,,,,#",
+  "#^....v#,,,,,#tttt#,,,,,,,#,J,J,J,,J,J,,,#,J,J,J,J,J,J,#",
+  "#^....v#,,,,,#tttt#,,,,,,,#,,,,,,,,,,,,,,#,,,,,,,,,,,,,#",
+  "#^....v#,,,,,#tttt#,NNNNN,#,,TT,TT,TT,TT,#,,TT,TT,TT,TT#",
+  "########,NNN,#tttt#,,,,,,,#,,,,,,,,,,,,,,D,,,,,,,,,,,,,#",
+  "########,,,,,#tttt#,,,,,,,#,,TT,TT,TT,TT,#,,TT,TT,TT,TT#",
+  "########,,,,,#tttt#,NNNNN,#,,,,,,,,,,,,,,#,,,,,,,,,,,,,#",
+  "########,,,,,#SStt#,,,,,,,#,,TT,TT,TT,,,,#,,,,,,,,,,,,,#",
+  "########LLLLL#tttt#LLL,LLL#,,,,,,,,,,RRRO#,RR,,,,,,RRR,#",
   "########################################################",
-  /* ---- 5. Etage: Schulhof und Mensa (outside) ---- */
-  "FFFFFFFFFFFFFFFFFFFFFFFFFFFFF#w###w###w###w###w###w#####",
-  "F;;;;;;;;;;;;;;;;;;;;;;;;;;;;#ccccccccccccccccccccccccc#",
-  "F;;Y;;;;;;Y;;;;;;;Y;;;;;;Y;;;#ckkkkkkkkkkkkkkkkkkkkkkkc#",
-  "F;;;;;;;;;;;;;;;;;;;;;;;;;;;;#ccccccccccccccccccccccccc#",
-  "F____________________________#cTTTTcTTTTcTTTTcTTTTcTTTc#",
-  "F_NN___NN___NN___NN___NN_____#ccccccccccccccccccccccccc#",
-  "F____________________________#cTTTTcTTTTcTTTTcTTTTcTTTc#",
-  "F;;;;____;;;;____;;;;____;;;;#ccccccccccccccccccccccccc#",
-  "F;;Y;____;;Y;____;Y;;____;;Y;#cTTTTcTTTTcTTTTcTTTTcTTTc#",
-  "F;;;;____;;;;____;;;;____;;;;#ccccccccccccccccccccccccc#",
-  "F____________________________#cTTTTcTTTTcTTTTcTTTTcTTTc#",
-  "F____________________________#cccccccccccccccccccccccKc#",
-  "F____________________________#w##w##w###D###w##w##w##w##",
-  "F______________________________________________________F",
-  "F______________________________________________________F",
-  "F______________________________________________________F",
-  "F______________________________________________________F",
-  "##..zz##_______________________________________________F",
-  "#......#;;____________________________________;;NNN;NNNF",
-  "#^....v#;;____________________________________;;;;;;;;;F",
-  "#^....v#;Y____________________________________;;;Y;;;;;F",
-  "#^....v#;;____________________________________;;;;;;;;;F",
-  "########;;____________________________________;;;;;K;;;F",
-  "F;;;;;;;;Y____________________________________;;;;;;;Y;F",
-  "F;;;;;;;;;____________________________________;;;;;;;;;F",
-  "F;;Y;;;;;;____________________________________;;;Y;;;;;F",
-  "F;;;;;;;;;____________________________________;;;;;;;;;F",
-  "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFeeFFFFFFFFFFFFFFFFFFFFFFFF",
+  /* ---- 4. Etage: Chemie und Musik (Fluchtplan Ebene 4, gespiegelt) - Start ---- */
+  "########################################################",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAq-V#MM,,,QQ,,,,,MM,,#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAq--D,,,,,,,,,,,,,,,,#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAq--#,T,T,T,T,T,T,T,,#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAq--#,,,,,,,,,,,,,,O,#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAq--##################",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAq--#MM,,,,,,,,,,MM,,#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAq--D,,,,,,,,,,,,,,,,#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqq--#,T,T,T,T,T,T,T,,#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqq---##################",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqq---#,,,,,,,,,#########",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqq---#,,,,QQ,,o,#UtUtUtt#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAqq---D,,,,,,,,,,,#ttttttt#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAqq---#,,,,,,,,,,,,Dttttttt#",
+  "#qqqqqqqqqqqqqqqqqqqqqqqqqqqqq---#,,,,,,,o,,,o,#ttttttt#",
+  "#--------------------------------#,,,,,,,,,,,,,#ttttttt#",
+  "#-----------LLL-----LLL-----LL---#,,RRR,,RR,,RR#ttttSSt#",
+  "##..zz####D########D######D#####D###########D###########",
+  "#......#GcccHccccccccc#GGccGGGc#ccGGGccccccccGGccccGGcc#",
+  "#^....v#cccTTTTTcccccc#cccccccc#ccccccccccccccccccccccc#",
+  "#^....v#cccccccccccccc#cRRcRRcc#ccBBBBSccSBBBBccBBBBScc#",
+  "#^....v#cBBBBSccSBBBBc#cccccccc#ccccccccccccccccccccccc#",
+  "########cccccccccccccc#cRRcRRcc#ccBBBBSccSBBBBccBBBBScc#",
+  "########cBBBBSccSBBBBc#cccccccc#ccccccccccccccccccccccc#",
+  "########cccccccccccccc#cRRcRRcc#ccBBBBSccSBBBBccBBBBScc#",
+  "########cccccPcccccccc#cccccccc#ccccccccccccccccccccccc#",
+  "########RRccccccccORcc#Zccccccc#cRRccccccccccccccRRRccc#",
+  "########################################################",
+  /* ---- 5. Etage: Umgang Forum und Schulhof (Fluchtplan Ebene 5) ---- */
+  "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
+  "F#####rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrq__;;;;;;;;;;;;;;F",
+  "F####rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrq__;;Y;;;;;;;;;;;F",
+  "F###rrrqqqqqqqqqqqqqqqqqqqqqqqqqqqqqrrq__;;;;;;;;;Y;;;;F",
+  "F##rrrqqAAAAAAAAAAAAAAAAAAAAAAAAAAAqrrq__;;;;;;;;;;;;;;F",
+  "F#rrrqqAAAAAAAAAAAAAAAAAAAAAAAAAAAAqrrD__;;;;;;;;;;;;Y;F",
+  "FrrrqqAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqrrq__;;;;;;;;;;;;;;F",
+  "FrrqqAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqrrq________________F",
+  "FrrqAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqrrq________________F",
+  "FrrqAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqqrrD________________F",
+  "FrrqAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqqrrrq________________F",
+  "FrrqAAAAAAAAAAAAAAAAAAAAAAAAAAAAqqrrrqq________________F",
+  "FrrqAAAAAAAAAAAAAAAAAAAAAAAAAAAqqrrrqq_______NN___NN___F",
+  "FrrqAAAAAAAAAAAAAAAAAAAAAAAAAAqqrrrqq__________________F",
+  "Frrqqqqqqqqqqqqqqqqqqqqqqqqqqqqrrrqq___________________F",
+  "Frrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrqq____________________F",
+  "Frrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrq_____________________F",
+  "##..zz##qqqqqqDqqqqqqqqqqqDqqqqqqq_____________________F",
+  "#......#;;;;;_______________________________;;;;;;;;;;;F",
+  "#^....v#;Y;;;_______________________________;;;NNN;NNN;F",
+  "#^....v#;;;;;_______________________________;;Y;;;;;;;;F",
+  "#^....v#;;;;;_______________________________;;;;;;;;;;;F",
+  "########;;;;;_________NN____NN______________;;;;;;;;;;;F",
+  "########;;;;;_______________________________;;;;;;;;Y;;F",
+  "########;;Y;;_______________________________;;;;;;;;;;;F",
+  "########;;;;;_______________________________;;;;;Y;;;;;F",
+  "########;;;;;_______________________________;;;;;;;;;;;F",
+  "########FFFFFFFFFFFFFFFFFFFFFFeeFFFFFFFFFFFFFFFFFFFFFFFF",
   /* ---- 6. Etage: Haupteingang ---- */
   "####w###w######EE######w###w######w#####w#####w#####w###",
   "#hhhhhhhhhhhhhhhhhhhhhhhhhhhhhh#,,,,,,,,,,,#,,,,,,,,,,,#",
@@ -554,10 +668,10 @@ CH *sa_floor_src[168] = {
   "#hhhhhhhhhhhhhhhhhhhhhhhhhhhhhh#,,,,,,,,,,,#,,,,,,,,,,,#",
   "#OhhhhhhhhhhhhhhhhhhhhhhhhhhhhO#,,,,,,,,,,,#,,,,,,,,,,,#",
   "########hhhhhhhhhhhhhhhh#############D###########D######",
-  "#......................................................#",
-  "#.....................................................V#",
-  "#......................................................#",
-  "#...LLL......LLL........................LLL.......LLL..#",
+  "#------------------------------------------------------#",
+  "#-----------------------------------------------------V#",
+  "#------------------------------------------------------#",
+  "#---LLL------LLL------------------------LLL-------LLL--#",
   "##..zz######D############D########D############D########",
   "#......#.............#ttttttt#,,,,,,,,,,,,#............#",
   "#g....v#R...........R#SSttttt#O,,,,,,,,,,O#RRR.RRR.RRR.#",
@@ -572,8 +686,8 @@ CH *sa_floor_src[168] = {
 };
 
 CH *sa_floor_name[NFLOORS] = {
-  "SCHWIMMBAD", "SPORTHALLE", "MUSIK UND KUNST", "NATURWISSENSCHAFTEN",
-  "SCHULHOF UND MENSA", "HAUPTEINGANG"
+  "SCHWIMMBAD", "SPORTHALLE", "KUNST UND PHYSIK", "CHEMIE UND MUSIK",
+  "UMGANG FORUM UND SCHULHOF", "HAUPTEINGANG"
 };
 
 /* colours of the painted floor signs in the staircase (from the real
@@ -583,70 +697,96 @@ U8 sa_sign_c2[NFLOORS] = { 15, 12, 15, 12, 9, 3 };
 U8 sa_sign_dith[NFLOORS] = { 0, 3, 1, 0, 0, 0 };
 
 /* one extra light per floor (pool light, desk lamp, street lamp, ...) */
-I64 sa_lamp_x[NFLOORS] = { 448, 344, 0, 154, 328, 256 };
-I64 sa_lamp_y[NFLOORS] = { 96, 96, 0, 52, 214, 22 };
+I64 sa_lamp_x[NFLOORS] = { 448, 344, 0, 232, 600, 256 };
+I64 sa_lamp_y[NFLOORS] = { 96, 96, 0, 306, 340, 22 };
 I64 sa_lamp_r[NFLOORS] = { 150, 80, 0, 62, 96, 74 };
 
 /* rooms: floor, x0, y0, x1, y1 (tiles, inclusive) and name */
 I64 sa_rm_f[NROOMS] = {
-  0, 0, 0, 0, 0, 0, 0,  1, 1, 1, 1, 1, 1, 1, 1,  2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-  3, 3, 3, 3, 3, 3, 3, 3, 3, 3,  4, 4, 4, 4, 4,  5, 5, 5, 5, 5, 5, 5, 5, 5 };
+  0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+  2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5,
+  5, 5, 5
+};
 I64 sa_rm_x0[NROOMS] = {
-  1, 1, 1, 8, 22, 30, 43,  1, 44, 1, 1, 8, 22, 30, 43,  1, 18, 31, 44, 1, 1, 8, 22, 30, 43,
-  1, 18, 31, 44, 1, 1, 8, 22, 30, 43,  1, 30, 1, 1, 8,  1, 32, 44, 1, 1, 8, 22, 30, 43 };
+  1, 1, 1, 8, 22, 30, 43, 1, 44, 1, 1, 8, 22, 30, 43, 8, 14, 19, 27, 42, 29, 33, 33, 45, 45,
+  30, 40, 44, 48, 1, 1, 8, 23, 32, 39, 39, 48, 34, 1, 1, 1, 8, 39, 1, 1, 32, 44, 1, 1, 8,
+  22, 30, 43
+};
 I64 sa_rm_y0[NROOMS] = {
-  1, 13, 18, 18, 18, 18, 18,  1, 1, 13, 18, 18, 18, 18, 18,  1, 1, 1, 1, 13, 18, 18, 18, 18, 18,
-  1, 1, 1, 1, 13, 18, 18, 18, 18, 18,  1, 1, 13, 18, 17,  1, 1, 1, 13, 18, 18, 18, 18, 18 };
+  1, 13, 18, 18, 18, 18, 18, 1, 1, 13, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 11, 8, 12, 8, 14,
+  1, 1, 1, 1, 18, 1, 18, 18, 18, 1, 6, 11, 10, 18, 1, 18, 18, 1, 1, 1, 1, 1, 13, 18, 18,
+  18, 18, 18
+};
 I64 sa_rm_x1[NROOMS] = {
-  54, 54, 6, 20, 28, 41, 54,  42, 54, 54, 6, 20, 28, 41, 54,  16, 29, 42, 54, 54, 6, 20, 28, 41, 54,
-  16, 29, 42, 54, 54, 6, 20, 28, 41, 54,  28, 54, 54, 6, 54,  30, 42, 54, 54, 6, 20, 28, 41, 54 };
+  54, 54, 6, 20, 28, 41, 54, 42, 54, 54, 6, 20, 28, 41, 54, 12, 17, 25, 40, 54, 31, 43, 43, 54, 54,
+  38, 42, 46, 54, 6, 54, 21, 30, 54, 54, 54, 54, 46, 6, 38, 6, 54, 54, 38, 30, 42, 54, 54, 6, 20,
+  28, 41, 54
+};
 I64 sa_rm_y1[NROOMS] = {
-  11, 16, 21, 26, 26, 26, 26,  11, 11, 16, 21, 26, 26, 26, 26,  11, 11, 11, 11, 16, 21, 26, 26, 26, 26,
-  11, 11, 11, 11, 16, 21, 26, 26, 26, 26,  12, 11, 16, 21, 26,  11, 11, 11, 16, 21, 26, 26, 26, 26 };
+  11, 16, 21, 26, 26, 26, 26, 11, 11, 16, 21, 26, 26, 26, 26, 26, 26, 26, 26, 26, 16, 10, 16, 12, 16,
+  3, 3, 3, 3, 21, 17, 26, 26, 26, 4, 8, 16, 16, 21, 17, 21, 26, 17, 17, 11, 11, 11, 16, 21, 26,
+  26, 26, 26
+};
 CH *sa_rm_name[NROOMS] = {
-  "SCHWIMMHALLE", "FLUR", "TREPPENHAUS", "UMKLEIDE JUNGEN", "DUSCHEN", "UMKLEIDE MÄDCHEN", "BADEMEISTER",
-  "SPORTHALLE", "GERÄTERAUM", "FLUR", "TREPPENHAUS", "UMKLEIDE JUNGEN", "DUSCHEN", "UMKLEIDE MÄDCHEN",
-  "SPORTLEHRER",
-  "MUSIKRAUM 1", "MUSIKRAUM 2", "KUNSTRAUM", "BANDRAUM", "FLUR", "TREPPENHAUS", "INSTRUMENTENLAGER",
-  "TOILETTEN", "CHORRAUM", "MUSIKLEHRER",
-  "CHEMIERAUM", "BIOLOGIE", "KLASSE 7B", "KLASSE 8A", "FLUR", "TREPPENHAUS", "LEHRERZIMMER",
-  "TOILETTEN", "KLASSE 6A", "LAGER",
-  "SCHULHOF", "MENSA", "SCHULHOF", "TREPPENHAUS", "SPORTPLATZ",
-  "EINGANGSHALLE", "SEKRETARIAT", "DIREKTOR", "FLUR", "TREPPENHAUS", "HAUSMEISTER", "TOILETTEN",
-  "KONFERENZRAUM", "ARCHIV"
+  "SCHWIMMHALLE", "FLUR", "TREPPENHAUS", "UMKLEIDE JUNGEN",
+  "DUSCHEN", "UMKLEIDE MÄDCHEN", "BADEMEISTER", "SPORTHALLE",
+  "GERÄTERAUM", "FLUR", "TREPPENHAUS", "UMKLEIDE JUNGEN",
+  "DUSCHEN", "UMKLEIDE MÄDCHEN", "SPORTLEHRER", "3.32 UMKLEIDE",
+  "WC", "3.26 UMKLEIDE", "3.23 KUNSTRAUM", "3.20 KUNSTRAUM",
+  "RAUM 3.20", "3.14 KUNST-VORBEREITUNG", "3.14 A KUNST/WERKRAUM", "3.13 PHYSIK-RAUM",
+  "3.12 PHYSIK-VORBEREITUNG", "3.04 BÜCHER-KELLER", "RAUM 3.02", "WC",
+  "3.09 PHYSIK-RAUM", "TREPPENHAUS", "FLUR", "4.36 CHEMIE-HÖRSAAL",
+  "4.34/4.35 CHEMIE-SAMMLUNG", "4.33 CHEMIE-ÜBUNG", "4.25 MUSIK", "4.26 MUSIK",
+  "WC", "4.32 MUSIK-VORBEREITUNG", "TREPPENHAUS", "FLUR",
+  "TREPPENHAUS", "SCHULHOF", "SCHULHOF (DACHFLÄCHE E4)", "UMGANG FORUM",
+  "EINGANGSHALLE", "SEKRETARIAT", "DIREKTOR", "FLUR",
+  "TREPPENHAUS", "HAUSMEISTER", "TOILETTEN", "KONFERENZRAUM",
+  "ARCHIV"
+};
+/* 1 = corridor or staircase (nothing is hidden there, Frau Niehaus does
+ * not sing there) */
+I64 sa_rm_hall[NROOMS] = {
+  0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0
 };
 
 /* signs painted into the world: floor, x, y, text, colour, background */
 I64 sa_lb_f[NLABELS] = {
-  0, 0, 0, 0, 0, 0,  1, 1, 1, 1, 1, 1,  2, 2, 2, 2, 2, 2, 2, 2,
-  3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,  4, 4,  5, 5, 5, 5, 5, 5, 5, 5,  9, 9, 9,  1 };
+  0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2,
+  2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5,
+  5, 9, 9, 9, 1
+};
 I64 sa_lb_x[NLABELS] = {
-  425, 130, 356, 482, 790, 392,  226, 818, 130, 356, 482, 790,  70, 322, 550, 755, 132, 360, 484, 790,
-  68, 327, 436, 550, 755, 130, 360, 484, 790, 105, 361, 560, 777,  662, 478,
-  236, 612, 812, 230, 360, 580, 790, 22,  20, 20, 82,  594 };
+  425, 130, 356, 482, 790, 392, 226, 818, 130, 356, 482, 790,
+  157, 251, 349, 523, 755, 568, 540, 795, 740, 500, 778, 200,
+  440, 560, 730, 730, 650, 820, 478, 364, 700, 236, 612, 812,
+  230, 360, 580, 790, 22, 20, 20, 82, 594
+};
 I64 sa_lb_y[NLABELS] = {
-  199, 277, 277, 277, 277, 20,  197, 197, 277, 277, 277, 277,  197, 197, 197, 197, 277, 277, 277, 277,
-  197, 197, 197, 197, 197, 277, 277, 277, 277, 5, 5, 5, 5,  197, 436,
-  19, 197, 197, 277, 277, 277, 277, 290,  290, 290, 290,  197 };
+  199, 277, 277, 277, 277, 20, 197, 197, 277, 277, 277, 277,
+  277, 277, 277, 277, 277, 117, 181, 117, 213, 69, 69, 277,
+  277, 277, 5, 85, 149, 165, 436, 320, 40, 19, 197, 197,
+  277, 277, 277, 277, 290, 290, 290, 290, 197
+};
 CH *sa_lb_text[NLABELS] = {
   "GESPERRT", "JUNGEN", "DUSCHE", "MÄDCHEN", "BADEMEISTER", "SCHWIMMHALLE",
   "SPORTHALLE", "GERÄTE", "JUNGEN", "DUSCHE", "MÄDCHEN", "SPORT",
-  "MUSIK 1", "MUS.2", "KUNST", "BAND", "LAGER", "WC", "CHOR", "LEHRER",
-  "CHEMIE", "BIO", "ST. ANNA SCHULE", "7B", "8A", "LEHRER", "WC", "6A", "LAGER", "LAUF.", "ZELLE",
-  "HA: S.42", "MATHE",
-  "MENSA", "TOR ZU",
-  "AUSGANG", "SEKRETARIAT", "DIREKTOR", "HAUSMEISTER", "WC", "KONFERENZ", "ARCHIV", "GESPERRT",
-  "HOCH", "HOCH", "RUNTER",
-  "STROM"
+  "3.32", "WC", "3.26", "3.23 KUNST", "3.20 KUNST", "3.14 KUNST-VORB.",
+  "3.14A", "3.13 PHYSIK", "3.12", "3.04", "3.09", "4.36 CHEMIE",
+  "4.34/35", "4.33 CHEMIE-ÜBUNG", "4.25 MUSIK", "4.26 MUSIK", "4.32", "WC",
+  "TOR ZU", "SCHULHOF", "DACHFLÄCHE E4", "AUSGANG", "SEKRETARIAT", "DIREKTOR",
+  "HAUSMEISTER", "WC", "KONFERENZ", "ARCHIV", "GESPERRT", "HOCH",
+  "HOCH", "RUNTER", "STROM"
 };
 U8 sa_lb_c[NLABELS] = {
-  6, 6, 6, 6, 6, 2,  6, 6, 6, 6, 6, 6,  6, 6, 6, 6, 6, 6, 6, 6,
-  6, 6, 15, 6, 6, 6, 6, 6, 6, 5, 5, 5, 5,  6, 12,
-  6, 6, 6, 6, 6, 6, 6, 12,  5, 5, 5,  15 };
+  6, 6, 6, 6, 6, 2, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
+  6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 12, 5, 5, 6, 6, 6, 6, 6, 6, 6,
+  12, 5, 5, 5, 15
+};
 I64 sa_lb_bg[NLABELS] = {
-  11, 2, 2, 2, 2, -1,  2, 2, 2, 2, 2, 2,  2, 2, 2, 2, 2, 2, 2, 2,
-  2, 2, 11, 2, 2, 2, 2, 2, 2, -1, -1, -1, -1,  2, 1,
-  14, 2, 2, 2, 2, 2, 2, 1,  -1, -1, -1,  1 };
+  11, 2, 2, 2, 2, -1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+  2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, -1, -1, 14, 2, 2, 2, 2, 2, 2,
+  1, -1, -1, -1, 1
+};
 
 /* ---- music (own compositions). MIDI note numbers, 0 = rest. ---- */
 #define TRK_NONE 0
@@ -717,7 +857,7 @@ I64 sa_note_base[12] = { 4186, 4435, 4699, 4978, 5274, 5588, 5920, 6272, 6645, 7
 /* sound effects: up to 3 segments of wave, start Hz, end Hz, ms, volume.
  * wave 0 square, 1 triangle, 2 saw, 3 noise, 4 saw + noise, 5 silence */
 #define SFX_SEG 3
-I64 sa_sfx_def[300] = {
+I64 sa_sfx_def[375] = {
   /* 0 (none) */        5, 0, 0, 0, 0,  5, 0, 0, 0, 0,  5, 0, 0, 0, 0,
   /* 1 heart */         1, 60, 40, 110, 127,  5, 0, 0, 90, 0,  1, 55, 38, 100, 110,
   /* 2 spotted */       4, 300, 1200, 450, 100,  5, 0, 0, 0, 0,  5, 0, 0, 0, 0,
@@ -737,14 +877,25 @@ I64 sa_sfx_def[300] = {
   /* 16 unlock (gate) */ 3, 300, 150, 80, 100,  5, 0, 0, 60, 0,  0, 220, 330, 200, 70,
   /* 17 power on */     2, 60, 240, 600, 70,  5, 0, 0, 80, 0,  0, 880, 880, 120, 50,
   /* 18 stink bomb */   3, 500, 80, 500, 100,  5, 0, 0, 0, 0,  5, 0, 0, 0, 0,
-  /* 19 drink */        1, 200, 120, 90, 90,  1, 200, 120, 90, 90,  3, 1500, 1500, 250, 40
+  /* 19 drink */        1, 200, 120, 90, 90,  1, 200, 120, 90, 90,  3, 1500, 1500, 250, 40,
+  /* 20 slip */         3, 900, 200, 180, 100,  5, 0, 0, 60, 0,  1, 90, 50, 220, 127,
+  /* 21 Niehaus */      1, 523, 523, 120, 90,  1, 659, 659, 120, 90,  1, 784, 784, 260, 90,
+  /* 22 alarm */        2, 600, 900, 250, 70,  2, 900, 600, 250, 70,  2, 600, 900, 250, 70,
+  /* 23 broken */       0, 700, 120, 450, 80,  3, 300, 300, 90, 100,  5, 0, 0, 0, 0,
+  /* 24 cleaner shout */ 2, 450, 700, 320, 90,  5, 0, 0, 0, 0,  5, 0, 0, 0, 0
+};
+
+/* what you have to sing with Frau Niehaus (own melody, 3 ticks a step) */
+U8 sa_sing_mel[32] = {
+  72, 0, 76, 79, 0, 76, 72, 0, 74, 0, 77, 81, 0, 77, 74, 0,
+  76, 0, 79, 84, 0, 79, 76, 0, 77, 76, 74, 72, 0, 0, 0, 0
 };
 
 CH *sa_intro[9] = {
   "ST. ANNA SCHULE",
   "DONNERSTAG, 16:47 UHR",
   "",
-  "DU BIST IM CHEMIERAUM EINGESCHLAFEN. 4. ETAGE.",
+  "DU BIST IM CHEMIE-HÖRSAAL EINGESCHLAFEN. 4. ETAGE.",
   "ALLE SIND LÄNGST NACH HAUSE GEGANGEN.",
   "FAST ALLE.",
   "DER HAUSMEISTER HAT DIE TREPPENGITTER ZUGESPERRT.",
@@ -809,7 +960,7 @@ I64 sa_pl_zone[NPLACE] = { 3, 4, 0, 0,  1, 0, 0,  1, 1, 0, 0,  1, 2, 0, 0,  0, 0
 #define TK_MAINKEY 8
 #define TK_EXIT 9
 
-I64 sa_task_floor[NTASKS] = { 3, 2, 2, 1, 1, 0, 0, 4, 5, 5 };
+I64 sa_task_floor[NTASKS] = { 3, 2, 3, 1, 1, 0, 0, 4, 5, 5 };
 I64 sa_task_item[NTASKS] = {
   IT_KSTAIR, IT_SHEET, -1, IT_FUSE, -1, IT_KPOOL, IT_KYARD, IT_NOTE, IT_KMAIN, -1 };
 I64 sa_task_need[NTASKS] = { 1, 4, 0, 3, 0, 1, 1, 3, 1, 0 };
@@ -826,12 +977,12 @@ CH *sa_task_goal[NTASKS] = {
   "ZIEL: RAUS DURCH DEN HAUPTEINGANG!" };
 /* where to go, for tasks without an item */
 CH *sa_task_where[NTASKS] = {
-  "", "", "> EIN KLAVIER (MUSIKRÄUME)", "", "> SICHERUNGSKASTEN IM FLUR",
+  "", "", "> KLAVIER: MUSIKRAUM 4.25 ODER 4.26", "", "> SICHERUNGSKASTEN IM FLUR",
   "", "", "", "", "> EINGANGSHALLE, OBEN" };
 CH *sa_le_say1[NTASKS] = {
   "HERR LERSCH: DEN TREPPENSCHLÜSSEL HAB ICH GESEHEN.",
   "HERR LERSCH: MEINE NOTENBLÄTTER SIND WEG!",
-  "HERR LERSCH: JETZT SPIEL DAS LIED AM KLAVIER.",
+  "HERR LERSCH: SUPER! JETZT DAS LIED AM KLAVIER.",
   "HERR LERSCH: DER STROM IST WEG. 3 SICHERUNGEN!",
   "HERR LERSCH: AB DAMIT IN DEN SICHERUNGSKASTEN!",
   "HERR LERSCH: DER BADEMEISTER-SCHLÜSSEL? WARTE...",
@@ -840,5 +991,5 @@ CH *sa_le_say1[NTASKS] = {
   "HERR LERSCH: DER HAUSMEISTERSCHLÜSSEL? WARTE...",
   "HERR LERSCH: LAUF! RAUS DURCH DEN HAUPTEINGANG!" };
 CH *sa_le_say2[NTASKS] = {
-  "", "", "DANN GEHT DAS GEHEIMFACH AUF.", "", "DER KASTEN HÄNGT IM FLUR AN DER WAND.",
+  "", "", "IN 4.25 ODER 4.26. DANN GEHT EIN GEHEIMFACH AUF.", "", "DER KASTEN HÄNGT IM FLUR AN DER WAND.",
   "", "", "", "", "BEVOR HERR THÜNER DICH KRIEGT!" };

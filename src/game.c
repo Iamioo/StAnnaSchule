@@ -38,6 +38,22 @@
 #define CJ_FIGHT 3
 #define CJ_LEAVE 4
 #define CJ_GUARD 5
+/* the cleaners (entities 3 and 4) */
+#define CL_WALK 0
+#define CL_MOP 1
+#define CL_WATCH 2
+/* Frau Niehaus (entity 5), only ever on the 3rd floor */
+#define NI_WANDER 0
+#define NI_SING 1
+#define NI_COOL 2
+#define F_NIEHAUS 2
+
+#define NENT 6
+#define E_CL 3
+#define E_NI 5
+#define NVEH 3
+#define VH_SCOOTER 0
+#define VH_BIKE 1
 
 #define DIR_DOWN 0
 #define DIR_UP 1
@@ -58,6 +74,11 @@
 #define SA_KB_RUSH 400
 #define SA_CJ_SPEED 520
 #define SA_CALL_CD 1200
+#define SA_CL_SPEED 110
+#define SA_CL_SEE 75
+#define SA_NI_SPEED 140
+#define SA_NI_SING 45
+#define SA_WET 900
 
 #define ENV_MAX 1048576
 
@@ -69,7 +90,8 @@ U8 sa_fb[64000];
 U8 sa_world[WORLD_N];
 U8 sa_map[MAP_N];
 U8 sa_vis[MAP_N];
-I64 sa_dist[4704];
+I64 sa_dist[9408];
+I64 sa_wet[MAP_N];
 I64 sa_queue[MAP_N];
 U8 sa_ltab[64];
 U8 sa_font_map[256];
@@ -141,14 +163,15 @@ I64 sa_cp_unlock[NFLOORS];
 I64 sa_cp_got[NITEMS];
 I64 sa_cp_have[NITYPES];
 
-/* entities: 0 Herr Thüner, 1 Herr Kirschbaum, 2 Conjoke */
-I64 sa_ex[3];
-I64 sa_ey[3];
-I64 sa_edir[3];
-I64 sa_eanim[3];
-I64 sa_emov[3];
-I64 sa_egoal[3];
-I64 sa_ebfs[3];
+/* entities: 0 Herr Thüner, 1 Herr Kirschbaum, 2 Conjoke, 3 and 4 the
+ * cleaners, 5 Frau Niehaus */
+I64 sa_ex[NENT];
+I64 sa_ey[NENT];
+I64 sa_edir[NENT];
+I64 sa_eanim[NENT];
+I64 sa_emov[NENT];
+I64 sa_egoal[NENT];
+I64 sa_ebfs[NENT];
 
 /* teachers 0 and 1 */
 I64 sa_tst[2];
@@ -164,6 +187,50 @@ I64 sa_tfollow_f[2];
 I64 sa_troam[2];
 I64 sa_kb_alert = 0;
 I64 sa_heard_t = 0;
+I64 sa_tslipcd[2];
+I64 sa_alarm_t = 0;
+
+/* the cleaners: floor, on this floor, state, timer, how long they have
+ * seen you, cooldown after calling Herr Thüner, roaming timer and their
+ * yellow "wet floor" sign */
+I64 sa_cf[2];
+I64 sa_cvalid[2];
+I64 sa_cst[2];
+I64 sa_ct[2];
+I64 sa_csee[2];
+I64 sa_ccd[2];
+I64 sa_croam[2];
+I64 sa_csx[2];
+I64 sa_csy[2];
+
+/* Frau Niehaus and the singing */
+I64 sa_ni_valid = 0;
+I64 sa_ni_st = 0;
+I64 sa_ni_t = 0;
+I64 sa_ni_meter = 0;
+I64 sa_ni_said = 0;
+I64 sa_ni_hum = 0;
+I64 sa_ni_idle = 0;
+I64 sa_sing_t = 0;
+I64 sa_sing_step = 0;
+
+/* slipping on a wet floor */
+I64 sa_slip_t = 0;
+
+/* e-scooters and bikes on the schoolyard (pixel position, 8 bits fixed) */
+I64 sa_vh_n = 0;
+I64 sa_vh_x[NVEH];
+I64 sa_vh_y[NVEH];
+I64 sa_vh_t[NVEH];
+I64 sa_vh_charge[NVEH];
+I64 sa_vh_dir[NVEH];
+I64 sa_ride = -1;
+I64 sa_vh_near = -1;
+
+/* who is talking in the message box: -1 nobody, 0 Herr Lersch,
+ * 1 Frau Niehaus, 2 a cleaner */
+I64 sa_msg_face = -1;
+I64 sa_start_room = -1;
 
 /* Conjoke */
 I64 sa_cj_st = 0;
@@ -348,6 +415,7 @@ U0 SaMsg(CH *s, I64 t)
   sa_msg = s;
   sa_msg2 = "";
   sa_msg_t = t;
+  sa_msg_face = -1;
 }
 
 U0 SaMsg2(CH *s, CH *s2, I64 t)
@@ -355,6 +423,14 @@ U0 SaMsg2(CH *s, CH *s2, I64 t)
   sa_msg = s;
   sa_msg2 = s2;
   sa_msg_t = t;
+  sa_msg_face = -1;
+}
+
+/* a message with the portrait of who is speaking */
+U0 SaSay(I64 face, CH *s, CH *s2, I64 t)
+{
+  SaMsg2(s, s2, t);
+  sa_msg_face = face;
 }
 
 /* ------------------------------------------------------------------ */
@@ -799,7 +875,7 @@ I64 SaIsWallCh(I64 ch)
 I64 SaIsFloorCh(I64 ch)
 {
   if (ch == '.' || ch == ',' || ch == 'c' || ch == 't' || ch == 'h' || ch == 'f' ||
-      ch == 'm' || ch == '_' || ch == ';')
+      ch == 'm' || ch == '_' || ch == ';' || ch == '-' || ch == 'r')
     return TRUE;
   return FALSE;
 }
@@ -952,6 +1028,26 @@ U0 SaDrawFloor(I64 ch, I64 px, I64 py)
           c = 13;
         else if (h > 252)
           c = 15;
+      } else if (ch == '-') {
+        /* the glossy orange floor of the real corridors */
+        c = 12;
+        if (((wx + wy) & 1) == 0)
+          c = 15;
+        if (h > 250)
+          c = 6;
+        if (x == 0 && (wy & 63) < 2)
+          c = 10;
+      } else if (ch == 'r') {
+        /* red brick paving */
+        c = 10;
+        if ((y & 3) == 3)
+          c = 7;
+        else if (((wx + ((wy >> 2) & 1) * 4) & 7) == 0)
+          c = 7;
+        else if (h < 20)
+          c = 12;
+        else if (h > 240)
+          c = 8;
       } else {
         c = 3;
         if (h < 24)
@@ -985,6 +1081,40 @@ U0 SaDrawWater(I64 px, I64 py, I64 ty)
         if (((wx >> 1) & 1) == 0)
           c = 12;
       }
+      sa_world[wy * WORLD_W + wx] = c;
+    }
+}
+
+/* Luftraum Forum: you look down through the glass into the forum with
+ * its rows of orange seats - the deeper, the darker. */
+U0 SaDrawVoid(I64 px, I64 py)
+{
+  I64 x, y, c, wx, wy, seat, deep;
+  deep = 0;
+  if (sa_floor == 3)
+    deep = 1;
+  if (sa_floor >= 4)
+    deep = 2;
+  for (y = 0; y < 16; y++)
+    for (x = 0; x < 16; x++) {
+      wx = px + x;
+      wy = py + y;
+      c = 1;
+      if (((wy / 3) % 3) == 0) {
+        seat = (wx / 3) % 5;
+        if ((wx % 112) < 12)
+          c = 3;
+        else if (seat != 4) {
+          c = 10;
+          if (deep == 1)
+            c = 8;
+          if (deep == 2)
+            c = 7;
+        }
+      } else if (((wy / 3) % 3) == 1 && (wx % 112) >= 12)
+        c = 2;
+      if (deep == 2 && ((wx + wy * 2) % 61) == 0)
+        c = 11;
       sa_world[wy * WORLD_W + wx] = c;
     }
 }
@@ -1064,6 +1194,30 @@ U0 SaDrawWallFace(I64 ch, I64 px, I64 py, I64 tx, I64 ty)
         c = 4;
       sa_world[(py + y) * WORLD_W + px + x] = c;
     }
+  if (ch == '#' && sa_floor != F_OUTSIDE && SaTile(tx, ty + 1) == '-') {
+    /* concrete boards */
+    for (x = 0; x < 16; x++)
+      if (((px + x) % 11) == 0)
+        SaWRect(px + x, py + 4, 1, 9, 4);
+    /* the orange band with waves, as painted in the real corridors */
+    for (x = 0; x < 16; x++) {
+      y = 5 + ((((px + x) / 5) & 3) == 1);
+      if ((((px + x) / 5) & 3) == 3)
+        y = 4;
+      for (c = y; c < y + 4; c++)
+        if (((px + x + c) & 1) == 0)
+          sa_world[(py + c) * WORLD_W + px + x] = 12;
+        else
+          sa_world[(py + c) * WORLD_W + px + x] = 15;
+    }
+    if ((tx % 9) == 4) {
+      SaWRect(px + 3, py + 3, 10, 9, 6);
+      SaWRect(px + 3, py + 3, 10, 1, 5);
+      sa_num_buf[0] = 0;
+      SaStrNum(sa_num_buf, sa_floor + 1);
+      SaDrawText(sa_world, WORLD_W, WORLD_H, px + 6, py + 4, sa_num_buf, 1, 1);
+    }
+  }
   if (ch == 'b') {
     SaWRect(px, py + 3, 16, 10, 7);
     SaWRect(px, py + 4, 16, 8, 13);
@@ -1282,14 +1436,15 @@ U0 SaFloorDecor()
           SaWRect(359 + x, 100 + y, 1, 1, 6);
   }
   if (sa_floor == F_OUTSIDE) {
-    SaWRect(176, 290, 560, 1, 6);
-    SaWRect(176, 420, 560, 1, 6);
-    SaWRect(176, 290, 1, 131, 6);
-    SaWRect(735, 290, 1, 131, 6);
-    SaWRect(455, 290, 1, 131, 6);
-    SaWRect(326, 196, 3, 26, 2);
-    SaWRect(322, 192, 11, 4, 3);
-    SaWRect(324, 196, 7, 1, 15);
+    /* painted parking spaces for bikes and scooters, and the street lamp */
+    for (i = 0; i < 6; i++)
+      SaWRect(560 + i * 24, 404, 1, 22, 6);
+    SaWRect(560, 425, 121, 1, 6);
+    x = sa_lamp_x[F_OUTSIDE];
+    y = sa_lamp_y[F_OUTSIDE];
+    SaWRect(x - 1, y - 18, 3, 26, 2);
+    SaWRect(x - 5, y - 22, 11, 4, 3);
+    SaWRect(x - 3, y - 18, 7, 1, 15);
   }
   if (sa_floor == 3) {
     x = sa_lamp_x[3];
@@ -1345,6 +1500,8 @@ U0 SaRenderWorld()
         SaDrawStairs(ch, px, py, tx, ty);
       else if (ch == '~')
         SaDrawWater(px, py, ty);
+      else if (ch == 'A')
+        SaDrawVoid(px, py);
       else if (SaIsFloorCh(ch))
         SaDrawFloor(ch, px, py);
       else
@@ -1375,7 +1532,7 @@ U0 SaLoadMap(I64 f)
       if (ch == 'K' || ch == 'P' || ch == 'H')
         sa_map[ty * MAP_W + tx] = SaFloorOf(tx, ty);
     }
-  for (ty = 0; ty < 3; ty++)
+  for (ty = 0; ty < NENT; ty++)
     sa_ebfs[ty] = -1;
 }
 
@@ -1398,7 +1555,9 @@ U0 SaRectS(U8 *dst, I64 dw, I64 dh, I64 x0, I64 y0, I64 rx, I64 ry, I64 w,
 }
 
 /* Grown-ups, about 27 pixels tall. style 0 Herr Thüner (bald, lab coat),
- * 1 Herr Kirschbaum (plaid shirt, watch), 2 Herr Lersch (sweater). */
+ * 1 Herr Kirschbaum (plaid shirt, watch), 2 Herr Lersch (dark blue
+ * button-up shirt), 3 Frau Niehaus (sage green turtleneck, long hair over
+ * one shoulder), 4 a cleaner (blue uniform and cap). */
 U0 SaDrawAdult(U8 *d, I64 dw, I64 dh, I64 x0, I64 y0, I64 dir, I64 frame,
                I64 eyec, I64 s, I64 style)
 {
@@ -1436,11 +1595,25 @@ U0 SaDrawAdult(U8 *d, I64 dw, I64 dh, I64 x0, I64 y0, I64 dir, I64 frame,
     head = ART_KB_D;
   }
   if (style == 2) {
-    body = 8;
-    shade = 7;
-    arm = 8;
+    body = 13;
+    shade = 2;
+    arm = 13;
     legc = 3;
     head = ART_LE_D;
+  }
+  if (style == 3) {
+    body = 14;
+    shade = 13;
+    arm = 14;
+    legc = 2;
+    head = ART_NI_D;
+  }
+  if (style == 4) {
+    body = 13;
+    shade = 2;
+    arm = 13;
+    legc = 13;
+    head = ART_CL_D;
   }
   SaRectS(d, dw, dh, x0, y0, -5, -1, 10, 2, 1, s, FALSE);
   if (dir == DIR_DOWN || dir == DIR_UP) {
@@ -1476,10 +1649,32 @@ U0 SaDrawAdult(U8 *d, I64 dw, I64 dh, I64 x0, I64 y0, I64 dir, I64 frame,
       }
       if (style == 1)
         SaRectS(d, dw, dh, x0, y0, 5, -9 + ab, 2, 1, 5, s, FALSE);
-      if (style == 2)
-        SaRectS(d, dw, dh, x0, y0, -2, -17, 4, 2, 6, s, FALSE);
+      if (style == 2) {
+        /* collar and the buttons of the shirt */
+        SaRectS(d, dw, dh, x0, y0, -2, -17, 4, 1, 6, s, FALSE);
+        SaRectS(d, dw, dh, x0, y0, 0, -15, 1, 1, 5, s, FALSE);
+        SaRectS(d, dw, dh, x0, y0, 0, -13, 1, 1, 5, s, FALSE);
+        SaRectS(d, dw, dh, x0, y0, 0, -11, 1, 1, 5, s, FALSE);
+      }
+      if (style == 4) {
+        /* the cleaning company's logo */
+        SaRectS(d, dw, dh, x0, y0, -3, -15, 2, 2, 6, s, FALSE);
+        SaRectS(d, dw, dh, x0, y0, -5, -10, 10, 1, 2, s, FALSE);
+      }
     }
     SaDrawArt(d, dw, dh, x0 - 5 * s, y0 - 27 * s, head, 10, 10, FALSE, s, eyec);
+    if (style == 3) {
+      /* turtleneck, and the long wavy hair */
+      if (dir == DIR_UP)
+        SaRectS(d, dw, dh, x0, y0, -4, -18, 8, 8, 8, s, FALSE);
+      else {
+        SaRectS(d, dw, dh, x0, y0, -2, -18, 4, 2, 14, s, FALSE);
+        SaRectS(d, dw, dh, x0, y0, -5, -19, 2, 9, 8, s, FALSE);
+        SaRectS(d, dw, dh, x0, y0, -4, -16, 1, 1, 10, s, FALSE);
+        SaRectS(d, dw, dh, x0, y0, -5, -13, 1, 1, 10, s, FALSE);
+        SaRectS(d, dw, dh, x0, y0, -4, -11, 1, 1, 10, s, FALSE);
+      }
+    }
   } else {
     SaRectS(d, dw, dh, x0, y0, -2 - st, -7, 3, 5, 1, s, fl);
     SaRectS(d, dw, dh, x0, y0, -2 - st, -2, 4, 2, 1, s, fl);
@@ -1496,6 +1691,40 @@ U0 SaDrawAdult(U8 *d, I64 dw, I64 dh, I64 x0, I64 y0, I64 dir, I64 frame,
     SaRectS(d, dw, dh, x0, y0, -1 + ax, -16, 3, 8, arm, s, fl);
     SaRectS(d, dw, dh, x0, y0, -1 + ax, -8, 3, 2, 9, s, fl);
     SaDrawArt(d, dw, dh, x0 - 5 * s, y0 - 27 * s, head + 20, 10, 10, fl, s, eyec);
+    if (style == 3) {
+      SaRectS(d, dw, dh, x0, y0, -5, -18, 3, 7, 8, s, fl);
+      SaRectS(d, dw, dh, x0, y0, -4, -15, 1, 1, 10, s, fl);
+      SaRectS(d, dw, dh, x0, y0, -1, -18, 3, 2, 14, s, fl);
+    }
+  }
+}
+
+/* the mop (and the bucket while mopping) of a cleaner */
+U0 SaDrawMop(I64 x, I64 y, I64 dir, I64 mopping, I64 frame)
+{
+  I64 i, hx, mx, sw;
+  sw = 0;
+  if (mopping)
+    sw = ((frame / 5) & 1) * 4 - 2;
+  hx = 6;
+  if (dir == DIR_LEFT)
+    hx = -7;
+  mx = hx + 4 + sw;
+  if (dir == DIR_LEFT)
+    mx = hx - 4 + sw;
+  for (i = 0; i < 11; i++)
+    SaPutFb(x + hx + (mx - hx) * i / 10, y - 11 + i, 8);
+  SaRectFb(x + mx - 3, y - 1, 7, 2, 5);
+  SaRectFb(x + mx - 3, y + 1, 7, 1, 4);
+  for (i = 0; i < 7; i = i + 2)
+    SaPutFb(x + mx - 3 + i, y + 2, 4);
+  if (mopping) {
+    i = -14;
+    if (dir == DIR_LEFT)
+      i = 9;
+    SaRectFb(x + i, y - 6, 6, 6, 15);
+    SaRectFb(x + i, y - 6, 6, 1, 13);
+    SaRectFb(x + i + 1, y - 7, 4, 1, 4);
   }
 }
 
@@ -1922,7 +2151,7 @@ U0 SaPlaceEnt(I64 e, I64 tx, I64 ty)
 
 U0 SaSpawnAtStairs(I64 e)
 {
-  SaPlaceEnt(e, 3 + (e & 1), 18 + (e / 2) * 2);
+  SaPlaceEnt(e, 2 + (e % 4), 18 + (e / 4) * 2);
   sa_edir[e] = DIR_DOWN;
 }
 
@@ -1966,13 +2195,123 @@ U0 SaResetTeacher(I64 i)
   sa_egoal[i] = SaWanderGoal(i);
 }
 
+/* ---- the cleaners, Frau Niehaus, the scooters ---- */
+
+/* makes a floor tile wet for t ticks */
+U0 SaWetTile(I64 tx, I64 ty, I64 t)
+{
+  I64 ch;
+  ch = SaTile(tx, ty);
+  if (SaIsFloorCh(ch) || ch == 'D')
+    if (sa_wet[ty * MAP_W + tx] < t)
+      sa_wet[ty * MAP_W + tx] = t;
+}
+
+/* cleaners mop the corridors most of the time, now and then a room */
+I64 SaCleanerGoal(I64 e)
+{
+  I64 i, x, y, ch;
+  for (i = 0; i < 60; i++) {
+    x = 1 + SaRand(MAP_W - 2);
+    y = 1 + SaRand(MAP_H - 2);
+    ch = SaTile(x, y);
+    if (SaIsFloorCh(ch) && !(x <= 7 && y >= 17))
+      if (ch == '-' || ch == 'r' || ch == 'h' || SaRand(100) < 25)
+        return y * MAP_W + x;
+  }
+  return SaRandomTileNear(sa_ex[e] >> 12, sa_ey[e] >> 12, 5);
+}
+
+/* a cleaner turns up on the current floor: by the stairs, or (arrive
+ * FALSE) somewhere far away, already busy */
+U0 SaPlaceCleaner(I64 c, I64 arrive)
+{
+  I64 e;
+  e = E_CL + c;
+  if (arrive)
+    SaSpawnAtStairs(e);
+  else
+    SaSpawnFar(e);
+  sa_cvalid[c] = TRUE;
+  sa_cst[c] = CL_WALK;
+  sa_ct[c] = 0;
+  sa_csee[c] = 0;
+  sa_csx[c] = -1;
+  sa_ebfs[e] = -1;
+  sa_egoal[e] = SaCleanerGoal(e);
+}
+
+/* the next floor for a cleaner (never the schoolyard) */
+I64 SaCleanerNextFloor(I64 f)
+{
+  I64 nf;
+  nf = f + 1;
+  if (SaRand(2) == 0)
+    nf = f - 1;
+  if (nf == F_OUTSIDE) {
+    if (nf > f)
+      nf = nf + 1;
+    else
+      nf = nf - 1;
+  }
+  if (nf < 0)
+    nf = 1;
+  if (nf > F_TOP)
+    nf = F_TOP - 1;
+  return nf;
+}
+
+/* a free tile in one of the rooms of the 3rd floor (not the corridor) */
+I64 SaNiehausGoal(I64 far)
+{
+  I64 i, x, y, r, dx, dy;
+  for (i = 0; i < 300; i++) {
+    x = 1 + SaRand(MAP_W - 2);
+    y = 1 + SaRand(MAP_H - 2);
+    r = SaRoomIndex(F_NIEHAUS, x, y);
+    dx = x - (sa_px >> 12);
+    dy = y - (sa_py >> 12);
+    if (r >= 0 && SaIsFloorCh(SaTile(x, y)))
+      if (sa_rm_hall[r] == 0 && (!far || dx * dx + dy * dy > 150))
+        return y * MAP_W + x;
+  }
+  return 20 * MAP_W + 30;
+}
+
+U0 SaPlaceNiehaus()
+{
+  I64 g;
+  g = SaNiehausGoal(TRUE);
+  SaPlaceEnt(E_NI, g % MAP_W, g / MAP_W);
+  sa_ni_valid = TRUE;
+  sa_ni_st = NI_WANDER;
+  sa_ni_t = 60;
+  sa_ni_meter = 0;
+  sa_ni_said = FALSE;
+  sa_ni_hum = FALSE;
+  sa_ebfs[E_NI] = -1;
+  sa_egoal[E_NI] = SaNiehausGoal(FALSE);
+  sa_edir[E_NI] = DIR_DOWN;
+}
+
+/* gets off the scooter or bike: it stays where you are */
+U0 SaParkVehicle()
+{
+  if (sa_ride < 0)
+    return;
+  sa_vh_x[sa_ride] = sa_px;
+  sa_vh_y[sa_ride] = sa_py;
+  sa_vh_dir[sa_ride] = sa_pdir;
+  sa_ride = -1;
+}
+
 /* ---- things to pick up, tasks, checkpoints ---- */
 
 /* A random free floor tile of floor f (already in sa_map, with the BFS
  * from the staircase in distance slot 0) for the given zone. */
 I64 SaPickSpot(I64 f, I64 zone)
 {
-  I64 i, k, x, y, ch, ok;
+  I64 i, k, x, y, ch, ok, r;
   for (i = 0; i < 600; i++) {
     x = 1 + SaRand(MAP_W - 2);
     y = 1 + SaRand(MAP_H - 2);
@@ -1985,9 +2324,18 @@ I64 SaPickSpot(I64 f, I64 zone)
       ok = FALSE;
     if (ok && x <= 7 && y >= 16)
       ok = FALSE;
-    if (ok && (zone == 1 || zone == 4) && y >= 13 && y <= 16 && f != F_OUTSIDE)
-      ok = FALSE;
-    if (ok && zone == 4 && x <= 17 && y <= 11)
+    /* "in a room": not in a corridor or the staircase */
+    if (ok && (zone == 1 || zone == 4)) {
+      r = SaRoomIndex(f, x, y);
+      if (r < 0 || ch == '-' || ch == 'r')
+        ok = FALSE;
+      else if (sa_rm_hall[r] != 0)
+        ok = FALSE;
+      else if (zone == 4 && r == sa_start_room)
+        ok = FALSE;
+    }
+    /* scooters and bikes: out on the schoolyard */
+    if (ok && zone == 5 && ((ch != '_' && ch != ';') || x < 9))
       ok = FALSE;
     if (ok && SaAbs(sa_le_sx[f] - x) <= 1 && SaAbs(sa_le_sy[f] - y) <= 1)
       ok = FALSE;
@@ -2030,6 +2378,23 @@ U0 SaPlaceItems()
             sa_it_got[j] = FALSE;
             sa_it_n++;
           }
+    /* some days there are scooters and bikes parked on the schoolyard */
+    if (f == F_OUTSIDE) {
+      sa_vh_n = 0;
+      for (k = 0; k < NVEH; k++)
+        if (SaRand(100) < 60) {
+          s = SaPickSpot(f, 5);
+          j = sa_vh_n;
+          sa_vh_x[j] = ((s % MAP_W) * 16 + 8) << 8;
+          sa_vh_y[j] = ((s / MAP_W) * 16 + 10) << 8;
+          sa_vh_t[j] = SaRand(2);
+          sa_vh_charge[j] = 70 + SaRand(70);
+          sa_vh_dir[j] = DIR_RIGHT;
+          if (SaRand(2) == 0)
+            sa_vh_dir[j] = DIR_LEFT;
+          sa_vh_n++;
+        }
+    }
   }
   sa_ebfs[0] = -1;
 }
@@ -2129,6 +2494,16 @@ U0 SaResetGame()
   sa_cj_met = FALSE;
   sa_bomb_t = 0;
   sa_boost = 0;
+  sa_start_room = SaRoomIndex(3, sa_p0x, sa_p0y);
+  sa_ride = -1;
+  sa_vh_near = -1;
+  sa_slip_t = 0;
+  sa_sing_t = 0;
+  sa_alarm_t = 0;
+  sa_msg_face = -1;
+  sa_ni_valid = FALSE;
+  for (i = 0; i < MAP_N; i++)
+    sa_wet[i] = 0;
   SaPlaceItems();
   SaLoadFloor(3);
   SaLerschGo();
@@ -2171,6 +2546,21 @@ U0 SaResetGame()
   sa_heard_t = 0;
   sa_cj_st = CJ_OFF;
   sa_cj_tgt = -1;
+  /* one cleaner is mopping up here already, the other one upstairs */
+  sa_tslipcd[0] = 0;
+  sa_tslipcd[1] = 0;
+  for (i = 0; i < 2; i++) {
+    sa_ccd[i] = 0;
+    sa_csee[i] = 0;
+    sa_csx[i] = -1;
+    sa_cvalid[i] = FALSE;
+    sa_croam[i] = 1800 + SaRand(1200);
+  }
+  sa_cf[0] = 3;
+  sa_cf[1] = F_TOP;
+  SaPlaceCleaner(0, FALSE);
+  SaPlaceEnt(E_CL, 36, 3);
+  sa_egoal[E_CL] = 3 * MAP_W + 36;
   sa_phone = TRUE;
   sa_call_cd = 0;
   sa_ring_t = 0;
@@ -2184,6 +2574,7 @@ U0 SaResetGame()
   sa_heart_t = 0;
   sa_light_r = 150;
   SaMsg2("SCHNAPP DIR DIE TASCHENLAMPE!", "DANN FINDE DEN TREPPENSCHLÜSSEL.", 120);
+  sa_msg_face = -1;
   SaFov();
   SaCamSnap();
 }
@@ -2192,10 +2583,25 @@ U0 SaResetGame()
  * task floor. The phone stays wherever it is now. */
 U0 SaContinue()
 {
-  I64 f;
+  I64 f, i;
   SaLoadCp();
+  if (sa_ride >= 0 && sa_floor == F_OUTSIDE)
+    SaParkVehicle();
+  sa_ride = -1;
   f = sa_task_floor[sa_task];
   SaLoadFloor(f);
+  for (i = 0; i < MAP_N; i++)
+    sa_wet[i] = 0;
+  sa_slip_t = 0;
+  sa_sing_t = 0;
+  sa_alarm_t = 0;
+  sa_ni_valid = FALSE;
+  for (i = 0; i < 2; i++) {
+    sa_cvalid[i] = FALSE;
+    sa_csee[i] = 0;
+    if (sa_cf[i] == f)
+      SaPlaceCleaner(i, FALSE);
+  }
   SaLerschGo();
   sa_px = (3 * 16 + 8) << 8;
   sa_py = (19 * 16 + 10) << 8;
@@ -2351,6 +2757,12 @@ U0 SaPlayerMove(I64 keys)
       if (sa_have[IT_SHOES] > 0)
         speed = 590;
       sa_running = TRUE;
+    }
+    if (sa_ride >= 0) {
+      speed = 760;
+      if (sa_vh_t[sa_ride] == VH_BIKE)
+        speed = 660;
+      sa_running = FALSE;
     }
     if (sa_crouch > 0)
       speed = speed * 55 / 100;
@@ -2675,7 +3087,7 @@ U0 SaTalkLersch()
   SaSound(SND_TALK);
   k = SaTaskItemLeft();
   if (k < 0) {
-    SaMsg2(sa_le_say1[sa_task], sa_le_say2[sa_task], 150);
+    SaSay(0, sa_le_say1[sa_task], sa_le_say2[sa_task], 150);
     return;
   }
   sa_hint = k;
@@ -2688,7 +3100,7 @@ U0 SaTalkLersch()
     SaStrCat(sa_le_buf, sa_rm_name[r]);
   else
     SaStrCat(sa_le_buf, "IRGENDWO HIER");
-  SaMsg2(sa_le_say1[sa_task], sa_le_buf, 150);
+  SaSay(0, sa_le_say1[sa_task], sa_le_buf, 150);
 }
 
 /* ---- teachers ---- */
@@ -2875,6 +3287,15 @@ U0 SaThunerTick()
       SaMsg("ER HAT DICH RENNEN GEHÖRT!", 60);
     }
   }
+  /* chasing over a wet floor is a bad idea, even for Herr Thüner */
+  if (sa_tslipcd[0] > 0)
+    sa_tslipcd[0]--;
+  if (speed > 240 && sa_tstun[0] == 0 && sa_tslipcd[0] == 0 && sa_wet[ht] > 0) {
+    sa_tstun[0] = 75;
+    sa_tslipcd[0] = 240;
+    SaSound(SND_SLIP);
+    SaMsg2("HERR THÜNER RUTSCHT AUF DEM", "NASSEN BODEN AUS! LAUF!", 90);
+  }
   if (sa_tstun[0] > 0) {
     sa_tstun[0]--;
     speed = 0;
@@ -2965,6 +3386,14 @@ U0 SaKirschbaumTick()
       sa_edir[1] = DIR_LEFT;
     return;
   }
+  if (sa_tslipcd[1] > 0)
+    sa_tslipcd[1]--;
+  if (speed > 240 && sa_tstun[1] == 0 && sa_tslipcd[1] == 0 && sa_wet[SaEntTile(1)] > 0) {
+    sa_tstun[1] = 75;
+    sa_tslipcd[1] = 240;
+    SaSound(SND_SLIP);
+    SaMsg("HERR KIRSCHBAUM RUTSCHT AUS! PLATSCH!", 75);
+  }
   if (sa_tstun[1] > 0) {
     sa_tstun[1]--;
     speed = 0;
@@ -3017,7 +3446,14 @@ U0 SaChangeFloor(I64 nf, I64 up)
       if (sa_tst[i] == KB_WRITE)
         sa_tst[i] = KB_PATROL;
     }
+  /* the scooter stays down on the schoolyard */
+  if (sa_ride >= 0)
+    SaParkVehicle();
   SaLoadFloor(nf);
+  for (i = 0; i < MAP_N; i++)
+    sa_wet[i] = 0;
+  sa_ni_valid = FALSE;
+  sa_slip_t = 0;
   /* you come out next to the stairs you came by (up: beside the stairs
    * down on the right, and the other way round), walking away from them */
   if (up) {
@@ -3029,6 +3465,12 @@ U0 SaChangeFloor(I64 nf, I64 up)
   }
   sa_py = (20 * 16 + 10) << 8;
   sa_stair_arm = FALSE;
+  for (i = 0; i < 2; i++) {
+    sa_cvalid[i] = FALSE;
+    sa_csee[i] = 0;
+    if (sa_cf[i] == nf)
+      SaPlaceCleaner(i, FALSE);
+  }
   for (i = 0; i < 2; i++)
     if (sa_tf[i] == nf && sa_tfollow[i] == 0 && !sa_tvalid[i]) {
       SaSpawnFar(i);
@@ -3077,6 +3519,321 @@ U0 SaNoise()
   }
 }
 
+/* Somebody calls Herr Thüner: he comes straight to where you are now,
+ * from another floor too */
+U0 SaAlertThuner()
+{
+  sa_alarm_t = 120;
+  SaSound(SND_ALARM);
+  if (SaTeacherHere(0)) {
+    if (sa_tst[0] != TH_GRAB && sa_tst[0] != TH_CHASE) {
+      sa_tst[0] = TH_SEARCH;
+      sa_egoal[0] = SaPlayerTile();
+      sa_tlast[0] = sa_egoal[0];
+      sa_ttimer[0] = 420;
+    }
+  } else {
+    sa_tfollow_f[0] = sa_floor;
+    if (sa_tfollow[0] == 0 || sa_tfollow[0] > 30)
+      sa_tfollow[0] = 30;
+  }
+}
+
+/* entity e turns to look at you */
+U0 SaFacePlayer(I64 e)
+{
+  I64 dx, dy;
+  dx = (sa_px - sa_ex[e]) / 256;
+  dy = (sa_py - sa_ey[e]) / 256;
+  if (SaAbs(dx) > SaAbs(dy)) {
+    if (dx > 0)
+      sa_edir[e] = DIR_RIGHT;
+    else
+      sa_edir[e] = DIR_LEFT;
+  } else if (dy > 0)
+    sa_edir[e] = DIR_DOWN;
+  else
+    sa_edir[e] = DIR_UP;
+}
+
+/* ---- the cleaners ---- */
+
+U0 SaCleanerTick(I64 c)
+{
+  I64 e, see, dx, dy, ptx, pty, ex, ey, k, sx, sy;
+  e = E_CL + c;
+  if (sa_ccd[c] > 0)
+    sa_ccd[c]--;
+  ptx = sa_px >> 12;
+  pty = sa_py >> 12;
+  ex = sa_ex[e] >> 12;
+  ey = sa_ey[e] >> 12;
+  dx = ptx - ex;
+  dy = pty - ey;
+  see = FALSE;
+  if (!sa_hidden && sa_ccd[c] == 0 && dx * dx + dy * dy <= 42)
+    see = SaLosTiles(ex, ey, ptx, pty);
+  if (see) {
+    /* she stops and stares - stay too long and she calls Herr Thüner */
+    sa_csee[c]++;
+    sa_cst[c] = CL_WATCH;
+    if (sa_csee[c] == 20 && sa_msg_t == 0)
+      SaSay(2, "PUTZKRAFT: NANU? WER IST DENN DA NOCH?", "(SCHNELL WEG, BEVOR SIE PETZT!)", 70);
+    if (sa_csee[c] >= SA_CL_SEE) {
+      sa_csee[c] = 0;
+      sa_ccd[c] = 900;
+      sa_cst[c] = CL_WALK;
+      sa_egoal[e] = SaCleanerGoal(e);
+      SaSound(SND_SHOUT);
+      SaAlertThuner();
+      SaSay(2, "PUTZKRAFT: HEEE! HERR THÜNER!", "HIER LÄUFT NOCH EIN SCHÜLER RUM!", 120);
+    }
+  } else {
+    sa_csee[c] = sa_csee[c] - 2;
+    if (sa_csee[c] < 0)
+      sa_csee[c] = 0;
+    if (sa_cst[c] == CL_WATCH && sa_csee[c] == 0)
+      sa_cst[c] = CL_WALK;
+  }
+  if (sa_cst[c] == CL_WATCH) {
+    sa_emov[e] = FALSE;
+    SaFacePlayer(e);
+  } else if (sa_cst[c] == CL_MOP) {
+    sa_emov[e] = FALSE;
+    sa_ct[c]--;
+    if ((sa_ct[c] % 15) == 0)
+      for (dy = -1; dy <= 1; dy++)
+        for (dx = -1; dx <= 1; dx++)
+          SaWetTile(ex + dx, ey + dy, SA_WET);
+    if (sa_ct[c] <= 0) {
+      sa_cst[c] = CL_WALK;
+      sa_egoal[e] = SaCleanerGoal(e);
+    }
+  } else {
+    if (SaEntTile(e) == sa_egoal[e]) {
+      /* mop this spot, and put up the yellow sign next to it */
+      sa_cst[c] = CL_MOP;
+      sa_ct[c] = 150 + SaRand(120);
+      sa_csx[c] = -1;
+      for (k = 0; k < 4; k++) {
+        sx = ex + 1;
+        sy = ey;
+        if (k == 1)
+          sx = ex - 1;
+        if (k == 2) {
+          sx = ex;
+          sy = ey - 1;
+        }
+        if (k == 3) {
+          sx = ex;
+          sy = ey + 1;
+        }
+        if (sa_csx[c] < 0 && SaIsFloorCh(SaTile(sx, sy))) {
+          sa_csx[c] = sx;
+          sa_csy[c] = sy;
+        }
+      }
+    } else {
+      SaEntMove(e, SA_CL_SPEED, FALSE, 0, 0);
+      SaWetTile(ex, ey, SA_WET * 2 / 3);
+      if (!sa_emov[e])
+        sa_egoal[e] = SaCleanerGoal(e);
+    }
+  }
+  /* when her floor is done she moves on (never right in front of you) */
+  sa_croam[c]--;
+  if (sa_croam[c] <= 0) {
+    sa_croam[c] = 1500 + SaRand(900);
+    if (SaRand(100) < 40 && SaDistPx(e) > 150 && sa_vis[SaEntTile(e)] == 0) {
+      sa_cvalid[c] = FALSE;
+      sa_cf[c] = SaCleanerNextFloor(sa_floor);
+    }
+  }
+}
+
+/* cleaners on other floors move from floor to floor */
+U0 SaCleanerAway(I64 c)
+{
+  sa_croam[c]--;
+  if (sa_croam[c] > 0)
+    return;
+  sa_croam[c] = 1500 + SaRand(900);
+  sa_cf[c] = SaCleanerNextFloor(sa_cf[c]);
+  if (sa_cf[c] == sa_floor) {
+    SaPlaceCleaner(c, TRUE);
+    if (sa_msg_t == 0)
+      SaMsg("DU HÖRST EINEN PUTZEIMER KLAPPERN...", 60);
+  }
+}
+
+/* ---- Frau Niehaus (3rd floor only) ---- */
+
+U0 SaNiehausTick()
+{
+  I64 rp, rn, same, d, near, e, add;
+  e = E_NI;
+  if (sa_floor != F_NIEHAUS) {
+    sa_ni_valid = FALSE;
+    return;
+  }
+  if (!sa_ni_valid)
+    SaPlaceNiehaus();
+  d = SaDistPx(e);
+  if (!sa_ni_hum && d < 110) {
+    sa_ni_hum = TRUE;
+    if (sa_msg_t == 0)
+      SaMsg("DU HÖRST JEMANDEN SUMMEN... FRAU NIEHAUS!", 75);
+  }
+  if (sa_ni_st == NI_SING) {
+    sa_emov[e] = FALSE;
+    SaFacePlayer(e);
+    if (sa_sing_t <= 0) {
+      sa_ni_st = NI_COOL;
+      sa_ni_t = 450;
+      sa_ni_idle = 0;
+      sa_egoal[e] = SaNiehausGoal(FALSE);
+      SaSay(1, "FRAU NIEHAUS: WUNDERBAR! DU HAST TALENT!", "BIS ZUR NÄCHSTEN CHORPROBE!", 120);
+    }
+    return;
+  }
+  if (sa_ni_st == NI_COOL) {
+    sa_ni_t--;
+    if (sa_ni_t <= 0)
+      sa_ni_st = NI_WANDER;
+  }
+  /* in the same classroom and close by: she wants you to sing with her */
+  rp = SaRoomIndex(sa_floor, sa_px >> 12, sa_py >> 12);
+  rn = SaRoomIndex(sa_floor, sa_ex[e] >> 12, sa_ey[e] >> 12);
+  same = FALSE;
+  if (rp >= 0 && rp == rn)
+    if (sa_rm_hall[rp] == 0)
+      same = TRUE;
+  near = FALSE;
+  if (d < 64 && !sa_hidden && sa_write_t == 0)
+    near = SaLosTiles(sa_ex[e] >> 12, sa_ey[e] >> 12, sa_px >> 12, sa_py >> 12);
+  if (same && near && sa_ni_st == NI_WANDER) {
+    add = 1;
+    /* Herrn Lerschs sheets of music? Those she wants to sing right now */
+    if (sa_have[IT_SHEET] > 0 && sa_task <= TK_PIANO)
+      add = 2;
+    sa_ni_meter = sa_ni_meter + add;
+    if (!sa_ni_said) {
+      sa_ni_said = TRUE;
+      SaSound(SND_NIEHAUS);
+      if (add > 1)
+        SaSay(1, "FRAU NIEHAUS: OH! SIND DAS NOTENBLÄTTER?", "DIE SINGEN WIR SOFORT! (LAUF WEG!)", 90);
+      else
+        SaSay(1, "FRAU NIEHAUS: OH, HALLO! SINGST DU MIT?", "SCHNELL RAUS HIER - SONST MUSST DU!", 90);
+    }
+    sa_emov[e] = FALSE;
+    SaFacePlayer(e);
+    if (sa_ni_meter >= SA_NI_SING) {
+      sa_ni_meter = 0;
+      sa_ni_st = NI_SING;
+      sa_sing_t = 150;
+      sa_sing_step = 0;
+      SaSound(SND_NIEHAUS);
+      SaAlertThuner();
+      SaSay(1, "FRAU NIEHAUS: UND ALLE ZUSAMMEN! LA-LA-LAAA!", "DU MUSST MITSINGEN. HERR THÜNER HÖRT ES!", 150);
+    }
+    return;
+  }
+  if (sa_ni_meter > 0) {
+    sa_ni_meter = sa_ni_meter - 2;
+    if (sa_ni_meter <= 0) {
+      sa_ni_meter = 0;
+      sa_ni_said = FALSE;
+    }
+  }
+  /* she walks from classroom to classroom, humming */
+  if (SaEntTile(e) == sa_egoal[e]) {
+    sa_emov[e] = FALSE;
+    sa_ni_idle--;
+    if (sa_ni_idle <= 0) {
+      sa_egoal[e] = SaNiehausGoal(FALSE);
+      sa_ni_idle = 90 + SaRand(150);
+    }
+  } else {
+    SaEntMove(e, SA_NI_SPEED, FALSE, 0, 0);
+    if (!sa_emov[e])
+      sa_egoal[e] = SaNiehausGoal(FALSE);
+  }
+}
+
+/* ---- wet floors ---- */
+
+U0 SaSlip()
+{
+  sa_slip_t = 50;
+  sa_stamina = sa_stamina - 250;
+  if (sa_stamina < 0)
+    sa_stamina = 0;
+  sa_shake = 10;
+  sa_running = FALSE;
+  SaSound(SND_SLIP);
+  SaMsg2("AUSGERUTSCHT! PLATSCH!", "NASSER BODEN - HIER NICHT RENNEN!", 90);
+  SaNoise();
+}
+
+/* ---- e-scooters and bikes ---- */
+
+I64 SaNearVehicle()
+{
+  I64 k, best, bd, dx, dy;
+  best = -1;
+  bd = 9999;
+  if (sa_floor != F_OUTSIDE || sa_ride >= 0)
+    return -1;
+  for (k = 0; k < sa_vh_n; k++) {
+    dx = SaAbs(sa_vh_x[k] - sa_px) / 256;
+    dy = SaAbs(sa_vh_y[k] - sa_py) / 256;
+    if (dx < 20 && dy < 14 && dx + dy < bd) {
+      bd = dx + dy;
+      best = k;
+    }
+  }
+  return best;
+}
+
+U0 SaRideVehicle(I64 k)
+{
+  if (sa_vh_charge[k] <= 0) {
+    if (sa_vh_t[k] == VH_SCOOTER)
+      SaMsg("DER AKKU VON DEM E-SCOOTER IST LEER.", 60);
+    else
+      SaMsg("DIE KETTE VON DEM FAHRRAD IST KAPUTT.", 60);
+    return;
+  }
+  sa_ride = k;
+  sa_px = sa_vh_x[k];
+  sa_py = sa_vh_y[k];
+  sa_pdir = sa_vh_dir[k];
+  if (sa_vh_t[k] == VH_SCOOTER)
+    SaMsg2("DU STEIGST AUF DEN E-SCOOTER. SSSSSST!", "(DER AKKU SIEHT NICHT SO VOLL AUS...)", 75);
+  else
+    SaMsg2("DU SCHWINGST DICH AUFS FAHRRAD!", "(DIE KETTE KLAPPERT KOMISCH...)", 75);
+}
+
+U0 SaVehicleTick()
+{
+  I64 k;
+  if (sa_ride < 0)
+    return;
+  if (sa_pmoving)
+    sa_vh_charge[sa_ride]--;
+  if (sa_vh_charge[sa_ride] > 0)
+    return;
+  k = sa_ride;
+  sa_vh_charge[k] = 0;
+  SaParkVehicle();
+  SaSound(SND_BROKEN);
+  sa_shake = 6;
+  if (sa_vh_t[k] == VH_SCOOTER)
+    SaMsg2("PIEP PIEP... AKKU LEER!", "DER E-SCOOTER BLEIBT EINFACH STEHEN.", 90);
+  else
+    SaMsg2("KNACK! DIE KETTE IST GERISSEN.", "DAS FAHRRAD KANNST DU VERGESSEN.", 90);
+}
+
 /* finishes every task whose items are all collected */
 U0 SaCheckTask()
 {
@@ -3088,7 +3845,7 @@ U0 SaCheckTask()
     SaUnlock(2);
     SaMsg2("DER TREPPENSCHLÜSSEL!", "DAS GITTER ZUR 3. ETAGE IST JETZT OFFEN.", 150);
   } else if (sa_task == TK_SHEETS)
-    SaMsg2("ALLE 4 NOTENBLÄTTER!", "JETZT DAS LIED AN EINEM KLAVIER SPIELEN.", 150);
+    SaMsg2("ALLE 4 NOTENBLÄTTER!", "AB ZUM KLAVIER: MUSIKRAUM 4.25 (4. ETAGE).", 150);
   else if (sa_task == TK_FUSES)
     SaMsg2("ALLE 3 SICHERUNGEN!", "AB ZUM SICHERUNGSKASTEN IM FLUR.", 150);
   else if (sa_task == TK_POOLKEY)
@@ -3220,6 +3977,15 @@ U0 SaAction()
     SaToggleHide();
     return;
   }
+  if (sa_ride >= 0) {
+    SaParkVehicle();
+    SaMsg("DU STEIGST AB.", 40);
+    return;
+  }
+  if (sa_vh_near >= 0) {
+    SaRideVehicle(sa_vh_near);
+    return;
+  }
   if (SaLerschDist() < 40) {
     SaTalkLersch();
     return;
@@ -3261,7 +4027,7 @@ U0 SaLockedMsg(I64 ch)
 
 U0 SaPlayTick(I64 keys, I64 pressed)
 {
-  I64 dx, dy, d, r, ch, i;
+  I64 dx, dy, d, r, ch, i, slip, frozen;
   sa_play_ticks++;
   if (sa_msg_t > 0)
     sa_msg_t--;
@@ -3285,6 +4051,15 @@ U0 SaPlayTick(I64 keys, I64 pressed)
     sa_boost--;
   if (sa_bomb_t > 0)
     sa_bomb_t--;
+  if (sa_alarm_t > 0)
+    sa_alarm_t--;
+  if (sa_sing_t > 0) {
+    sa_sing_t--;
+    sa_sing_step++;
+  }
+  for (i = 0; i < MAP_N; i++)
+    if (sa_wet[i] > 0)
+      sa_wet[i]--;
 
   if ((pressed & K_ESC) != 0) {
     sa_state = ST_TITLE;
@@ -3307,26 +4082,46 @@ U0 SaPlayTick(I64 keys, I64 pressed)
   if (SaLerschDist() < 40)
     sa_le_near = TRUE;
   sa_near_obj = 0;
-  if (sa_floor == 2 && SaNearTile('M'))
+  if (SaNearTile('M'))
     sa_near_obj = 'M';
   if (sa_floor == 1 && SaNearTile('u'))
     sa_near_obj = 'u';
   if ((pressed & K_PHONE) != 0)
     SaPhoneButton();
-  if ((pressed & K_ACT) != 0 && sa_write_t == 0)
+  sa_vh_near = SaNearVehicle();
+  /* while you slip or have to sing you cannot do anything */
+  frozen = FALSE;
+  if (sa_write_t > 0 || sa_slip_t > 0 || sa_sing_t > 0)
+    frozen = TRUE;
+  if ((pressed & K_ACT) != 0 && !frozen)
     SaAction();
   if (sa_state != ST_PLAY)
     return;
-  if (!sa_hidden && sa_write_t == 0)
+  if (!sa_hidden && !frozen)
     SaPlayerMove(keys);
   else
     SaPlayerMove(0);
+  SaVehicleTick();
+  /* running on a wet floor, or right past a cleaner's mop */
+  if (sa_slip_t > 0) {
+    sa_slip_t--;
+    sa_crouch = 12;
+  } else if (sa_running && sa_ride < 0) {
+    slip = FALSE;
+    if (sa_wet[SaPlayerTile()] > 0)
+      slip = TRUE;
+    for (i = 0; i < 2; i++)
+      if (sa_cvalid[i] && sa_cf[i] == sa_floor && SaDistPx(E_CL + i) < 22)
+        slip = TRUE;
+    if (slip)
+      SaSlip();
+  }
 
   /* stairs: only once you have stepped off them after arriving */
   ch = SaTile(sa_px >> 12, sa_py >> 12);
   if (ch != '^' && ch != 'v')
     sa_stair_arm = TRUE;
-  if (sa_stair_cd == 0 && sa_write_t == 0 && sa_stair_arm) {
+  if (sa_stair_cd == 0 && !frozen && sa_stair_arm) {
     if (ch == '^' && SaStairOpen(TRUE)) {
       SaChangeFloor(sa_floor + 1, TRUE);
       return;
@@ -3400,6 +4195,14 @@ U0 SaPlayTick(I64 keys, I64 pressed)
     return;
   if (SaTeacherHere(1))
     SaKirschbaumTick();
+  for (i = 0; i < 2; i++)
+    if (sa_cvalid[i] && sa_cf[i] == sa_floor)
+      SaCleanerTick(i);
+    else
+      SaCleanerAway(i);
+  SaNiehausTick();
+  if (sa_state != ST_PLAY)
+    return;
   SaConjokeTick();
   SaCamUpdate();
 
@@ -3487,6 +4290,14 @@ U0 SaMusicTick()
   }
   if (sa_ring_t > 0 && (sa_ring_step % 3) == 0) {
     n = sa_ring_mel[(sa_ring_step / 3) % 12];
+    if (n != 0) {
+      sa_vnote[3] = n;
+      sa_vtrig[3]++;
+      sa_vage[3] = 0;
+    }
+  } else if (sa_ring_t == 0 && sa_sing_t > 0 && (sa_sing_step % 4) == 0) {
+    /* Frau Niehaus' song - and you sing along */
+    n = sa_sing_mel[(sa_sing_step / 4) % 32];
     if (n != 0) {
       sa_vnote[3] = n;
       sa_vtrig[3]++;
@@ -3664,6 +4475,16 @@ U0 SaDrawEnt(I64 e, I64 camx, I64 camy)
     SaDrawConjoke(sa_fb, SCR_W, SCR_H, x, y, sa_edir[2], frame, 1);
     return;
   }
+  if (e >= E_CL && e < E_NI) {
+    SaDrawAdult(sa_fb, SCR_W, SCR_H, x, y, sa_edir[e], frame, 1, 1, 4);
+    if (sa_edir[e] != DIR_UP)
+      SaDrawMop(x, y, sa_edir[e], sa_cst[e - E_CL] == CL_MOP, sa_tick);
+    return;
+  }
+  if (e == E_NI) {
+    SaDrawAdult(sa_fb, SCR_W, SCR_H, x, y, sa_edir[e], frame, 1, 1, 3);
+    return;
+  }
   if (sa_tstun[e] > 0 && sa_cj_st == CJ_FIGHT && sa_cj_tgt == e)
     return;
   eyec = 1;
@@ -3672,14 +4493,99 @@ U0 SaDrawEnt(I64 e, I64 camx, I64 camy)
   SaDrawAdult(sa_fb, SCR_W, SCR_H, x, y, sa_edir[e], frame, eyec, 1, e);
 }
 
+/* a scooter or bike (side view) with its front wheel at x, ground at y */
+U0 SaDrawVehicle(I64 x, I64 y, I64 t, I64 dir, I64 broken)
+{
+  I64 art, fl;
+  art = ART_SCOOTER;
+  if (t == VH_BIKE)
+    art = ART_BIKE;
+  fl = FALSE;
+  if (dir == DIR_LEFT)
+    fl = TRUE;
+  SaDrawArt(sa_fb, SCR_W, SCR_H, x - 16, y - 19, art, 16, 10, fl, 2, 1);
+  if (broken && ((sa_tick / 12) & 1) == 0) {
+    if (t == VH_SCOOTER) {
+      /* empty battery */
+      SaRectFb(x - 4, y - 30, 9, 5, 12);
+      SaRectFb(x - 3, y - 29, 7, 3, 1);
+      SaRectFb(x + 5, y - 29, 1, 3, 12);
+    } else {
+      /* the chain hangs down */
+      SaPutFb(x - 4, y + 1, 4);
+      SaPutFb(x - 1, y + 2, 4);
+      SaPutFb(x + 2, y + 1, 4);
+    }
+  }
+}
+
 U0 SaDrawPlayerAt(I64 x, I64 y)
 {
-  I64 frame;
+  I64 frame, crouch;
   frame = 0;
   if (sa_pmoving)
     frame = (sa_panim / 1700) % 4;
-  if (!sa_hidden)
-    SaDrawGiant(sa_fb, SCR_W, SCR_H, x, y, sa_pdir, frame, sa_crouch, 1);
+  if (sa_hidden)
+    return;
+  crouch = sa_crouch;
+  if (sa_ride >= 0) {
+    /* standing on the scooter / sitting on the bike */
+    frame = 0;
+    if (crouch < 4)
+      crouch = 4;
+    SaDrawGiant(sa_fb, SCR_W, SCR_H, x, y - 3, sa_pdir, frame, crouch, 1);
+    SaDrawVehicle(x, y + 1, sa_vh_t[sa_ride], sa_pdir, FALSE);
+    return;
+  }
+  SaDrawGiant(sa_fb, SCR_W, SCR_H, x, y, sa_pdir, frame, crouch, 1);
+  if (sa_slip_t > 0) {
+    /* stars around the head */
+    SaPutFb(x - 10 + (sa_tick % 20), y - 50, 15);
+    SaPutFb(x + 9 - (sa_tick % 20), y - 46, 15);
+    SaPutFb(x - 4 + ((sa_tick / 2) % 9), y - 54, 6);
+  }
+}
+
+/* a little note, for the singing */
+U0 SaDrawNote(I64 x, I64 y, I64 c)
+{
+  SaRectFb(x, y + 4, 3, 2, c);
+  SaRectFb(x + 2, y, 1, 5, c);
+  SaRectFb(x + 3, y, 2, 1, c);
+}
+
+/* the yellow "Vorsicht, Rutschgefahr" sign of a cleaner */
+U0 SaDrawWetSign(I64 x, I64 y)
+{
+  I64 i;
+  for (i = 0; i < 9; i++)
+    SaRectFb(x - i / 3 - 1, y - 12 + i, 3 + (i / 3) * 2, 1, 15);
+  SaRectFb(x, y - 9, 1, 3, 1);
+  SaPutFb(x, y - 5, 1);
+  SaRectFb(x - 4, y - 3, 1, 3, 8);
+  SaRectFb(x + 4, y - 3, 1, 3, 8);
+}
+
+/* wet tiles shine */
+U0 SaDrawWet(I64 camx, I64 camy)
+{
+  I64 tx, ty, x, y, wx, wy, w, h;
+  for (ty = camy / 16; ty <= (camy + SCR_H) / 16; ty++)
+    for (tx = camx / 16; tx <= (camx + SCR_W) / 16; tx++)
+      if (tx >= 0 && ty >= 0 && tx < MAP_W && ty < MAP_H) {
+        w = sa_wet[ty * MAP_W + tx];
+        if (w > 0)
+          for (y = 0; y < 16; y++)
+            for (x = 0; x < 16; x++) {
+              wx = tx * 16 + x;
+              wy = ty * 16 + y;
+              h = SaHash(wx, wy + 77);
+              if (((wx + wy * 2) % 13) == 0 && h < w / 5)
+                SaPutFb(wx - camx, wy - camy, 6);
+              else if (h < 24 && w > 300)
+                SaPutFb(wx - camx, wy - camy, 13);
+            }
+      }
 }
 
 /* Conjoke doing his lengths in the pool, seen through the glass */
@@ -3712,14 +4618,26 @@ U0 SaDrawSwimmer(I64 camx, I64 camy)
   SaRectFb(x - 6, y + 4, 12, 1, 6);
 }
 
+/* Herr Lersch with his tablet, talking with his hands */
 U0 SaDrawLersch(I64 camx, I64 camy)
 {
-  I64 dir;
+  I64 dir, x, y, f;
   dir = DIR_LEFT;
-  if (sa_px > ((sa_le_tx * 16 + 8) << 8))
+  f = 1;
+  if (sa_px > ((sa_le_tx * 16 + 8) << 8)) {
     dir = DIR_RIGHT;
-  SaDrawAdult(sa_fb, SCR_W, SCR_H, sa_le_tx * 16 + 8 - camx, sa_le_ty * 16 + 10 - camy,
-              dir, 0, 6, 1, 2);
+    f = -1;
+  }
+  x = sa_le_tx * 16 + 8 - camx;
+  y = sa_le_ty * 16 + 10 - camy;
+  SaDrawAdult(sa_fb, SCR_W, SCR_H, x, y, dir, 0, 1, 1, 2);
+  /* the tablet in front of him */
+  SaRectFb(x - f * 6 - 3, y - 14, 6, 5, 1);
+  SaRectFb(x - f * 6 - 2, y - 13, 4, 3, 13);
+  SaPutFb(x - f * 6 - 1, y - 13, 6);
+  /* and the other hand gestures */
+  if (((sa_tick / 14) & 1) == 0 || sa_le_near)
+    SaRectFb(x + f * 4 - 1, y - 19 - ((sa_tick / 7) & 1) * 2, 2, 2, 9);
 }
 
 U0 SaLockerView()
@@ -3929,6 +4847,36 @@ U0 SaHud()
   else if (sa_near_obj == 'u' && sa_task == TK_FUSEBOX && sa_msg_t == 0)
     SaTextCenter(156, SaHint("E = SICHERUNGEN EINSETZEN", "AKTION = SICHERUNGEN EINSETZEN",
                              "A = SICHERUNGEN EINSETZEN"), 15, 1);
+  else if (sa_vh_near >= 0 && sa_msg_t == 0) {
+    if (sa_vh_charge[sa_vh_near] <= 0)
+      SaTextCenter(156, "KAPUTT.", 4, 1);
+    else if (sa_vh_t[sa_vh_near] == VH_SCOOTER)
+      SaTextCenter(156, SaHint("E = AUF DEN E-SCOOTER", "AKTION = AUF DEN E-SCOOTER",
+                               "A = AUF DEN E-SCOOTER"), 15, 1);
+    else
+      SaTextCenter(156, SaHint("E = AUFS FAHRRAD", "AKTION = AUFS FAHRRAD", "A = AUFS FAHRRAD"),
+                   15, 1);
+  }
+  /* riding: how much battery / chain is left */
+  if (sa_ride >= 0) {
+    c = 14;
+    if (sa_vh_charge[sa_ride] < 40)
+      c = 12;
+    if (sa_vh_t[sa_ride] == VH_SCOOTER)
+      SaTextSh(110, 40, "AKKU", 5, 1, 1);
+    else
+      SaTextSh(110, 40, "KETTE", 5, 1, 1);
+    SaRectFb(146, 40, 64, 7, 1);
+    SaRectFb(147, 41, sa_vh_charge[sa_ride] * 62 / 140, 5, c);
+  }
+  /* Frau Niehaus wants to sing */
+  if (sa_ni_meter > 0 && sa_sing_t == 0) {
+    SaTextCenter(40, "FRAU NIEHAUS WILL MIT DIR SINGEN!", 15, 1);
+    SaRectFb(110, 50, 100, 5, 1);
+    SaRectFb(111, 51, sa_ni_meter * 98 / SA_NI_SING, 3, 15);
+  }
+  if (sa_alarm_t > 0 && ((sa_tick / 6) & 1) == 0)
+    SaTextCenter(60, "! HERR THÜNER IST ALARMIERT !", 12, 1);
   if (sa_msg_t > 0) {
     y = 177;
     if (sa_msg2[0] != 0) {
@@ -3944,14 +4892,20 @@ U0 SaHud()
       y = y + 2;
     }
     SaTextCenter(y, sa_msg, 6, 1);
+    /* the face of who is talking, above the box */
+    if (sa_msg_face >= 0) {
+      SaRectFb(4, y - 54, 52, 52, 1);
+      SaRectFb(5, y - 53, 50, 50, 6);
+      SaDrawArt(sa_fb, SCR_W, SCR_H, 6, y - 52, ART_POR_LE + sa_msg_face * 24, 24, 24, FALSE, 2, 1);
+    }
   }
 }
 
 U0 SaDrawPlay()
 {
-  I64 camx, camy, y, px, py, n, i, j, t, amb, lr;
-  I64 sy[5];
-  I64 st[5];
+  I64 camx, camy, y, px, py, n, i, j, t, amb, lr, x, e;
+  I64 sy[9];
+  I64 st[9];
   px = sa_px >> 8;
   py = sa_py >> 8;
   camx = sa_camx;
@@ -3975,6 +4929,16 @@ U0 SaDrawPlay()
       SaMemCpy(sa_fb + y * SCR_W, sa_world + (camy + y) * WORLD_W + camx, SCR_W);
   }
   SaDrawSwimmer(camx, camy);
+  SaDrawWet(camx, camy);
+  for (i = 0; i < 2; i++)
+    if (sa_csx[i] >= 0 && sa_cvalid[i] && sa_cf[i] == sa_floor)
+      if (sa_wet[sa_csy[i] * MAP_W + sa_csx[i]] > 0 || sa_cst[i] == CL_MOP)
+        SaDrawWetSign(sa_csx[i] * 16 + 8 - camx, sa_csy[i] * 16 + 13 - camy);
+  if (sa_floor == F_OUTSIDE)
+    for (i = 0; i < sa_vh_n; i++)
+      if (i != sa_ride)
+        SaDrawVehicle((sa_vh_x[i] >> 8) - camx, (sa_vh_y[i] >> 8) - camy + 1, sa_vh_t[i],
+                      sa_vh_dir[i], sa_vh_charge[i] <= 0);
 
   /* everybody on this floor, sorted by their feet */
   n = 0;
@@ -3995,6 +4959,17 @@ U0 SaDrawPlay()
   if (sa_floor == sa_le_f) {
     sy[n] = sa_le_ty * 16 + 10;
     st[n] = 7;
+    n++;
+  }
+  for (i = 0; i < 2; i++)
+    if (sa_cvalid[i] && sa_cf[i] == sa_floor) {
+      sy[n] = sa_ey[E_CL + i] >> 8;
+      st[n] = E_CL + i;
+      n++;
+    }
+  if (sa_ni_valid && sa_floor == F_NIEHAUS) {
+    sy[n] = sa_ey[E_NI] >> 8;
+    st[n] = E_NI;
     n++;
   }
   for (i = 1; i < n; i++)
@@ -4042,6 +5017,31 @@ U0 SaDrawPlay()
     SaKbGlint((sa_ex[1] >> 8) - camx, (sa_ey[1] >> 8) - camy);
   if (sa_spot_t > 0 && SaTeacherHere(0))
     SaTextSh((sa_ex[0] >> 8) - camx - 4, (sa_ey[0] >> 8) - camy - 46, "!", 12, 1, 2);
+  /* the cleaners: "?" while they wonder who you are, "!" just before
+   * they call Herr Thüner */
+  for (i = 0; i < 2; i++)
+    if (sa_cvalid[i] && sa_cf[i] == sa_floor && sa_csee[i] > 0) {
+      e = E_CL + i;
+      if (sa_csee[i] > SA_CL_SEE * 2 / 3)
+        SaTextSh((sa_ex[e] >> 8) - camx - 2, (sa_ey[e] >> 8) - camy - 40, "!", 12, 1, 1);
+      else
+        SaTextSh((sa_ex[e] >> 8) - camx - 2, (sa_ey[e] >> 8) - camy - 40, "?", 15, 1, 1);
+    }
+  /* Frau Niehaus hums - her notes show even in the dark */
+  if (sa_ni_valid && sa_floor == F_NIEHAUS) {
+    x = (sa_ex[E_NI] >> 8) - camx;
+    y = (sa_ey[E_NI] >> 8) - camy;
+    if (SaDistPx(E_NI) < 200 && ((sa_tick / 20) % 3) != 0)
+      SaDrawNote(x + 5 + (sa_tick / 6) % 4, y - 36 - (sa_tick / 4) % 6, 15);
+    if (sa_ni_meter > 0)
+      SaTextSh(x - 2, y - 42, "?", 15, 1, 1);
+  }
+  if (sa_sing_t > 0) {
+    for (i = 0; i < 4; i++)
+      SaDrawNote(px - camx - 16 + i * 9, py - camy - 56 - ((sa_tick / 4 + i * 3) % 8), 6 + (i & 1) * 9);
+    if (((sa_tick / 8) & 1) == 0)
+      SaTextSh(px - camx - 20, py - camy - 68, "LA LA LAAA!", 15, 1, 1);
+  }
   if (sa_hidden)
     SaLockerView();
   if (sa_pulse > 0)
@@ -4456,11 +5456,11 @@ U0 SaDebugScene(I64 n)
     sa_timer = 120;
     sa_end_ticks = 3 * 60 * 30 + 5 * 30;
   } else if (n == 6) {
-    SaPlaceAt(6, 14, 40, 15);
+    SaPlaceAt(13, 15, 40, 15);
     sa_tst[0] = TH_WANDER;
     SaGameTick(0);
     SaGameTick(K_ACT);
-    SaPlaceAt(6, 14, 8, 15);
+    SaPlaceAt(13, 15, 8, 15);
     sa_tst[0] = TH_WANDER;
     sa_egoal[0] = 15 * MAP_W + 2;
     SaGameTick(0);
@@ -4478,9 +5478,9 @@ U0 SaDebugScene(I64 n)
   } else if (n == 9) {
     SaGoFloor(2);
     SaNoThuner();
-    sa_px = (10 * 16 + 8) << 8;
-    sa_py = (9 * 16 + 10) << 8;
-    SaPlaceKb(14, 7, KB_PATROL);
+    sa_px = (36 * 16 + 8) << 8;
+    sa_py = (5 * 16 + 10) << 8;
+    SaPlaceKb(42, 5, KB_PATROL);
     sa_pdir = DIR_RIGHT;
     for (i = 0; i < 3; i++)
       SaGameTick(K_RIGHT);
@@ -4502,8 +5502,8 @@ U0 SaDebugScene(I64 n)
   } else if (n == 12) {
     SaGoFloor(4);
     SaNoThuner();
-    sa_px = (13 * 16 + 8) << 8;
-    sa_py = (6 * 16 + 10) << 8;
+    sa_px = (20 * 16 + 8) << 8;
+    sa_py = (21 * 16 + 10) << 8;
     sa_pdir = DIR_DOWN;
     SaGameTick(K_DOWN);
   } else if (n == 13) {
@@ -4530,8 +5530,8 @@ U0 SaDebugScene(I64 n)
     SaGoFloor(2);
     SaNoThuner();
     sa_px = (20 * 16 + 8) << 8;
-    sa_py = (14 * 16 + 10) << 8;
-    SaPlaceKb(30, 15, KB_PATROL);
+    sa_py = (15 * 16 + 10) << 8;
+    SaPlaceKb(26, 15, KB_PATROL);
     sa_next_ring = 1;
     for (i = 0; i < 7; i++)
       SaGameTick(0);
@@ -4539,8 +5539,8 @@ U0 SaDebugScene(I64 n)
     SaGoFloor(2);
     SaNoThuner();
     sa_px = (20 * 16 + 8) << 8;
-    sa_py = (14 * 16 + 10) << 8;
-    SaPlaceKb(22, 14, KB_WRITE);
+    sa_py = (15 * 16 + 10) << 8;
+    SaPlaceKb(22, 15, KB_WRITE);
     sa_phone = FALSE;
     sa_write_t = 120;
     SaMsg2("HERR KIRSCHBAUM: HANDY HER!", "UND SCHREIB DEINEN NAMEN AUF.", 120);
@@ -4580,10 +5580,10 @@ U0 SaDebugScene(I64 n)
     sa_have[IT_SHEET] = 4;
     sa_have[IT_LAMP] = 1;
     SaLerschGo();
-    SaGoFloor(2);
+    SaGoFloor(3);
     SaNoThuner();
-    sa_px = (2 * 16 + 8) << 8;
-    sa_py = (3 * 16 + 12) << 8;
+    sa_px = (40 * 16 + 8) << 8;
+    sa_py = (2 * 16 + 12) << 8;
     sa_pdir = DIR_UP;
     SaGameTick(K_UP);
   } else if (n == 21) {
@@ -4639,11 +5639,78 @@ U0 SaDebugScene(I64 n)
     SaLerschGo();
     SaGoFloor(4);
     SaNoThuner();
-    SaDebugItem(0, 4, 22, 14, IT_NOTE);
+    SaDebugItem(0, 4, 22, 21, IT_NOTE);
     sa_px = (18 * 16 + 8) << 8;
-    sa_py = (14 * 16 + 10) << 8;
+    sa_py = (21 * 16 + 10) << 8;
     sa_pdir = DIR_RIGHT;
     SaGameTick(K_RIGHT);
+  } else if (n == 26 || n == 27) {
+    /* Frau Niehaus in the art room: 26 she wants to sing, 27 you sing */
+    sa_have[IT_LAMP] = 1;
+    SaGoFloor(2);
+    SaNoThuner();
+    sa_tf[1] = 5;
+    sa_px = (31 * 16 + 8) << 8;
+    sa_py = (22 * 16 + 10) << 8;
+    sa_pdir = DIR_RIGHT;
+    SaGameTick(0);
+    SaPlaceEnt(E_NI, 34, 22);
+    sa_egoal[E_NI] = 22 * MAP_W + 34;
+    sa_ni_said = FALSE;
+    for (i = 0; i < 25; i++)
+      SaGameTick(0);
+    if (n == 27)
+      for (i = 0; i < 40; i++)
+        SaGameTick(0);
+  } else if (n == 28 || n == 29) {
+    /* a cleaner mopping the corridor; 29: you ran and slipped */
+    sa_have[IT_LAMP] = 1;
+    SaGoFloor(3);
+    SaNoThuner();
+    SaPlaceEnt(E_CL, 18, 15);
+    sa_egoal[E_CL] = 15 * MAP_W + 18;
+    sa_cst[0] = CL_WALK;
+    sa_px = (11 * 16 + 8) << 8;
+    sa_py = (16 * 16 + 4) << 8;
+    sa_pdir = DIR_RIGHT;
+    for (i = 0; i < 40; i++)
+      SaGameTick(0);
+    if (n == 29) {
+      sa_px = (16 * 16 + 8) << 8;
+      sa_py = (15 * 16 + 10) << 8;
+      for (i = 0; i < 5; i++)
+        SaGameTick(K_RIGHT | K_RUN);
+      sa_ccd[0] = 999;
+      SaGameTick(0);
+    } else {
+      sa_ccd[0] = 0;
+      for (i = 0; i < 30; i++)
+        SaGameTick(0);
+    }
+  } else if (n == 30) {
+    /* riding an e-scooter over the schoolyard, a bike parked nearby */
+    sa_task = TK_NOTES;
+    sa_have[IT_LAMP] = 1;
+    SaLerschGo();
+    SaGoFloor(4);
+    SaNoThuner();
+    sa_vh_n = 2;
+    sa_vh_t[0] = VH_SCOOTER;
+    sa_vh_t[1] = VH_BIKE;
+    sa_vh_charge[0] = 120;
+    sa_vh_charge[1] = 0;
+    sa_vh_x[1] = (24 * 16 + 8) << 8;
+    sa_vh_y[1] = (23 * 16 + 10) << 8;
+    sa_vh_dir[1] = DIR_LEFT;
+    sa_px = (14 * 16 + 8) << 8;
+    sa_py = (22 * 16 + 10) << 8;
+    sa_vh_x[0] = sa_px;
+    sa_vh_y[0] = sa_py;
+    sa_vh_dir[0] = DIR_RIGHT;
+    SaGameTick(0);
+    SaGameTick(K_ACT);
+    for (i = 0; i < 8; i++)
+      SaGameTick(K_RIGHT);
   }
   SaCamSnap();
 }

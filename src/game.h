@@ -55,6 +55,11 @@ typedef char CH;
 #define SND_POWER 17
 #define SND_BOMB 18
 #define SND_DRINK 19
+#define SND_SLIP 20
+#define SND_NIEHAUS 21
+#define SND_ALARM 22
+#define SND_BROKEN 23
+#define SND_SHOUT 24
 
 extern U8 sa_fb[SCR_W * SCR_H]; /* 320x200, one palette index per pixel */
 extern U8 sa_pal[48];           /* 16 colours, RGB */

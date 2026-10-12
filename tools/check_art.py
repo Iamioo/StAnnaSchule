@@ -51,7 +51,7 @@ for i, r in enumerate(rows):
         err(f"floor {i // H + 1} row {i % H}: width {len(r)}")
 
 # every door must connect two walkable sides
-walk = set(".,cthfm_;DKPH^v")
+walk = set(".,cthfm_;-rDKPH^v")
 for f in range(NF):
     fl = rows[f * H:(f + 1) * H]
     if any(len(r) != W for r in fl):

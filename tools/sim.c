@@ -25,7 +25,8 @@ static int dist[MAP_N], queue[MAP_N], cur_item = -1;
 static int walk(int ch)
 {
   return ch == '.' || ch == ',' || ch == 'c' || ch == 't' || ch == 'h' || ch == 'f' ||
-         ch == 'm' || ch == '_' || ch == ';' || ch == 'D' || ch == '^' || ch == 'v';
+         ch == 'm' || ch == '_' || ch == ';' || ch == '-' || ch == 'r' || ch == 'D' ||
+         ch == '^' || ch == 'v';
 }
 
 static void bfs(int goal)
@@ -56,8 +57,11 @@ static int target(int *action)
     return 20 * MAP_W + (sa_task_floor[sa_task] > sa_floor ? 1 : 6);
   t = sa_task_item[sa_task];
   if (sa_task == 2) {
+    /* stand below the first piano of the floor */
     *action = K_ACT;
-    return 3 * MAP_W + 1;
+    for (k = 0; k < MAP_N; k++)
+      if (sa_map[k] == 'M')
+        return k + MAP_W;
   }
   if (sa_task == 4) {
     *action = K_ACT;
