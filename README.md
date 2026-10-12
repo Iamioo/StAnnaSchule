@@ -10,7 +10,8 @@ Tür bücken (dann bist du langsamer) und faltest dich in Spinde zusammen.
 
 Nur für den Privatgebrauch.
 
-**Im Browser spielen:** https://iamioo.github.io/StAnnaSchule/ (mit Tastatur, Gamepad oder Handysteuerung).
+**Im Browser spielen:** `https://stanna.<dein-name>.workers.dev` (mit Tastatur, Gamepad oder
+Handysteuerung) – nur mit Discord-Anmeldung und nur für freigegebene Accounts.
 
 ## Steuerung
 
@@ -132,11 +133,42 @@ Spielstand auch nach dem Schließen erhalten; im Titelbild steht dann
 Etage weiter. Alles, was du aufgesammelt hast, behältst du. Am Ende siehst du deine Zeit,
 deine Sticker und wie oft du erwischt wurdest.
 
+## Anmeldung mit Discord (Whitelist)
+
+Die Browser-Version läuft über einen kleinen Cloudflare Worker (`server/`). Wer die
+Seite öffnet, muss sich mit Discord anmelden. Neue Accounts landen auf der Warteliste;
+erst wenn du sie unter **`/admin`** annimmst, bekommen sie das Spiel (auch `stanna.wasm`
+und die Downloads werden vorher nicht ausgeliefert). Sperren und Entfernen wirken
+sofort. Du selbst (ADMIN_DISCORD_ID) bist immer freigegeben.
+
+Einmal einrichten:
+
+1. **Cloudflare** (kostenlos): Account anlegen, unter *Workers & Pages* eine
+   workers.dev-Subdomain wählen. Die *Account ID* notieren und unter *My Profile → API
+   Tokens* einen Token mit der Vorlage **„Edit Cloudflare Workers“** erstellen.
+2. **Discord**: im [Developer Portal](https://discord.com/developers/applications) eine
+   *New Application* anlegen. Unter *OAuth2* die *Client ID* und das *Client Secret*
+   kopieren und als Redirect `https://stanna.<dein-name>.workers.dev/callback` eintragen.
+3. **Deine Discord-ID**: in Discord *Einstellungen → Erweitert → Entwicklermodus* an,
+   dann Rechtsklick auf deinen Namen → *User-ID kopieren*.
+4. **GitHub**: *Settings → Secrets and variables → Actions → New repository secret*,
+   diese sechs anlegen:
+   `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, `DISCORD_CLIENT_ID`,
+   `DISCORD_CLIENT_SECRET`, `ADMIN_DISCORD_ID` (deine ID) und `SESSION_SECRET`
+   (irgendein langer Zufallstext, mindestens 40 Zeichen).
+5. *Actions → Webseite → Run workflow*. Der Workflow baut das Spiel, legt den
+   Whitelist-Speicher an und veröffentlicht alles.
+6. Damit das Spiel nicht mehr offen herumliegt: *Settings → Pages* abschalten
+   (die alte GitHub-Pages-Seite ist sonst weiter erreichbar) und unter *Settings →
+   General* das Repository auf **Private** stellen.
+
+`node server/test.mjs` testet Anmeldung und Whitelist ohne Internet.
+
 ## Die Versionen
 
 | Plattform | Datei | Status |
 |---|---|---|
-| Browser (PC und Handy) | `web/` + `src/plat_web.c` | wird von GitHub Actions gebaut und auf GitHub Pages veröffentlicht |
+| Browser (PC und Handy) | `web/` + `src/plat_web.c` | wird von GitHub Actions gebaut und über den Cloudflare Worker (`server/`) veröffentlicht, mit Discord-Anmeldung |
 | Windows 95 bis 11 | `bin/StAnna.exe` | gebaut und getestet, mit Musik – **noch die alte Version** (mit `build_windows.bat` neu bauen) |
 | Android 4.1+ (ARM64 + ARMv7) | `bin/StAnna.apk` | gebaut und im Emulator getestet, Ton ab Android 8 – **noch die alte Version** |
 | Nintendo Switch (Homebrew) | `bin/StAnna.nro` | gebaut, startet in Ryujinx – **noch die alte Version** |

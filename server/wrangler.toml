@@ -1,0 +1,16 @@
+# Cloudflare Worker: Discord login + whitelist in front of the game.
+# Deployed by .github/workflows/pages.yml - see README ("Anmeldung mit Discord").
+name = "stanna"
+main = "worker.js"
+compatibility_date = "2025-09-01"
+
+# the built site; the worker runs first and decides who gets it
+[assets]
+directory = "./public"
+binding = "ASSETS"
+run_worker_first = true
+
+# the whitelist (the workflow fills in the id of the "stanna-users" namespace)
+[[kv_namespaces]]
+binding = "USERS"
+id = "KV_ID_PLACEHOLDER"
