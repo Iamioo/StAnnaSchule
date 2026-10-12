@@ -63,7 +63,7 @@ typedef char CH;
 
 extern U8 sa_fb[SCR_W * SCR_H]; /* 320x200, one palette index per pixel */
 extern U8 sa_pal[48];           /* 16 colours, RGB */
-extern U8 sa_world[];           /* the current floor, 896x448 */
+extern U8 sa_world[];           /* the current floor, 1152x448 */
 extern I64 sa_touch_ui;         /* platform sets 1 for touch hints */
 
 U0 SaGameInit(U32 seed);

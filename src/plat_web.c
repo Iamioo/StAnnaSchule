@@ -9,7 +9,8 @@
 
 #define EXPORT(name) __attribute__((export_name(name)))
 
-extern I64 sa_state, sa_end_ticks, sa_deaths, sa_have[];
+extern I64 sa_state, sa_end_ticks, sa_deaths, sa_have[], sa_save_ok, sa_save_seq;
+extern U8 sa_save[];
 
 static unsigned int rgba[SCR_W * SCR_H];
 static unsigned int pal32[16];
@@ -72,3 +73,9 @@ EXPORT("state") int web_state(void) { return sa_state; }
 EXPORT("end_ticks") int web_end_ticks(void) { return sa_end_ticks; }
 EXPORT("deaths") int web_deaths(void) { return sa_deaths; }
 EXPORT("stickers") int web_stickers(void) { return sa_have[4]; }
+
+/* the saved game: the page keeps these bytes in localStorage */
+EXPORT("save_ptr") U8 *web_save_ptr(void) { return sa_save; }
+EXPORT("save_len") int web_save_len(void) { return 4096; }
+EXPORT("save_seq") int web_save_seq(void) { return sa_save_seq; }
+EXPORT("save_set") void web_save_set(int ok) { sa_save_ok = ok; }

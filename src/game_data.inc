@@ -2,12 +2,12 @@
  * rooms, signs and music. Included by game.c (and inlined into the HolyC
  * port by tools/make_holyc.py), so it uses the same plain C subset. */
 
-#define MAP_W 56
+#define MAP_W 72
 #define MAP_H 28
-#define MAP_N 1568
-#define WORLD_W 896
+#define MAP_N 2016
+#define WORLD_W 1152
 #define WORLD_H 448
-#define WORLD_N 401408
+#define WORLD_N 516096
 #define NFLOORS 6
 
 #define ART_LOCKER 0
@@ -82,8 +82,8 @@
 #define ART_POR_CL 898
 #define ART_COUNT 922
 
-#define NROOMS 53
-#define NLABELS 45
+#define NROOMS 61
+#define NLABELS 51
 
 U8 sa_pal[48] = {
   0x00, 0x00, 0x00,  0x14, 0x10, 0x1c,  0x2e, 0x2a, 0x40,  0x4c, 0x47, 0x66,
@@ -510,179 +510,179 @@ CH *sa_art[ART_COUNT] = {
  *   W phone desk.  Markers: K key spot, P player, H Herr Thüner. */
 CH *sa_floor_src[168] = {
   /* ---- 1. Etage: Schwimmbad ---- */
-  "##w####w####w####w####w####w####w####w####w####w####w###",
-  "#tttttttttttttttttttttttttttttttttttttttttttttttttttttt#",
-  "#tt~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~tt#",
-  "#tt~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~tt#",
-  "#tt~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~tt#",
-  "#tt~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~tt#",
-  "#tt~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~tt#",
-  "#tt~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~tt#",
-  "#tt~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~tt#",
-  "#tt~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~tt#",
-  "#tttttttttttttttttttttttttttttttttttttttttttttttttttttt#",
-  "#tNNttttttttttttttttttttttttttttttttttttttttttttttttNNt#",
-  "##qqqq##qqqq##qqqq##qqqq###XX###qqqq##qqqq##qqqq##qqqq##",
-  "#--------NN----------------------------NN--------------#",
-  "#-----------------------------------------------------V#",
-  "#------------------------------------------------------#",
-  "#---LLL------LLL------------------------LLL-------LLL--#",
-  "##..zz######D############D########D############D########",
-  "#......#LLLLttttLLLLL#ttttttt#LLLLttttLLLL#............#",
-  "#^.....#ttttttttttttt#ttttttt#tttttttttttt#R..TTT....RR#",
-  "#^.....#tNNNNtttNNNNt#ttttttt#tNNNNttNNNNt#............#",
-  "#^.....#tttttttttttttDtttttttDtttttttttttt#oo........oo#",
-  "########tNNNNtttNNNNt#ttttttt#tNNNNttNNNNt#oo........oo#",
-  "########ttttttttttttt#ttttttt#ttttttttttttD............#",
-  "########LLLttttttKLLL#ttttttt#LLLttttttLLL#....K.......#",
-  "########ttttttttttttt#ttttttt#tttttttttttt#............#",
-  "########LLLLLLLLLLLLL#S#S#S#S#LLLLLLLLLLLL#RRR......LLL#",
-  "########################################################",
+  "##w####w####w####w####w####w####w####w####w####w####w###################",
+  "#tttttttttttttttttttttttttttttttttttttttttttttttttttttt#################",
+  "#tt~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~tt#################",
+  "#tt~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~tt#################",
+  "#tt~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~tt#################",
+  "#tt~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~tt#################",
+  "#tt~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~tt#################",
+  "#tt~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~tt#################",
+  "#tt~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~tt#################",
+  "#tt~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~tt#################",
+  "#tttttttttttttttttttttttttttttttttttttttttttttttttttttt#################",
+  "#tNNttttttttttttttttttttttttttttttttttttttttttttttttNNt#################",
+  "##qqqq##qqqq##qqqq##qqqq###XX###qqqq##qqqq##qqqq##qqqq##################",
+  "#--------NN----------------------------NN--------------#################",
+  "#-----------------------------------------------------V#################",
+  "#------------------------------------------------------#################",
+  "#---LLL------LLL------------------------LLL-------LLL--#################",
+  "##..zz######D############D########D############D########################",
+  "#......#LLLLttttLLLLL#ttttttt#LLLLttttLLLL#............#################",
+  "#^.....#ttttttttttttt#ttttttt#tttttttttttt#R..TTT....RR#################",
+  "#^.....#tNNNNtttNNNNt#ttttttt#tNNNNttNNNNt#............#################",
+  "#^.....#tttttttttttttDtttttttDtttttttttttt#oo........oo#################",
+  "########tNNNNtttNNNNt#ttttttt#tNNNNttNNNNt#oo........oo#################",
+  "########ttttttttttttt#ttttttt#ttttttttttttD............#################",
+  "########LLLttttttKLLL#ttttttt#LLLttttttLLL#....K.......#################",
+  "########ttttttttttttt#ttttttt#tttttttttttt#............#################",
+  "########LLLLLLLLLLLLL#S#S#S#S#LLLLLLLLLLLL#RRR......LLL#################",
+  "########################################################################",
   /* ---- 2. Etage: Sporthalle ---- */
-  "####yyyyyyy##w###w###j###w###w##yyyyyyy#######w####w####",
-  "#ffffffffffffffffffffffffffffffffffffffffff#oo.oo.oo.oo#",
-  "#fmmmmfffffffffffffffffffffffffffffffffmmmm#...........#",
-  "#fmmmmfffffffffffffffffffffffffffffffffmmmm#mmm....mmm.#",
-  "#ffffffffffffffffffffffffffffffffffffffffff#...........#",
-  "#ffffffffffffffffffffffffffffffffffffffffff#ooo....ooo.#",
-  "#ffffffffffffffffffffffffffffffffffffffffffD...........#",
-  "#ffffffffffffffffffffffffffffffffffffffffff#....K......#",
-  "#ffffffffffffffffffffffffffffffffffffffffff#...........#",
-  "#ffffffffffffffffffffffffffffffffffffffffff#RRR....RRR.#",
-  "#fNNNNffffffffffffffffffffffffffffffffNNNNf#...........#",
-  "#ffffffffffffffffffffffffffffffffffffffffff#L........LL#",
-  "##########DD########n##########DD###u#############D#####",
-  "#--------------LLLL-----LLLL---------------------------#",
-  "#-----------------------------------------------------V#",
-  "#------------------------------------------------------#",
-  "#---LLL------LLL------------------------LLL-------LLL--#",
-  "##..zz######D############D########D############D########",
-  "#......#LLLLttttLLLLL#ttttttt#LLLLttttLLLL#,,,,,,,,,,,,#",
-  "#^....v#ttttttttttttt#ttttttt#tttttttttttt#R,,TTT,,,,RR#",
-  "#^....v#tNNNNtttNNNNt#ttttttt#tNNNNttNNNNt#,,,,,,,,,,,,#",
-  "#^....v#tttttttttttttDtttttttDtttttttttttt#,,,,,,,,,,,,#",
-  "########tNNNNtttNNNNt#ttttttt#tNNNNttNNNNt#oo,,,,,,,,oo#",
-  "########ttttttttttttt#ttttttt#ttttttttttttD,,,,,,,,,,,,#",
-  "########LLLttttttKLLL#ttttttt#LLLttttttLLL#,,,,,,,,,,K,#",
-  "########ttttttttttttt#ttttttt#tttttttttttt#,,,,,,,,,,,,#",
-  "########LLLLLLLLLLLLL#S#S#S#S#LLLLLLLLLLLL#RRR,,,,,,LLL#",
-  "########################################################",
+  "####yyyyyyy##w###w###j###w###w##yyyyyyy#######w####w####################",
+  "#ffffffffffffffffffffffffffffffffffffffffff#oo.oo.oo.oo#################",
+  "#fmmmmfffffffffffffffffffffffffffffffffmmmm#...........#################",
+  "#fmmmmfffffffffffffffffffffffffffffffffmmmm#mmm....mmm.#################",
+  "#ffffffffffffffffffffffffffffffffffffffffff#...........#################",
+  "#ffffffffffffffffffffffffffffffffffffffffff#ooo....ooo.#################",
+  "#ffffffffffffffffffffffffffffffffffffffffffD...........#################",
+  "#ffffffffffffffffffffffffffffffffffffffffff#....K......#################",
+  "#ffffffffffffffffffffffffffffffffffffffffff#...........#################",
+  "#ffffffffffffffffffffffffffffffffffffffffff#RRR....RRR.#################",
+  "#fNNNNffffffffffffffffffffffffffffffffNNNNf#...........#################",
+  "#ffffffffffffffffffffffffffffffffffffffffff#L........LL#################",
+  "##########DD########n##########DD###u#############D#####################",
+  "#--------------LLLL-----LLLL---------------------------#################",
+  "#-----------------------------------------------------V#################",
+  "#------------------------------------------------------#################",
+  "#---LLL------LLL------------------------LLL-------LLL--#################",
+  "##..zz######D############D########D############D########################",
+  "#......#LLLLttttLLLLL#ttttttt#LLLLttttLLLL#,,,,,,,,,,,,#################",
+  "#^....v#ttttttttttttt#ttttttt#tttttttttttt#R,,TTT,,,,RR#################",
+  "#^....v#tNNNNtttNNNNt#ttttttt#tNNNNttNNNNt#,,,,,,,,,,,,#################",
+  "#^....v#tttttttttttttDtttttttDtttttttttttt#,,,,,,,,,,,,#################",
+  "########tNNNNtttNNNNt#ttttttt#tNNNNttNNNNt#oo,,,,,,,,oo#################",
+  "########ttttttttttttt#ttttttt#ttttttttttttD,,,,,,,,,,,,#################",
+  "########LLLttttttKLLL#ttttttt#LLLttttttLLL#,,,,,,,,,,K,#################",
+  "########ttttttttttttt#ttttttt#tttttttttttt#,,,,,,,,,,,,#################",
+  "########LLLLLLLLLLLLL#S#S#S#S#LLLLLLLLLLLL#RRR,,,,,,LLL#################",
+  "########################################################################",
   /* ---- 3. Etage: Kunst und Physik (Fluchtplan Ebene 3, gespiegelt) ---- */
-  "########################################################",
-  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAqRRR,RRR,R#o,,#UtU#,,TTT,,#",
-  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAq,,,,,,,,,#,,,#ttt#,,,,,,,#",
-  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAq,,,,,,R,,#,,,#ttt#,TT,,,,#",
-  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAq####D######D###D#####D####",
-  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAq------------------------V#",
-  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAq-----LLL---LL---LL-------#",
-  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAq--################D#######",
-  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAq--#RRR,,,,RRRR#RR,,,,RR,,#",
-  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAqq--D,,,,,,,,,,,#,,,,,,,,,,#",
-  "#AAAAAAAAAAAAAAAAAAAAAAAAAAqq---#,,,,,,,o,o,#,TTT,TTT,,#",
-  "#AAAAAAAAAAAAAAAAAAAAAAAAAqq---#######D######,,,,,,,,,,#",
-  "#AAAAAAAAAAAAAAAAAAAAAAAAqq---D,#,,,,,,,,,,,#,TTT,,TT,,#",
-  "#AAAAAAAAAAAAAAAAAAAAAAAqq---#,,D,TTT,TTT,TTT#####D#####",
-  "#qqqqqqqqqqqqqqqqqqqqqqqq---#,,,#,,,,,,,,,,,#,,,,,,,,,,#",
-  "#---------------------------#,,,#,TTT,TTT,,J#,,,,,,,,,,#",
-  "#------------LL---LLL-------#RRO#,,,,,,,,,,,#GGG,,,R,,,#",
-  "##..zz####D####D######D####D##############D#######D#####",
-  "#......#LL,LL#UttU#LLL,LLL#,,,,,,,,,,,,,,#,,,,,,,,,,,,,#",
-  "#^....v#,,,,,#tttt#,,,,,,,#,J,J,J,,J,J,,,#,J,J,J,J,J,J,#",
-  "#^....v#,,,,,#tttt#,,,,,,,#,,,,,,,,,,,,,,#,,,,,,,,,,,,,#",
-  "#^....v#,,,,,#tttt#,NNNNN,#,,TT,TT,TT,TT,#,,TT,TT,TT,TT#",
-  "########,NNN,#tttt#,,,,,,,#,,,,,,,,,,,,,,D,,,,,,,,,,,,,#",
-  "########,,,,,#tttt#,,,,,,,#,,TT,TT,TT,TT,#,,TT,TT,TT,TT#",
-  "########,,,,,#tttt#,NNNNN,#,,,,,,,,,,,,,,#,,,,,,,,,,,,,#",
-  "########,,,,,#SStt#,,,,,,,#,,TT,TT,TT,,,,#,,,,,,,,,,,,,#",
-  "########LLLLL#tttt#LLL,LLL#,,,,,,,,,,RRRO#,RR,,,,,,RRR,#",
-  "########################################################",
+  "########################################################################",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAqUtUt#RR,,RR#o,R##o,o#RRRRRRRR#UtU#,,TTT,,#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAqtttt#,,,,,,#,,,##,,,#,,,,,,,,#ttt#,,,,,,,#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAqtttt#,o,,,,#,,,##,,,#RR,R,,RR#ttt#,TT,,,,#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAq##D#####D####D####D######D#####D#####D####",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAq---------------D------------------------V#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAq----LLL---LL---D-----LLL------LL--LL-----#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAq--##################D########D#######D####",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAq--#RRR,,,,RRRR##RR,,,,,,RR#RR,RRR#GGG,,RR#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAqq--D,,,,,,,,,,,##,,,,,,,,,,#,,,,,,#,,,,,,,#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAqq---#,,,,,,,o,o,##,TTT,TTT,,#,o,,o,#,,,,,,,#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAqq---#######D#######,,,,,,,,,,#,,,,,,#,BBBBS,#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAqq---D,#,,,,,,,,,,,##,TTT,TTT,,D,,,,,,D,,,,,,,#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAqq---#,,D,TTT,TTT,TTT#,,,,,,,,,,#RR,RR,#,,,,,,,#",
+  "#qqqqqqqqqqqqqqqqqqqqqqqq---#,,,#,,,,,,,,,,,##,TTT,TTT,,#,,,,,,#,BBBBS,#",
+  "#---------------------------#,,,#,TTT,TTT,,J##,,,,,,,,,,#,,,,,,#,,,,,,,#",
+  "#------------LL---LLL-------#RRO#,,,,,,,,,,,##GG,,,,,,O,#GGGGGG#RR,,OR,#",
+  "##..zz####D####D######D####D##############D#######D#####################",
+  "#......#LL,LL#UttU#LLL,LLL#,,,,,,,,,,,,,,#,,,,,,,,,,,,,#################",
+  "#^....v#,,,,,#tttt#,,,,,,,#,J,J,J,,J,J,,,#,J,J,J,J,J,J,#################",
+  "#^....v#,,,,,#tttt#,,,,,,,#,,,,,,,,,,,,,,#,,,,,,,,,,,,,#################",
+  "#^....v#,,,,,#tttt#,NNNNN,#,,TT,TT,TT,TT,#,,TT,TT,TT,TT#################",
+  "########,NNN,#tttt#,,,,,,,#,,,,,,,,,,,,,,D,,,,,,,,,,,,,#################",
+  "########,,,,,#tttt#,,,,,,,#,,TT,TT,TT,TT,#,,TT,TT,TT,TT#################",
+  "########,,,,,#tttt#,NNNNN,#,,,,,,,,,,,,,,#,,,,,,,,,,,,,#################",
+  "########,,,,,#SStt#,,,,,,,#,,TT,TT,TT,,,,#,,,,,,,,,,,,,#################",
+  "########LLLLL#tttt#LLL,LLL#,,,,,,,,,,RRRO#,RR,,,,,,RRR,#################",
+  "########################################################################",
   /* ---- 4. Etage: Chemie und Musik (Fluchtplan Ebene 4, gespiegelt) - Start ---- */
-  "########################################################",
-  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAq-V#MM,,,QQ,,,,,MM,,#",
-  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAq--D,,,,,,,,,,,,,,,,#",
-  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAq--#,T,T,T,T,T,T,T,,#",
-  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAq--#,,,,,,,,,,,,,,O,#",
-  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAq--##################",
-  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAq--#MM,,,,,,,,,,MM,,#",
-  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAq--D,,,,,,,,,,,,,,,,#",
-  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqq--#,T,T,T,T,T,T,T,,#",
-  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqq---##################",
-  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqq---#,,,,,,,,,#########",
-  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqq---#,,,,QQ,,o,#UtUtUtt#",
-  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAqq---D,,,,,,,,,,,#ttttttt#",
-  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAqq---#,,,,,,,,,,,,Dttttttt#",
-  "#qqqqqqqqqqqqqqqqqqqqqqqqqqqqq---#,,,,,,,o,,,o,#ttttttt#",
-  "#--------------------------------#,,,,,,,,,,,,,#ttttttt#",
-  "#-----------LLL-----LLL-----LL---#,,RRR,,RR,,RR#ttttSSt#",
-  "##..zz####D########D######D#####D###########D###########",
-  "#......#GcccHccccccccc#GGccGGGc#ccGGGccccccccGGccccGGcc#",
-  "#^....v#cccTTTTTcccccc#cccccccc#ccccccccccccccccccccccc#",
-  "#^....v#cccccccccccccc#cRRcRRcc#ccBBBBSccSBBBBccBBBBScc#",
-  "#^....v#cBBBBSccSBBBBc#cccccccc#ccccccccccccccccccccccc#",
-  "########cccccccccccccc#cRRcRRcc#ccBBBBSccSBBBBccBBBBScc#",
-  "########cBBBBSccSBBBBc#cccccccc#ccccccccccccccccccccccc#",
-  "########cccccccccccccc#cRRcRRcc#ccBBBBSccSBBBBccBBBBScc#",
-  "########cccccPcccccccc#cccccccc#ccccccccccccccccccccccc#",
-  "########RRccccccccORcc#Zccccccc#cRRccccccccccccccRRRccc#",
-  "########################################################",
+  "########################################################################",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAq-V#MM,,,QQ,,,,,MM,,#Z,,RR,,,,,RR,,O#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAq--D,,,,,,,,,,,,,,,,#,,,,,,,,,,,,,,,#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAq--#,T,T,T,T,T,T,T,,#,BBBBS,,SBBBB,,#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAq--##################,,,,,,,,,,,,,,,#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAq--D,,,,,,,,,,,,,,MM#,TT,TT,,TT,TT,,#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAq--#,,T,,T,,T,,T,,,,#,,,,,,,,,,,,,,,#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAq--########################D#########",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqq-------------------D---------------#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqq--------------------D--------LLL----#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqq---#############D#########D###########",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqq---#,,,,QQ,,o,#UtttUtt#RRRR,RR,,RRRRR,#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAqq---D,,,,,,,,,,,#ttttttt#,,,,,,,,,,,,,,,#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAqq---#,,,,,,,,,,,,#ttttttt#,RR,RR,,RR,RR,,#",
+  "#qqqqqqqqqqqqqqqqqqqqqqqqqqqqq---#,,,,,,,o,,,o,#ttttttt#,,,,,,,,,,,,,,,#",
+  "#--------------------------------#,,,,,,,,,,,,,#ttttttt#,,,,,,,,,,,,,,,#",
+  "#-----------LLL-----LLL-----LL---#,,RRR,,RR,,RR#ttttSSt#GGG,,O,,Z,,GGG,#",
+  "##..zz####D########D######D#####D###########D###########################",
+  "#......#GcccHccccccccc#GGccGGGc#ccGGGccccccccGGccccGGcc#################",
+  "#^....v#cccTTTTTcccccc#cccccccc#ccccccccccccccccccccccc#################",
+  "#^....v#cccccccccccccc#cRRcRRcc#ccBBBBSccSBBBBccBBBBScc#################",
+  "#^....v#cBBBBSccSBBBBc#cccccccc#ccccccccccccccccccccccc#################",
+  "########cccccccccccccc#cRRcRRcc#ccBBBBSccSBBBBccBBBBScc#################",
+  "########cBBBBSccSBBBBc#cccccccc#ccccccccccccccccccccccc#################",
+  "########cccccccccccccc#cRRcRRcc#ccBBBBSccSBBBBccBBBBScc#################",
+  "########cccccPcccccccc#cccccccc#ccccccccccccccccccccccc#################",
+  "########RRccccccccORcc#Zccccccc#cRRccccccccccccccRRRccc#################",
+  "########################################################################",
   /* ---- 5. Etage: Umgang Forum und Schulhof (Fluchtplan Ebene 5) ---- */
-  "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
-  "F#####rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrq__;;;;;;;;;;;;;;F",
-  "F####rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrq__;;Y;;;;;;;;;;;F",
-  "F###rrrqqqqqqqqqqqqqqqqqqqqqqqqqqqqqrrq__;;;;;;;;;Y;;;;F",
-  "F##rrrqqAAAAAAAAAAAAAAAAAAAAAAAAAAAqrrq__;;;;;;;;;;;;;;F",
-  "F#rrrqqAAAAAAAAAAAAAAAAAAAAAAAAAAAAqrrD__;;;;;;;;;;;;Y;F",
-  "FrrrqqAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqrrq__;;;;;;;;;;;;;;F",
-  "FrrqqAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqrrq________________F",
-  "FrrqAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqrrq________________F",
-  "FrrqAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqqrrD________________F",
-  "FrrqAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqqrrrq________________F",
-  "FrrqAAAAAAAAAAAAAAAAAAAAAAAAAAAAqqrrrqq________________F",
-  "FrrqAAAAAAAAAAAAAAAAAAAAAAAAAAAqqrrrqq_______NN___NN___F",
-  "FrrqAAAAAAAAAAAAAAAAAAAAAAAAAAqqrrrqq__________________F",
-  "Frrqqqqqqqqqqqqqqqqqqqqqqqqqqqqrrrqq___________________F",
-  "Frrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrqq____________________F",
-  "Frrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrq_____________________F",
-  "##..zz##qqqqqqDqqqqqqqqqqqDqqqqqqq_____________________F",
-  "#......#;;;;;_______________________________;;;;;;;;;;;F",
-  "#^....v#;Y;;;_______________________________;;;NNN;NNN;F",
-  "#^....v#;;;;;_______________________________;;Y;;;;;;;;F",
-  "#^....v#;;;;;_______________________________;;;;;;;;;;;F",
-  "########;;;;;_________NN____NN______________;;;;;;;;;;;F",
-  "########;;;;;_______________________________;;;;;;;;Y;;F",
-  "########;;Y;;_______________________________;;;;;;;;;;;F",
-  "########;;;;;_______________________________;;;;;Y;;;;;F",
-  "########;;;;;_______________________________;;;;;;;;;;;F",
-  "########FFFFFFFFFFFFFFFFFFFFFFeeFFFFFFFFFFFFFFFFFFFFFFFF",
+  "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
+  "F#####rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrq__;;;;;;;;;;;;;;;;;;;;;;;;;;;;Y;F",
+  "F####rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrq__;;Y;;;;;;;;;;;;;;;;Y;;;;;;;;;;F",
+  "F###rrrqqqqqqqqqqqqqqqqqqqqqqqqqqqqqrrq__;;;;;;;;;Y;;;;;;;;;;;;;;;;;;;;F",
+  "F##rrrqqAAAAAAAAAAAAAAAAAAAAAAAAAAAqrrq__;;;;;;;;;;;;;;;;;;;;;;;;;Y;;;;F",
+  "F#rrrqqAAAAAAAAAAAAAAAAAAAAAAAAAAAAqrrD__;;;;;;;;;;;;Y;;;;;;;;;;;;;;;;;F",
+  "FrrrqqAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqrrq__;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;F",
+  "FrrqqAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqrrq________________________________F",
+  "FrrqAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqrrq________________________________F",
+  "FrrqAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqqrrD___________________;;;;;;;;;;;;;F",
+  "FrrqAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqqrrrq___________________;;;;;;;;;;;;;F",
+  "FrrqAAAAAAAAAAAAAAAAAAAAAAAAAAAAqqrrrqq___________________;;;;Y;;;;;;;;F",
+  "FrrqAAAAAAAAAAAAAAAAAAAAAAAAAAAqqrrrqq_______NN___NN______;;;;;;;;;;;;;F",
+  "FrrqAAAAAAAAAAAAAAAAAAAAAAAAAAqqrrrqq_____________________;;;;;;;;;;Y;;F",
+  "Frrqqqqqqqqqqqqqqqqqqqqqqqqqqqqrrrqq______________________;;;;;;;;;;;;;F",
+  "Frrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrqq_______________________;;;;;;;;;;;;;F",
+  "Frrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrq__________________________NNN___NNN__F",
+  "##..zz##qqqqqqDqqqqqqqqqqqDqqqqqqq_____________________________________F",
+  "#......#;;;;;_______________________________;;;;;;;;;;;;;;;;;;;;;;;;;;;F",
+  "#^....v#;Y;;;_______________________________;;;NNN;NNN;;;;Y;;;;;;;;;;;;F",
+  "#^....v#;;;;;_______________________________;;Y;;;;;;;;;;;;;;;;;;;;;;;;F",
+  "#^....v#;;;;;_______________________________;;;;;;;;;;;;;;;;;;;;;;;;;;;F",
+  "########;;;;;_________NN____NN______________;;;;;;;;;;;;;;;;;;;;Y;;;;;;F",
+  "########;;;;;_______________________________;;;;;;;;Y;;;;;;;;;;;;;;;;;;F",
+  "########;;Y;;_______________________________;;;;;;;;;;;;;;;;;;;;;;;;;;;F",
+  "########;;;;;_______________________________;;;;;Y;;;;;;;;;;;;;;;;;;;Y;F",
+  "########;;;;;_______________________________;;;;;;;;;;;;;;;;;;;;;;;;;;;F",
+  "########FFFFFFFFFFFFFFFFFFFFFFeeFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
   /* ---- 6. Etage: Haupteingang ---- */
-  "####w###w######EE######w###w######w#####w#####w#####w###",
-  "#hhhhhhhhhhhhhhhhhhhhhhhhhhhhhh#,,,,,,,,,,,#,,,,,,,,,,,#",
-  "#IhhhhhhhhhhhhhhhhhhhhhhhhhhhhI#R,,,,,,,,,R#R,,,,,,,,,R#",
-  "#Ihhh#hhhhhhhhhhhhhhhhhhhh#hhhI#,,WWW,,,,,,#,,,TTTT,,,,#",
-  "#hhhhhhhhhhhhhhhhhhhhhhhhhhhhhh#,,,,,,,,,,,#,,,,,,,,,,,#",
-  "#NhhhhhhhhhhhhhhhhhhhhhhhhhhhhN#,,,,,,,,,,,#,,,,,,,,,,,#",
-  "#Ihhh#hhhhhhhhhhhhhhhhhhhh#hhhI#RR,,,,,,,RR#O,,,,,,,,,O#",
-  "#hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhD,,,,,,,,,,,D,,,,,,,,,,,#",
-  "#hhhhhhhhhhhhhhhhhhhhhhhhhhhhhh#,,,,,,,,,,,#,,,,,,,,,,,#",
-  "#Ohhh#hhhhhhhhhhhhhhhhhhhh#hhhO#O,,,,,,,,,O#RRR,,,,,RRR#",
-  "#hhhhhhhhhhhhhhhhhhhhhhhhhhhhhh#,,,,,,,,,,,#,,,,,,,,,,,#",
-  "#OhhhhhhhhhhhhhhhhhhhhhhhhhhhhO#,,,,,,,,,,,#,,,,,,,,,,,#",
-  "########hhhhhhhhhhhhhhhh#############D###########D######",
-  "#------------------------------------------------------#",
-  "#-----------------------------------------------------V#",
-  "#------------------------------------------------------#",
-  "#---LLL------LLL------------------------LLL-------LLL--#",
-  "##..zz######D############D########D############D########",
-  "#......#.............#ttttttt#,,,,,,,,,,,,#............#",
-  "#g....v#R...........R#SSttttt#O,,,,,,,,,,O#RRR.RRR.RRR.#",
-  "#g....v#.TT..........Dttttttt#,,TTTTTTTT,,#............#",
-  "#g....v#.............#ttttttt#,,TTTTTTTT,,#RRR.RRR.RRR.#",
-  "########RRR.......RRR#ttttttt#,,,,,,,,,,,,D............#",
-  "########.............#ttttttt#,,,,,,,,,,,,#RRR.RRR.RRR.#",
-  "########.............#ttttttt#,,,,,,,,,,,,#............#",
-  "########.............#ttttttt#,,,,,,,,,,,,#............#",
-  "########LLL.......ooo#U#U#U#U#RR,,,,,,,,RR#L..........L#",
-  "########################################################"
+  "####w###w######EE######w###w######w#####w#####w#####w###################",
+  "#hhhhhhhhhhhhhhhhhhhhhhhhhhhhhh#,,,,,,,,,,,#,,,,,,,,,,,#################",
+  "#IhhhhhhhhhhhhhhhhhhhhhhhhhhhhI#R,,,,,,,,,R#R,,,,,,,,,R#################",
+  "#Ihhh#hhhhhhhhhhhhhhhhhhhh#hhhI#,,WWW,,,,,,#,,,TTTT,,,,#################",
+  "#hhhhhhhhhhhhhhhhhhhhhhhhhhhhhh#,,,,,,,,,,,#,,,,,,,,,,,#################",
+  "#NhhhhhhhhhhhhhhhhhhhhhhhhhhhhN#,,,,,,,,,,,#,,,,,,,,,,,#################",
+  "#Ihhh#hhhhhhhhhhhhhhhhhhhh#hhhI#RR,,,,,,,RR#O,,,,,,,,,O#################",
+  "#hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhD,,,,,,,,,,,D,,,,,,,,,,,#################",
+  "#hhhhhhhhhhhhhhhhhhhhhhhhhhhhhh#,,,,,,,,,,,#,,,,,,,,,,,#################",
+  "#Ohhh#hhhhhhhhhhhhhhhhhhhh#hhhO#O,,,,,,,,,O#RRR,,,,,RRR#################",
+  "#hhhhhhhhhhhhhhhhhhhhhhhhhhhhhh#,,,,,,,,,,,#,,,,,,,,,,,#################",
+  "#OhhhhhhhhhhhhhhhhhhhhhhhhhhhhO#,,,,,,,,,,,#,,,,,,,,,,,#################",
+  "########hhhhhhhhhhhhhhhh#############D###########D######################",
+  "#------------------------------------------------------#################",
+  "#-----------------------------------------------------V#################",
+  "#------------------------------------------------------#################",
+  "#---LLL------LLL------------------------LLL-------LLL--#################",
+  "##..zz######D############D########D############D########################",
+  "#......#.............#ttttttt#,,,,,,,,,,,,#............#################",
+  "#g....v#R...........R#SSttttt#O,,,,,,,,,,O#RRR.RRR.RRR.#################",
+  "#g....v#.TT..........Dttttttt#,,TTTTTTTT,,#............#################",
+  "#g....v#.............#ttttttt#,,TTTTTTTT,,#RRR.RRR.RRR.#################",
+  "########RRR.......RRR#ttttttt#,,,,,,,,,,,,D............#################",
+  "########.............#ttttttt#,,,,,,,,,,,,#RRR.RRR.RRR.#################",
+  "########.............#ttttttt#,,,,,,,,,,,,#............#################",
+  "########.............#ttttttt#,,,,,,,,,,,,#............#################",
+  "########LLL.......ooo#U#U#U#U#RR,,,,,,,,RR#L..........L#################",
+  "########################################################################"
 };
 
 CH *sa_floor_name[NFLOORS] = {
@@ -696,6 +696,9 @@ U8 sa_sign_c1[NFLOORS] = { 15, 15, 12, 12, 9, 3 };
 U8 sa_sign_c2[NFLOORS] = { 15, 12, 15, 12, 9, 3 };
 U8 sa_sign_dith[NFLOORS] = { 0, 3, 1, 0, 0, 0 };
 
+/* how wide each floor is (tiles); the rest of the 72 columns is solid */
+I64 sa_floor_w[NFLOORS] = { 56, 56, 72, 72, 72, 56 };
+
 /* one extra light per floor (pool light, desk lamp, street lamp, ...) */
 I64 sa_lamp_x[NFLOORS] = { 448, 344, 0, 232, 600, 256 };
 I64 sa_lamp_y[NFLOORS] = { 96, 96, 0, 306, 340, 22 };
@@ -704,28 +707,28 @@ I64 sa_lamp_r[NFLOORS] = { 150, 80, 0, 62, 96, 74 };
 /* rooms: floor, x0, y0, x1, y1 (tiles, inclusive) and name */
 I64 sa_rm_f[NROOMS] = {
   0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-  2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5,
-  5, 5, 5
+  2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4,
+  4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5
 };
 I64 sa_rm_x0[NROOMS] = {
-  1, 1, 1, 8, 22, 30, 43, 1, 44, 1, 1, 8, 22, 30, 43, 8, 14, 19, 27, 42, 29, 33, 33, 45, 45,
-  30, 40, 44, 48, 1, 1, 8, 23, 32, 39, 39, 48, 34, 1, 1, 1, 8, 39, 1, 1, 32, 44, 1, 1, 8,
-  22, 30, 43
+  1, 1, 1, 8, 22, 30, 43, 1, 44, 1, 1, 8, 22, 30, 43, 8, 14, 19, 27, 42, 29, 33, 33, 30, 35,
+  42, 47, 51, 60, 64, 46, 57, 64, 45, 1, 1, 8, 23, 32, 39, 39, 48, 34, 56, 56, 38, 1, 1, 1, 8,
+  39, 1, 1, 32, 44, 1, 1, 8, 22, 30, 43
 };
 I64 sa_rm_y0[NROOMS] = {
-  1, 13, 18, 18, 18, 18, 18, 1, 1, 13, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 11, 8, 12, 8, 14,
-  1, 1, 1, 1, 18, 1, 18, 18, 18, 1, 6, 11, 10, 18, 1, 18, 18, 1, 1, 1, 1, 1, 13, 18, 18,
-  18, 18, 18
+  1, 13, 18, 18, 18, 18, 18, 1, 1, 13, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 11, 8, 12, 1, 1,
+  1, 1, 1, 1, 1, 8, 8, 8, 4, 18, 1, 18, 18, 18, 1, 5, 11, 11, 1, 11, 7, 18, 1, 18, 18,
+  1, 1, 1, 1, 1, 13, 18, 18, 18, 18, 18
 };
 I64 sa_rm_x1[NROOMS] = {
-  54, 54, 6, 20, 28, 41, 54, 42, 54, 54, 6, 20, 28, 41, 54, 12, 17, 25, 40, 54, 31, 43, 43, 54, 54,
-  38, 42, 46, 54, 6, 54, 21, 30, 54, 54, 54, 54, 46, 6, 38, 6, 54, 54, 38, 30, 42, 54, 54, 6, 20,
-  28, 41, 54
+  54, 54, 6, 20, 28, 41, 54, 42, 54, 54, 6, 20, 28, 41, 54, 12, 17, 25, 40, 54, 31, 43, 43, 33, 40,
+  44, 49, 58, 62, 70, 55, 62, 70, 70, 6, 44, 21, 30, 54, 54, 54, 54, 46, 70, 70, 70, 6, 38, 6, 70,
+  70, 38, 30, 42, 54, 54, 6, 20, 28, 41, 54
 };
 I64 sa_rm_y1[NROOMS] = {
-  11, 16, 21, 26, 26, 26, 26, 11, 11, 16, 21, 26, 26, 26, 26, 26, 26, 26, 26, 26, 16, 10, 16, 12, 16,
-  3, 3, 3, 3, 21, 17, 26, 26, 26, 4, 8, 16, 16, 21, 17, 21, 26, 17, 17, 11, 11, 11, 16, 21, 26,
-  26, 26, 26
+  11, 16, 21, 26, 26, 26, 26, 11, 11, 16, 21, 26, 26, 26, 26, 26, 26, 26, 26, 26, 16, 10, 16, 3, 3,
+  3, 3, 3, 3, 3, 16, 16, 16, 7, 21, 17, 26, 26, 26, 3, 6, 16, 16, 6, 16, 10, 21, 17, 21, 26,
+  17, 17, 11, 11, 11, 16, 21, 26, 26, 26, 26
 };
 CH *sa_rm_name[NROOMS] = {
   "SCHWIMMHALLE", "FLUR", "TREPPENHAUS", "UMKLEIDE JUNGEN",
@@ -733,11 +736,13 @@ CH *sa_rm_name[NROOMS] = {
   "GERÄTERAUM", "FLUR", "TREPPENHAUS", "UMKLEIDE JUNGEN",
   "DUSCHEN", "UMKLEIDE MÄDCHEN", "SPORTLEHRER", "3.32 UMKLEIDE",
   "WC", "3.26 UMKLEIDE", "3.23 KUNSTRAUM", "3.20 KUNSTRAUM",
-  "RAUM 3.20", "3.14 KUNST-VORBEREITUNG", "3.14 A KUNST/WERKRAUM", "3.13 PHYSIK-RAUM",
-  "3.12 PHYSIK-VORBEREITUNG", "3.04 BÜCHER-KELLER", "RAUM 3.02", "WC",
-  "3.09 PHYSIK-RAUM", "TREPPENHAUS", "FLUR", "4.36 CHEMIE-HÖRSAAL",
-  "4.34/4.35 CHEMIE-SAMMLUNG", "4.33 CHEMIE-ÜBUNG", "4.25 MUSIK", "4.26 MUSIK",
-  "WC", "4.32 MUSIK-VORBEREITUNG", "TREPPENHAUS", "FLUR",
+  "RAUM 3.20", "3.14 KUNST-VORBEREITUNG", "3.14 A KUNST/WERKRAUM", "WC",
+  "3.13 A", "3.14 B", "RAUM 3.02", "3.04 BÜCHER-KELLER",
+  "WC", "3.09 PHYSIK-RAUM", "3.13 PHYSIK-RAUM", "PHYSIK-SAMMLUNG",
+  "3.12 PHYSIK-VORBEREITUNG", "PHYSIK-FLUR", "TREPPENHAUS", "FLUR",
+  "4.36 CHEMIE-HÖRSAAL", "4.34/4.35 CHEMIE-SAMMLUNG", "4.33 CHEMIE-ÜBUNG", "4.25 MUSIK",
+  "4.26 MUSIK", "WC", "4.32 MUSIK-VORBEREITUNG", "BIOLOGIE",
+  "BIOLOGIE-SAMMLUNG", "BIO-FLUR", "TREPPENHAUS", "FLUR",
   "TREPPENHAUS", "SCHULHOF", "SCHULHOF (DACHFLÄCHE E4)", "UMGANG FORUM",
   "EINGANGSHALLE", "SEKRETARIAT", "DIREKTOR", "FLUR",
   "TREPPENHAUS", "HAUSMEISTER", "TOILETTEN", "KONFERENZRAUM",
@@ -746,46 +751,51 @@ CH *sa_rm_name[NROOMS] = {
 /* 1 = corridor or staircase (nothing is hidden there, Frau Niehaus does
  * not sing there) */
 I64 sa_rm_hall[NROOMS] = {
-  0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0
+  0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0,
+  0
 };
 
 /* signs painted into the world: floor, x, y, text, colour, background */
 I64 sa_lb_f[NLABELS] = {
   0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2,
-  2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5,
-  5, 9, 9, 9, 1
+  2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 5,
+  5, 5, 5, 5, 5, 5, 5, 9, 9, 9, 1
 };
 I64 sa_lb_x[NLABELS] = {
   425, 130, 356, 482, 790, 392, 226, 818, 130, 356, 482, 790,
-  157, 251, 349, 523, 755, 568, 540, 795, 740, 500, 778, 200,
-  440, 560, 730, 730, 650, 820, 478, 364, 700, 236, 612, 812,
-  230, 360, 580, 790, 22, 20, 20, 82, 594
+  157, 251, 349, 523, 755, 568, 540, 830, 1030, 572, 708, 822,
+  961, 1092, 200, 440, 560, 730, 730, 650, 820, 1012, 980, 868,
+  478, 364, 700, 236, 612, 812, 230, 360, 580, 790, 22, 20,
+  20, 82, 594
 };
 I64 sa_lb_y[NLABELS] = {
   199, 277, 277, 277, 277, 20, 197, 197, 277, 277, 277, 277,
-  277, 277, 277, 277, 277, 117, 181, 117, 213, 69, 69, 277,
-  277, 277, 5, 85, 149, 165, 436, 320, 40, 19, 197, 197,
-  277, 277, 277, 277, 290, 290, 290, 290, 197
+  277, 277, 277, 277, 277, 117, 181, 69, 69, 69, 69, 117,
+  117, 117, 277, 277, 277, 5, 69, 165, 165, 117, 165, 117,
+  436, 320, 40, 19, 197, 197, 277, 277, 277, 277, 290, 290,
+  290, 290, 197
 };
 CH *sa_lb_text[NLABELS] = {
   "GESPERRT", "JUNGEN", "DUSCHE", "MÄDCHEN", "BADEMEISTER", "SCHWIMMHALLE",
   "SPORTHALLE", "GERÄTE", "JUNGEN", "DUSCHE", "MÄDCHEN", "SPORT",
   "3.32", "WC", "3.26", "3.23 KUNST", "3.20 KUNST", "3.14 KUNST-VORB.",
-  "3.14A", "3.13 PHYSIK", "3.12", "3.04", "3.09", "4.36 CHEMIE",
-  "4.34/35", "4.33 CHEMIE-ÜBUNG", "4.25 MUSIK", "4.26 MUSIK", "4.32", "WC",
+  "3.14A", "3.04", "3.09", "3.13A", "PHYSIK", "3.13 PHYSIK",
+  "SAMMLUNG", "3.12", "4.36 CHEMIE", "4.34/35", "4.33 CHEMIE-ÜBUNG", "4.25 MUSIK",
+  "4.26 MUSIK", "4.32", "WC", "BIOLOGIE", "SAMMLUNG", "BIO",
   "TOR ZU", "SCHULHOF", "DACHFLÄCHE E4", "AUSGANG", "SEKRETARIAT", "DIREKTOR",
   "HAUSMEISTER", "WC", "KONFERENZ", "ARCHIV", "GESPERRT", "HOCH",
   "HOCH", "RUNTER", "STROM"
 };
 U8 sa_lb_c[NLABELS] = {
   6, 6, 6, 6, 6, 2, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
-  6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 12, 5, 5, 6, 6, 6, 6, 6, 6, 6,
-  12, 5, 5, 5, 15
+  6, 6, 15, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 15, 12, 5, 5, 6,
+  6, 6, 6, 6, 6, 6, 12, 5, 5, 5, 15
 };
 I64 sa_lb_bg[NLABELS] = {
   11, 2, 2, 2, 2, -1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-  2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, -1, -1, 14, 2, 2, 2, 2, 2, 2,
-  1, -1, -1, -1, 1
+  2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, -1, -1, 14,
+  2, 2, 2, 2, 2, 2, 1, -1, -1, -1, 1
 };
 
 /* ---- music (own compositions). MIDI note numbers, 0 = rest. ---- */
@@ -993,3 +1003,10 @@ CH *sa_le_say1[NTASKS] = {
 CH *sa_le_say2[NTASKS] = {
   "", "", "IN 4.25 ODER 4.26. DANN GEHT EIN GEHEIMFACH AUF.", "", "DER KASTEN HÄNGT IM FLUR AN DER WAND.",
   "", "", "", "", "BEVOR HERR THÜNER DICH KRIEGT!" };
+
+/* the three difficulties */
+CH *sa_mode_name[3] = { "EINFACH", "MITTEL", "SCHWER" };
+CH *sa_mode_desc[3] = {
+  "CHECKPOINTS, PUTZKRÄFTE SEHEN WENIG",
+  "CHECKPOINTS, PUTZKRÄFTE SEHEN MEHR",
+  "KEINE CHECKPOINTS, KEIN SPEICHERN" };

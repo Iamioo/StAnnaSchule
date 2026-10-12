@@ -21,7 +21,7 @@ Nur für den Privatgebrauch.
 | Aktion: verstecken, reden, Klavier, Sicherungen, auf-/absteigen | E / Leertaste | A | AKTION |
 | Handy: Conjoke anrufen / rangehen | Q oder F | Y / X | HANDY |
 | Start / weiter | Enter | + | Bild antippen |
-| Zurück / Menü | Esc | – | Zurück-Taste |
+| Pause mit Karte, Speichern, Laden | Esc / M / P | – | MENÜ / Zurück-Taste |
 | Screenshot (Windows) | F12 | – | – |
 
 ## Die Schule
@@ -30,8 +30,8 @@ Nur für den Privatgebrauch.
 |---|---|
 | 6 | Haupteingang, Sekretariat, Hausmeister – hier ist der Ausgang. 7.–9. Etage: gesperrt |
 | 5 | Umgang Forum (Ring aus rotem Pflaster um den Luftraum) und der Schulhof mit Dachfläche E4 – manchmal stehen hier E-Scooter und Fahrräder |
-| 4 | Chemie und Musik: 4.36 Chemie-Hörsaal (hier fängst du an), 4.34/4.35 Chemie-Sammlung, 4.33 Chemie-Übung, 4.32 Musik-Vorbereitung, 4.25 und 4.26 Musik |
-| 3 | Kunst und Physik: 3.32 und 3.26 Umkleide, 3.23 und 3.20 Kunstraum, 3.14 Kunst-Vorbereitung, 3.14 A Kunst/Werkraum, 3.13 und 3.09 Physik-Raum, 3.12 Physik-Vorbereitung, 3.04 Bücher-Keller – Frau Niehaus ist hier |
+| 4 | Chemie und Musik: 4.36 Chemie-Hörsaal (hier fängst du an), 4.34/4.35 Chemie-Sammlung, 4.33 Chemie-Übung, 4.32 Musik-Vorbereitung, 4.25 und 4.26 Musik – hinter einer Glastür der **Bio-Flur** mit Biologie und Biologie-Sammlung |
+| 3 | Kunst und Physik: 3.32 und 3.26 Umkleide, 3.23 und 3.20 Kunstraum, 3.14 Kunst-Vorbereitung, 3.14 A Kunst/Werkraum, 3.13 A, 3.14 B – hinter einer Glastür der **Physik-Flur** mit 3.13 und 3.09 Physik-Raum, Physik-Sammlung, 3.12 Physik-Vorbereitung, 3.04 Bücher-Keller und 3.02. Frau Niehaus ist hier |
 | 2 | Sporthalle |
 | 1 | Schwimmbad (die Schwimmhalle ist abgeschlossen) |
 
@@ -84,8 +84,8 @@ Runde woanders.
   alarmiert** (auch von einer anderen Etage). Hast du Herrn Lerschs Notenblätter dabei,
   will sie doppelt so schnell singen. Im Flur oder im Spind bist du sicher.
 - **Die Putzkräfte** (blaue Uniform, Mütze, Wischmopp) wischen die Flure und ziehen von
-  Etage zu Etage. Wo sie gewischt haben, glänzt der Boden nass und steht ein gelbes
-  Warnschild. **Rennst** du über nassen Boden oder direkt an ihnen vorbei, **rutschst du
+  Etage zu Etage. Wo sie gewischt haben, sind blaue Pfützen (sie glitzern auch im
+  Dunkeln) und steht ein gelbes Warnschild. **Rennst** du über nassen Boden oder direkt an ihnen vorbei, **rutschst du
   aus** (das ist laut). Gehen ist kein Problem. Sehen sie dich zu lange („?“, dann „!“),
   **rufen sie Herrn Thüner**. Aber: Auch Herr Thüner und Herr Kirschbaum rutschen aus,
   wenn sie hinter dir her über den nassen Boden rennen!
@@ -106,6 +106,27 @@ Runde woanders.
 Mit der Aktionstaste steigst du auf und bist richtig schnell – aber nur ein paar
 Sekunden: Beim E-Scooter ist der Akku leer, beim Fahrrad reißt die Kette. Dann ist er
 kaputt. Oben siehst du, wie viel Akku oder Kette noch übrig ist.
+
+## Schwierigkeit
+
+Im Titelbild wählst du mit den Pfeilen (links/rechts) den Modus:
+
+| Modus | Checkpoints | Speichern | Putzkräfte | Frau Niehaus |
+|---|---|---|---|---|
+| Einfach | ja | ja | erkennen dich nach 7 Sekunden, sehen 6 Kacheln weit | lässt dir viel Zeit |
+| Mittel | ja | ja | nach 5 Sekunden, 8 Kacheln weit | normal |
+| Schwer | **nein** – erwischt heißt alles von vorn | nein | nach 4 Sekunden, 9 Kacheln weit | schnell |
+
+Auf Einfach ist Herr Thüner außerdem ein bisschen langsamer.
+
+## Pause, Karte, Speichern
+
+Mit **Esc** (oder M / P, am Handy MENÜ) hält das Spiel an. Du siehst die **Karte der
+Etage** – aber nur die Teile, die du schon gesehen hast. Rot blinkend bist du, blau
+Herr Lersch, gelb blinkend das Teil, das er dir verraten hat. Darunter kannst du
+**speichern**, einen **Spielstand laden** oder zum Hauptmenü. Im Browser bleibt der
+Spielstand auch nach dem Schließen erhalten; im Titelbild steht dann
+„Spielstand laden“.
 
 **Checkpoints:** Wenn Herr Thüner dich erwischt, geht es im Treppenhaus der aktuellen
 Etage weiter. Alles, was du aufgesammelt hast, behältst du. Am Ende siehst du deine Zeit,
@@ -167,7 +188,7 @@ zum Ausprobieren gab, kann es sein, dass noch Kleinigkeiten angepasst werden mü
 
 - 320×200 Pixel, 16 Farben, alles Pixel-Art – komplett selbst gezeichnet im Code.
   Keine fremden Grafiken, keine Fotos.
-- 6 Etagen à 56×28 Kacheln, Taschenlampe mit 4 Helligkeitsstufen und Bayer-Dithering,
+- 6 Etagen à 72×28 Kacheln, Taschenlampe mit 4 Helligkeitsstufen und Bayer-Dithering,
   Sichtlinien pro Kachel, Lampen und Mondlicht.
 - Lehrer suchen dich per Breitensuche (BFS), wechseln abstrakt die Etagen und folgen dir
   über die Treppe.

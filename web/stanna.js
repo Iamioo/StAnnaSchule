@@ -36,6 +36,7 @@ const keyMap = {
   ArrowLeft: K.LEFT, KeyA: K.LEFT, ArrowRight: K.RIGHT, KeyD: K.RIGHT,
   KeyE: K.ACT, Space: K.ACT, ShiftLeft: K.RUN, ShiftRight: K.RUN,
   KeyQ: K.PHONE, KeyF: K.PHONE, Enter: K.START, NumpadEnter: K.START, Escape: K.ESC,
+  KeyM: K.ESC, KeyP: K.ESC,
 };
 
 addEventListener("keydown", (e) => {
@@ -226,6 +227,31 @@ function showChallenge() {
   $("challenge").classList.remove("hidden");
 }
 
+// ---- the saved game lives in localStorage ----
+let saveSeq = 0;
+
+function loadSave() {
+  const b64 = store("stanna_save");
+  if (!b64) return;
+  try {
+    const bin = atob(b64);
+    const n = Math.min(bin.length, wasm.save_len());
+    const mem = new Uint8Array(wasm.memory.buffer, wasm.save_ptr(), n);
+    for (let i = 0; i < n; i++) mem[i] = bin.charCodeAt(i);
+    wasm.save_set(1);
+  } catch (e) { /* broken save: ignore it */ }
+}
+
+function keepSave() {
+  const seq = wasm.save_seq();
+  if (seq === saveSeq) return;
+  saveSeq = seq;
+  const mem = new Uint8Array(wasm.memory.buffer, wasm.save_ptr(), wasm.save_len());
+  let bin = "";
+  for (let i = 0; i < mem.length; i++) bin += String.fromCharCode(mem[i]);
+  store("stanna_save", btoa(bin));
+}
+
 // ---- main loop ----
 let acc = 0, last = 0;
 function frame(now) {
@@ -243,6 +269,7 @@ function frame(now) {
     steps++;
   }
   if (steps === 4) acc = 0;
+  keepSave();
   const st = wasm.state();
   if (st === ST_WIN && lastState !== ST_WIN) onWin();
   if (st !== ST_WIN) $("win").classList.add("hidden");
@@ -259,6 +286,7 @@ async function boot() {
   const { instance } = await WebAssembly.instantiate(bytes, {});
   wasm = instance.exports;
   wasm.init((Math.random() * 4294967295) >>> 0);
+  loadSave();
   const saved = store("stanna_touch");
   const coarse = matchMedia("(pointer: coarse)").matches || "ontouchstart" in window ||
     navigator.maxTouchPoints > 0;

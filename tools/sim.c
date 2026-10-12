@@ -7,9 +7,9 @@
 #include <stdlib.h>
 #include "../src/game.h"
 
-#define MAP_W 56
+#define MAP_W 72
 #define MAP_H 28
-#define MAP_N 1568
+#define MAP_N 2016
 #define LIMIT (40 * 60 * 30)
 
 extern U8 sa_map[MAP_N];

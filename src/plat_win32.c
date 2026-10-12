@@ -445,7 +445,7 @@ void __cdecl SaEntry(void)
     if (f < 1 || f > 6)
       f = 4;
     SaDebugWorld(f - 1);
-    ExitProcess(out && save_bmp(out, sa_world, 896, 448, 1) ? 0 : 1);
+    ExitProcess(out && save_bmp(out, sa_world, 1152, 448, 1) ? 0 : 1);
   }
   if (a && str_eq(a, "-autoplay"))
     autoplay_out = next_arg(&p);

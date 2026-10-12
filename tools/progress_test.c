@@ -7,8 +7,8 @@
 #include <stdlib.h>
 #include "../src/game.h"
 
-#define MAP_W 56
-#define MAP_N 1568
+#define MAP_W 72
+#define MAP_N 2016
 extern I64 sa_state, sa_floor, sa_px, sa_py, sa_task, sa_it_n, sa_it_f[], sa_it_x[], sa_it_y[],
     sa_it_t[], sa_it_got[], sa_tvalid[], sa_tf[], sa_troam[], sa_tfollow[], sa_next_ring,
     sa_unlock[], sa_pool_open, sa_power, sa_task_item[], sa_task_floor[], sa_dist[], sa_deaths,

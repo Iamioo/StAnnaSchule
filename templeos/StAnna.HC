@@ -66,12 +66,12 @@ U0 SaPlatSound(I64 id)
  * rooms, signs and music. Included by game.c (and inlined into the HolyC
  * port by tools/make_holyc.py), so it uses the same plain C subset. */
 
-#define MAP_W 56
+#define MAP_W 72
 #define MAP_H 28
-#define MAP_N 1568
-#define WORLD_W 896
+#define MAP_N 2016
+#define WORLD_W 1152
 #define WORLD_H 448
-#define WORLD_N 401408
+#define WORLD_N 516096
 #define NFLOORS 6
 
 #define ART_LOCKER 0
@@ -146,8 +146,8 @@ U0 SaPlatSound(I64 id)
 #define ART_POR_CL 898
 #define ART_COUNT 922
 
-#define NROOMS 53
-#define NLABELS 45
+#define NROOMS 61
+#define NLABELS 51
 
 U8 sa_pal[48] = {
   0x00, 0x00, 0x00,  0x14, 0x10, 0x1c,  0x2e, 0x2a, 0x40,  0x4c, 0x47, 0x66,
@@ -574,179 +574,179 @@ U8 *sa_art[ART_COUNT] = {
  *   W phone desk.  Markers: K key spot, P player, H Herr Thuener. */
 U8 *sa_floor_src[168] = {
   /* ---- 1. Etage: Schwimmbad ---- */
-  "##w####w####w####w####w####w####w####w####w####w####w###",
-  "#tttttttttttttttttttttttttttttttttttttttttttttttttttttt#",
-  "#tt~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~tt#",
-  "#tt~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~tt#",
-  "#tt~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~tt#",
-  "#tt~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~tt#",
-  "#tt~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~tt#",
-  "#tt~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~tt#",
-  "#tt~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~tt#",
-  "#tt~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~tt#",
-  "#tttttttttttttttttttttttttttttttttttttttttttttttttttttt#",
-  "#tNNttttttttttttttttttttttttttttttttttttttttttttttttNNt#",
-  "##qqqq##qqqq##qqqq##qqqq###XX###qqqq##qqqq##qqqq##qqqq##",
-  "#--------NN----------------------------NN--------------#",
-  "#-----------------------------------------------------V#",
-  "#------------------------------------------------------#",
-  "#---LLL------LLL------------------------LLL-------LLL--#",
-  "##..zz######D############D########D############D########",
-  "#......#LLLLttttLLLLL#ttttttt#LLLLttttLLLL#............#",
-  "#^.....#ttttttttttttt#ttttttt#tttttttttttt#R..TTT....RR#",
-  "#^.....#tNNNNtttNNNNt#ttttttt#tNNNNttNNNNt#............#",
-  "#^.....#tttttttttttttDtttttttDtttttttttttt#oo........oo#",
-  "########tNNNNtttNNNNt#ttttttt#tNNNNttNNNNt#oo........oo#",
-  "########ttttttttttttt#ttttttt#ttttttttttttD............#",
-  "########LLLttttttKLLL#ttttttt#LLLttttttLLL#....K.......#",
-  "########ttttttttttttt#ttttttt#tttttttttttt#............#",
-  "########LLLLLLLLLLLLL#S#S#S#S#LLLLLLLLLLLL#RRR......LLL#",
-  "########################################################",
+  "##w####w####w####w####w####w####w####w####w####w####w###################",
+  "#tttttttttttttttttttttttttttttttttttttttttttttttttttttt#################",
+  "#tt~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~tt#################",
+  "#tt~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~tt#################",
+  "#tt~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~tt#################",
+  "#tt~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~tt#################",
+  "#tt~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~tt#################",
+  "#tt~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~tt#################",
+  "#tt~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~tt#################",
+  "#tt~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~tt#################",
+  "#tttttttttttttttttttttttttttttttttttttttttttttttttttttt#################",
+  "#tNNttttttttttttttttttttttttttttttttttttttttttttttttNNt#################",
+  "##qqqq##qqqq##qqqq##qqqq###XX###qqqq##qqqq##qqqq##qqqq##################",
+  "#--------NN----------------------------NN--------------#################",
+  "#-----------------------------------------------------V#################",
+  "#------------------------------------------------------#################",
+  "#---LLL------LLL------------------------LLL-------LLL--#################",
+  "##..zz######D############D########D############D########################",
+  "#......#LLLLttttLLLLL#ttttttt#LLLLttttLLLL#............#################",
+  "#^.....#ttttttttttttt#ttttttt#tttttttttttt#R..TTT....RR#################",
+  "#^.....#tNNNNtttNNNNt#ttttttt#tNNNNttNNNNt#............#################",
+  "#^.....#tttttttttttttDtttttttDtttttttttttt#oo........oo#################",
+  "########tNNNNtttNNNNt#ttttttt#tNNNNttNNNNt#oo........oo#################",
+  "########ttttttttttttt#ttttttt#ttttttttttttD............#################",
+  "########LLLttttttKLLL#ttttttt#LLLttttttLLL#....K.......#################",
+  "########ttttttttttttt#ttttttt#tttttttttttt#............#################",
+  "########LLLLLLLLLLLLL#S#S#S#S#LLLLLLLLLLLL#RRR......LLL#################",
+  "########################################################################",
   /* ---- 2. Etage: Sporthalle ---- */
-  "####yyyyyyy##w###w###j###w###w##yyyyyyy#######w####w####",
-  "#ffffffffffffffffffffffffffffffffffffffffff#oo.oo.oo.oo#",
-  "#fmmmmfffffffffffffffffffffffffffffffffmmmm#...........#",
-  "#fmmmmfffffffffffffffffffffffffffffffffmmmm#mmm....mmm.#",
-  "#ffffffffffffffffffffffffffffffffffffffffff#...........#",
-  "#ffffffffffffffffffffffffffffffffffffffffff#ooo....ooo.#",
-  "#ffffffffffffffffffffffffffffffffffffffffffD...........#",
-  "#ffffffffffffffffffffffffffffffffffffffffff#....K......#",
-  "#ffffffffffffffffffffffffffffffffffffffffff#...........#",
-  "#ffffffffffffffffffffffffffffffffffffffffff#RRR....RRR.#",
-  "#fNNNNffffffffffffffffffffffffffffffffNNNNf#...........#",
-  "#ffffffffffffffffffffffffffffffffffffffffff#L........LL#",
-  "##########DD########n##########DD###u#############D#####",
-  "#--------------LLLL-----LLLL---------------------------#",
-  "#-----------------------------------------------------V#",
-  "#------------------------------------------------------#",
-  "#---LLL------LLL------------------------LLL-------LLL--#",
-  "##..zz######D############D########D############D########",
-  "#......#LLLLttttLLLLL#ttttttt#LLLLttttLLLL#,,,,,,,,,,,,#",
-  "#^....v#ttttttttttttt#ttttttt#tttttttttttt#R,,TTT,,,,RR#",
-  "#^....v#tNNNNtttNNNNt#ttttttt#tNNNNttNNNNt#,,,,,,,,,,,,#",
-  "#^....v#tttttttttttttDtttttttDtttttttttttt#,,,,,,,,,,,,#",
-  "########tNNNNtttNNNNt#ttttttt#tNNNNttNNNNt#oo,,,,,,,,oo#",
-  "########ttttttttttttt#ttttttt#ttttttttttttD,,,,,,,,,,,,#",
-  "########LLLttttttKLLL#ttttttt#LLLttttttLLL#,,,,,,,,,,K,#",
-  "########ttttttttttttt#ttttttt#tttttttttttt#,,,,,,,,,,,,#",
-  "########LLLLLLLLLLLLL#S#S#S#S#LLLLLLLLLLLL#RRR,,,,,,LLL#",
-  "########################################################",
+  "####yyyyyyy##w###w###j###w###w##yyyyyyy#######w####w####################",
+  "#ffffffffffffffffffffffffffffffffffffffffff#oo.oo.oo.oo#################",
+  "#fmmmmfffffffffffffffffffffffffffffffffmmmm#...........#################",
+  "#fmmmmfffffffffffffffffffffffffffffffffmmmm#mmm....mmm.#################",
+  "#ffffffffffffffffffffffffffffffffffffffffff#...........#################",
+  "#ffffffffffffffffffffffffffffffffffffffffff#ooo....ooo.#################",
+  "#ffffffffffffffffffffffffffffffffffffffffffD...........#################",
+  "#ffffffffffffffffffffffffffffffffffffffffff#....K......#################",
+  "#ffffffffffffffffffffffffffffffffffffffffff#...........#################",
+  "#ffffffffffffffffffffffffffffffffffffffffff#RRR....RRR.#################",
+  "#fNNNNffffffffffffffffffffffffffffffffNNNNf#...........#################",
+  "#ffffffffffffffffffffffffffffffffffffffffff#L........LL#################",
+  "##########DD########n##########DD###u#############D#####################",
+  "#--------------LLLL-----LLLL---------------------------#################",
+  "#-----------------------------------------------------V#################",
+  "#------------------------------------------------------#################",
+  "#---LLL------LLL------------------------LLL-------LLL--#################",
+  "##..zz######D############D########D############D########################",
+  "#......#LLLLttttLLLLL#ttttttt#LLLLttttLLLL#,,,,,,,,,,,,#################",
+  "#^....v#ttttttttttttt#ttttttt#tttttttttttt#R,,TTT,,,,RR#################",
+  "#^....v#tNNNNtttNNNNt#ttttttt#tNNNNttNNNNt#,,,,,,,,,,,,#################",
+  "#^....v#tttttttttttttDtttttttDtttttttttttt#,,,,,,,,,,,,#################",
+  "########tNNNNtttNNNNt#ttttttt#tNNNNttNNNNt#oo,,,,,,,,oo#################",
+  "########ttttttttttttt#ttttttt#ttttttttttttD,,,,,,,,,,,,#################",
+  "########LLLttttttKLLL#ttttttt#LLLttttttLLL#,,,,,,,,,,K,#################",
+  "########ttttttttttttt#ttttttt#tttttttttttt#,,,,,,,,,,,,#################",
+  "########LLLLLLLLLLLLL#S#S#S#S#LLLLLLLLLLLL#RRR,,,,,,LLL#################",
+  "########################################################################",
   /* ---- 3. Etage: Kunst und Physik (Fluchtplan Ebene 3, gespiegelt) ---- */
-  "########################################################",
-  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAqRRR,RRR,R#o,,#UtU#,,TTT,,#",
-  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAq,,,,,,,,,#,,,#ttt#,,,,,,,#",
-  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAq,,,,,,R,,#,,,#ttt#,TT,,,,#",
-  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAq####D######D###D#####D####",
-  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAq------------------------V#",
-  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAq-----LLL---LL---LL-------#",
-  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAq--################D#######",
-  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAq--#RRR,,,,RRRR#RR,,,,RR,,#",
-  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAqq--D,,,,,,,,,,,#,,,,,,,,,,#",
-  "#AAAAAAAAAAAAAAAAAAAAAAAAAAqq---#,,,,,,,o,o,#,TTT,TTT,,#",
-  "#AAAAAAAAAAAAAAAAAAAAAAAAAqq---#######D######,,,,,,,,,,#",
-  "#AAAAAAAAAAAAAAAAAAAAAAAAqq---D,#,,,,,,,,,,,#,TTT,,TT,,#",
-  "#AAAAAAAAAAAAAAAAAAAAAAAqq---#,,D,TTT,TTT,TTT#####D#####",
-  "#qqqqqqqqqqqqqqqqqqqqqqqq---#,,,#,,,,,,,,,,,#,,,,,,,,,,#",
-  "#---------------------------#,,,#,TTT,TTT,,J#,,,,,,,,,,#",
-  "#------------LL---LLL-------#RRO#,,,,,,,,,,,#GGG,,,R,,,#",
-  "##..zz####D####D######D####D##############D#######D#####",
-  "#......#LL,LL#UttU#LLL,LLL#,,,,,,,,,,,,,,#,,,,,,,,,,,,,#",
-  "#^....v#,,,,,#tttt#,,,,,,,#,J,J,J,,J,J,,,#,J,J,J,J,J,J,#",
-  "#^....v#,,,,,#tttt#,,,,,,,#,,,,,,,,,,,,,,#,,,,,,,,,,,,,#",
-  "#^....v#,,,,,#tttt#,NNNNN,#,,TT,TT,TT,TT,#,,TT,TT,TT,TT#",
-  "########,NNN,#tttt#,,,,,,,#,,,,,,,,,,,,,,D,,,,,,,,,,,,,#",
-  "########,,,,,#tttt#,,,,,,,#,,TT,TT,TT,TT,#,,TT,TT,TT,TT#",
-  "########,,,,,#tttt#,NNNNN,#,,,,,,,,,,,,,,#,,,,,,,,,,,,,#",
-  "########,,,,,#SStt#,,,,,,,#,,TT,TT,TT,,,,#,,,,,,,,,,,,,#",
-  "########LLLLL#tttt#LLL,LLL#,,,,,,,,,,RRRO#,RR,,,,,,RRR,#",
-  "########################################################",
+  "########################################################################",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAqUtUt#RR,,RR#o,R##o,o#RRRRRRRR#UtU#,,TTT,,#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAqtttt#,,,,,,#,,,##,,,#,,,,,,,,#ttt#,,,,,,,#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAqtttt#,o,,,,#,,,##,,,#RR,R,,RR#ttt#,TT,,,,#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAq##D#####D####D####D######D#####D#####D####",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAq---------------D------------------------V#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAq----LLL---LL---D-----LLL------LL--LL-----#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAq--##################D########D#######D####",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAq--#RRR,,,,RRRR##RR,,,,,,RR#RR,RRR#GGG,,RR#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAqq--D,,,,,,,,,,,##,,,,,,,,,,#,,,,,,#,,,,,,,#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAqq---#,,,,,,,o,o,##,TTT,TTT,,#,o,,o,#,,,,,,,#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAqq---#######D#######,,,,,,,,,,#,,,,,,#,BBBBS,#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAqq---D,#,,,,,,,,,,,##,TTT,TTT,,D,,,,,,D,,,,,,,#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAqq---#,,D,TTT,TTT,TTT#,,,,,,,,,,#RR,RR,#,,,,,,,#",
+  "#qqqqqqqqqqqqqqqqqqqqqqqq---#,,,#,,,,,,,,,,,##,TTT,TTT,,#,,,,,,#,BBBBS,#",
+  "#---------------------------#,,,#,TTT,TTT,,J##,,,,,,,,,,#,,,,,,#,,,,,,,#",
+  "#------------LL---LLL-------#RRO#,,,,,,,,,,,##GG,,,,,,O,#GGGGGG#RR,,OR,#",
+  "##..zz####D####D######D####D##############D#######D#####################",
+  "#......#LL,LL#UttU#LLL,LLL#,,,,,,,,,,,,,,#,,,,,,,,,,,,,#################",
+  "#^....v#,,,,,#tttt#,,,,,,,#,J,J,J,,J,J,,,#,J,J,J,J,J,J,#################",
+  "#^....v#,,,,,#tttt#,,,,,,,#,,,,,,,,,,,,,,#,,,,,,,,,,,,,#################",
+  "#^....v#,,,,,#tttt#,NNNNN,#,,TT,TT,TT,TT,#,,TT,TT,TT,TT#################",
+  "########,NNN,#tttt#,,,,,,,#,,,,,,,,,,,,,,D,,,,,,,,,,,,,#################",
+  "########,,,,,#tttt#,,,,,,,#,,TT,TT,TT,TT,#,,TT,TT,TT,TT#################",
+  "########,,,,,#tttt#,NNNNN,#,,,,,,,,,,,,,,#,,,,,,,,,,,,,#################",
+  "########,,,,,#SStt#,,,,,,,#,,TT,TT,TT,,,,#,,,,,,,,,,,,,#################",
+  "########LLLLL#tttt#LLL,LLL#,,,,,,,,,,RRRO#,RR,,,,,,RRR,#################",
+  "########################################################################",
   /* ---- 4. Etage: Chemie und Musik (Fluchtplan Ebene 4, gespiegelt) - Start ---- */
-  "########################################################",
-  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAq-V#MM,,,QQ,,,,,MM,,#",
-  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAq--D,,,,,,,,,,,,,,,,#",
-  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAq--#,T,T,T,T,T,T,T,,#",
-  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAq--#,,,,,,,,,,,,,,O,#",
-  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAq--##################",
-  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAq--#MM,,,,,,,,,,MM,,#",
-  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAq--D,,,,,,,,,,,,,,,,#",
-  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqq--#,T,T,T,T,T,T,T,,#",
-  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqq---##################",
-  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqq---#,,,,,,,,,#########",
-  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqq---#,,,,QQ,,o,#UtUtUtt#",
-  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAqq---D,,,,,,,,,,,#ttttttt#",
-  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAqq---#,,,,,,,,,,,,Dttttttt#",
-  "#qqqqqqqqqqqqqqqqqqqqqqqqqqqqq---#,,,,,,,o,,,o,#ttttttt#",
-  "#--------------------------------#,,,,,,,,,,,,,#ttttttt#",
-  "#-----------LLL-----LLL-----LL---#,,RRR,,RR,,RR#ttttSSt#",
-  "##..zz####D########D######D#####D###########D###########",
-  "#......#GcccHccccccccc#GGccGGGc#ccGGGccccccccGGccccGGcc#",
-  "#^....v#cccTTTTTcccccc#cccccccc#ccccccccccccccccccccccc#",
-  "#^....v#cccccccccccccc#cRRcRRcc#ccBBBBSccSBBBBccBBBBScc#",
-  "#^....v#cBBBBSccSBBBBc#cccccccc#ccccccccccccccccccccccc#",
-  "########cccccccccccccc#cRRcRRcc#ccBBBBSccSBBBBccBBBBScc#",
-  "########cBBBBSccSBBBBc#cccccccc#ccccccccccccccccccccccc#",
-  "########cccccccccccccc#cRRcRRcc#ccBBBBSccSBBBBccBBBBScc#",
-  "########cccccPcccccccc#cccccccc#ccccccccccccccccccccccc#",
-  "########RRccccccccORcc#Zccccccc#cRRccccccccccccccRRRccc#",
-  "########################################################",
+  "########################################################################",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAq-V#MM,,,QQ,,,,,MM,,#Z,,RR,,,,,RR,,O#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAq--D,,,,,,,,,,,,,,,,#,,,,,,,,,,,,,,,#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAq--#,T,T,T,T,T,T,T,,#,BBBBS,,SBBBB,,#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAq--##################,,,,,,,,,,,,,,,#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAq--D,,,,,,,,,,,,,,MM#,TT,TT,,TT,TT,,#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAq--#,,T,,T,,T,,T,,,,#,,,,,,,,,,,,,,,#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAq--########################D#########",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqq-------------------D---------------#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqq--------------------D--------LLL----#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqq---#############D#########D###########",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqq---#,,,,QQ,,o,#UtttUtt#RRRR,RR,,RRRRR,#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAqq---D,,,,,,,,,,,#ttttttt#,,,,,,,,,,,,,,,#",
+  "#AAAAAAAAAAAAAAAAAAAAAAAAAAAAqq---#,,,,,,,,,,,,#ttttttt#,RR,RR,,RR,RR,,#",
+  "#qqqqqqqqqqqqqqqqqqqqqqqqqqqqq---#,,,,,,,o,,,o,#ttttttt#,,,,,,,,,,,,,,,#",
+  "#--------------------------------#,,,,,,,,,,,,,#ttttttt#,,,,,,,,,,,,,,,#",
+  "#-----------LLL-----LLL-----LL---#,,RRR,,RR,,RR#ttttSSt#GGG,,O,,Z,,GGG,#",
+  "##..zz####D########D######D#####D###########D###########################",
+  "#......#GcccHccccccccc#GGccGGGc#ccGGGccccccccGGccccGGcc#################",
+  "#^....v#cccTTTTTcccccc#cccccccc#ccccccccccccccccccccccc#################",
+  "#^....v#cccccccccccccc#cRRcRRcc#ccBBBBSccSBBBBccBBBBScc#################",
+  "#^....v#cBBBBSccSBBBBc#cccccccc#ccccccccccccccccccccccc#################",
+  "########cccccccccccccc#cRRcRRcc#ccBBBBSccSBBBBccBBBBScc#################",
+  "########cBBBBSccSBBBBc#cccccccc#ccccccccccccccccccccccc#################",
+  "########cccccccccccccc#cRRcRRcc#ccBBBBSccSBBBBccBBBBScc#################",
+  "########cccccPcccccccc#cccccccc#ccccccccccccccccccccccc#################",
+  "########RRccccccccORcc#Zccccccc#cRRccccccccccccccRRRccc#################",
+  "########################################################################",
   /* ---- 5. Etage: Umgang Forum und Schulhof (Fluchtplan Ebene 5) ---- */
-  "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
-  "F#####rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrq__;;;;;;;;;;;;;;F",
-  "F####rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrq__;;Y;;;;;;;;;;;F",
-  "F###rrrqqqqqqqqqqqqqqqqqqqqqqqqqqqqqrrq__;;;;;;;;;Y;;;;F",
-  "F##rrrqqAAAAAAAAAAAAAAAAAAAAAAAAAAAqrrq__;;;;;;;;;;;;;;F",
-  "F#rrrqqAAAAAAAAAAAAAAAAAAAAAAAAAAAAqrrD__;;;;;;;;;;;;Y;F",
-  "FrrrqqAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqrrq__;;;;;;;;;;;;;;F",
-  "FrrqqAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqrrq________________F",
-  "FrrqAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqrrq________________F",
-  "FrrqAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqqrrD________________F",
-  "FrrqAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqqrrrq________________F",
-  "FrrqAAAAAAAAAAAAAAAAAAAAAAAAAAAAqqrrrqq________________F",
-  "FrrqAAAAAAAAAAAAAAAAAAAAAAAAAAAqqrrrqq_______NN___NN___F",
-  "FrrqAAAAAAAAAAAAAAAAAAAAAAAAAAqqrrrqq__________________F",
-  "Frrqqqqqqqqqqqqqqqqqqqqqqqqqqqqrrrqq___________________F",
-  "Frrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrqq____________________F",
-  "Frrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrq_____________________F",
-  "##..zz##qqqqqqDqqqqqqqqqqqDqqqqqqq_____________________F",
-  "#......#;;;;;_______________________________;;;;;;;;;;;F",
-  "#^....v#;Y;;;_______________________________;;;NNN;NNN;F",
-  "#^....v#;;;;;_______________________________;;Y;;;;;;;;F",
-  "#^....v#;;;;;_______________________________;;;;;;;;;;;F",
-  "########;;;;;_________NN____NN______________;;;;;;;;;;;F",
-  "########;;;;;_______________________________;;;;;;;;Y;;F",
-  "########;;Y;;_______________________________;;;;;;;;;;;F",
-  "########;;;;;_______________________________;;;;;Y;;;;;F",
-  "########;;;;;_______________________________;;;;;;;;;;;F",
-  "########FFFFFFFFFFFFFFFFFFFFFFeeFFFFFFFFFFFFFFFFFFFFFFFF",
+  "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
+  "F#####rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrq__;;;;;;;;;;;;;;;;;;;;;;;;;;;;Y;F",
+  "F####rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrq__;;Y;;;;;;;;;;;;;;;;Y;;;;;;;;;;F",
+  "F###rrrqqqqqqqqqqqqqqqqqqqqqqqqqqqqqrrq__;;;;;;;;;Y;;;;;;;;;;;;;;;;;;;;F",
+  "F##rrrqqAAAAAAAAAAAAAAAAAAAAAAAAAAAqrrq__;;;;;;;;;;;;;;;;;;;;;;;;;Y;;;;F",
+  "F#rrrqqAAAAAAAAAAAAAAAAAAAAAAAAAAAAqrrD__;;;;;;;;;;;;Y;;;;;;;;;;;;;;;;;F",
+  "FrrrqqAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqrrq__;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;F",
+  "FrrqqAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqrrq________________________________F",
+  "FrrqAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqrrq________________________________F",
+  "FrrqAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqqrrD___________________;;;;;;;;;;;;;F",
+  "FrrqAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqqrrrq___________________;;;;;;;;;;;;;F",
+  "FrrqAAAAAAAAAAAAAAAAAAAAAAAAAAAAqqrrrqq___________________;;;;Y;;;;;;;;F",
+  "FrrqAAAAAAAAAAAAAAAAAAAAAAAAAAAqqrrrqq_______NN___NN______;;;;;;;;;;;;;F",
+  "FrrqAAAAAAAAAAAAAAAAAAAAAAAAAAqqrrrqq_____________________;;;;;;;;;;Y;;F",
+  "Frrqqqqqqqqqqqqqqqqqqqqqqqqqqqqrrrqq______________________;;;;;;;;;;;;;F",
+  "Frrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrqq_______________________;;;;;;;;;;;;;F",
+  "Frrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrq__________________________NNN___NNN__F",
+  "##..zz##qqqqqqDqqqqqqqqqqqDqqqqqqq_____________________________________F",
+  "#......#;;;;;_______________________________;;;;;;;;;;;;;;;;;;;;;;;;;;;F",
+  "#^....v#;Y;;;_______________________________;;;NNN;NNN;;;;Y;;;;;;;;;;;;F",
+  "#^....v#;;;;;_______________________________;;Y;;;;;;;;;;;;;;;;;;;;;;;;F",
+  "#^....v#;;;;;_______________________________;;;;;;;;;;;;;;;;;;;;;;;;;;;F",
+  "########;;;;;_________NN____NN______________;;;;;;;;;;;;;;;;;;;;Y;;;;;;F",
+  "########;;;;;_______________________________;;;;;;;;Y;;;;;;;;;;;;;;;;;;F",
+  "########;;Y;;_______________________________;;;;;;;;;;;;;;;;;;;;;;;;;;;F",
+  "########;;;;;_______________________________;;;;;Y;;;;;;;;;;;;;;;;;;;Y;F",
+  "########;;;;;_______________________________;;;;;;;;;;;;;;;;;;;;;;;;;;;F",
+  "########FFFFFFFFFFFFFFFFFFFFFFeeFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
   /* ---- 6. Etage: Haupteingang ---- */
-  "####w###w######EE######w###w######w#####w#####w#####w###",
-  "#hhhhhhhhhhhhhhhhhhhhhhhhhhhhhh#,,,,,,,,,,,#,,,,,,,,,,,#",
-  "#IhhhhhhhhhhhhhhhhhhhhhhhhhhhhI#R,,,,,,,,,R#R,,,,,,,,,R#",
-  "#Ihhh#hhhhhhhhhhhhhhhhhhhh#hhhI#,,WWW,,,,,,#,,,TTTT,,,,#",
-  "#hhhhhhhhhhhhhhhhhhhhhhhhhhhhhh#,,,,,,,,,,,#,,,,,,,,,,,#",
-  "#NhhhhhhhhhhhhhhhhhhhhhhhhhhhhN#,,,,,,,,,,,#,,,,,,,,,,,#",
-  "#Ihhh#hhhhhhhhhhhhhhhhhhhh#hhhI#RR,,,,,,,RR#O,,,,,,,,,O#",
-  "#hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhD,,,,,,,,,,,D,,,,,,,,,,,#",
-  "#hhhhhhhhhhhhhhhhhhhhhhhhhhhhhh#,,,,,,,,,,,#,,,,,,,,,,,#",
-  "#Ohhh#hhhhhhhhhhhhhhhhhhhh#hhhO#O,,,,,,,,,O#RRR,,,,,RRR#",
-  "#hhhhhhhhhhhhhhhhhhhhhhhhhhhhhh#,,,,,,,,,,,#,,,,,,,,,,,#",
-  "#OhhhhhhhhhhhhhhhhhhhhhhhhhhhhO#,,,,,,,,,,,#,,,,,,,,,,,#",
-  "########hhhhhhhhhhhhhhhh#############D###########D######",
-  "#------------------------------------------------------#",
-  "#-----------------------------------------------------V#",
-  "#------------------------------------------------------#",
-  "#---LLL------LLL------------------------LLL-------LLL--#",
-  "##..zz######D############D########D############D########",
-  "#......#.............#ttttttt#,,,,,,,,,,,,#............#",
-  "#g....v#R...........R#SSttttt#O,,,,,,,,,,O#RRR.RRR.RRR.#",
-  "#g....v#.TT..........Dttttttt#,,TTTTTTTT,,#............#",
-  "#g....v#.............#ttttttt#,,TTTTTTTT,,#RRR.RRR.RRR.#",
-  "########RRR.......RRR#ttttttt#,,,,,,,,,,,,D............#",
-  "########.............#ttttttt#,,,,,,,,,,,,#RRR.RRR.RRR.#",
-  "########.............#ttttttt#,,,,,,,,,,,,#............#",
-  "########.............#ttttttt#,,,,,,,,,,,,#............#",
-  "########LLL.......ooo#U#U#U#U#RR,,,,,,,,RR#L..........L#",
-  "########################################################"
+  "####w###w######EE######w###w######w#####w#####w#####w###################",
+  "#hhhhhhhhhhhhhhhhhhhhhhhhhhhhhh#,,,,,,,,,,,#,,,,,,,,,,,#################",
+  "#IhhhhhhhhhhhhhhhhhhhhhhhhhhhhI#R,,,,,,,,,R#R,,,,,,,,,R#################",
+  "#Ihhh#hhhhhhhhhhhhhhhhhhhh#hhhI#,,WWW,,,,,,#,,,TTTT,,,,#################",
+  "#hhhhhhhhhhhhhhhhhhhhhhhhhhhhhh#,,,,,,,,,,,#,,,,,,,,,,,#################",
+  "#NhhhhhhhhhhhhhhhhhhhhhhhhhhhhN#,,,,,,,,,,,#,,,,,,,,,,,#################",
+  "#Ihhh#hhhhhhhhhhhhhhhhhhhh#hhhI#RR,,,,,,,RR#O,,,,,,,,,O#################",
+  "#hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhD,,,,,,,,,,,D,,,,,,,,,,,#################",
+  "#hhhhhhhhhhhhhhhhhhhhhhhhhhhhhh#,,,,,,,,,,,#,,,,,,,,,,,#################",
+  "#Ohhh#hhhhhhhhhhhhhhhhhhhh#hhhO#O,,,,,,,,,O#RRR,,,,,RRR#################",
+  "#hhhhhhhhhhhhhhhhhhhhhhhhhhhhhh#,,,,,,,,,,,#,,,,,,,,,,,#################",
+  "#OhhhhhhhhhhhhhhhhhhhhhhhhhhhhO#,,,,,,,,,,,#,,,,,,,,,,,#################",
+  "########hhhhhhhhhhhhhhhh#############D###########D######################",
+  "#------------------------------------------------------#################",
+  "#-----------------------------------------------------V#################",
+  "#------------------------------------------------------#################",
+  "#---LLL------LLL------------------------LLL-------LLL--#################",
+  "##..zz######D############D########D############D########################",
+  "#......#.............#ttttttt#,,,,,,,,,,,,#............#################",
+  "#g....v#R...........R#SSttttt#O,,,,,,,,,,O#RRR.RRR.RRR.#################",
+  "#g....v#.TT..........Dttttttt#,,TTTTTTTT,,#............#################",
+  "#g....v#.............#ttttttt#,,TTTTTTTT,,#RRR.RRR.RRR.#################",
+  "########RRR.......RRR#ttttttt#,,,,,,,,,,,,D............#################",
+  "########.............#ttttttt#,,,,,,,,,,,,#RRR.RRR.RRR.#################",
+  "########.............#ttttttt#,,,,,,,,,,,,#............#################",
+  "########.............#ttttttt#,,,,,,,,,,,,#............#################",
+  "########LLL.......ooo#U#U#U#U#RR,,,,,,,,RR#L..........L#################",
+  "########################################################################"
 };
 
 U8 *sa_floor_name[NFLOORS] = {
@@ -760,6 +760,9 @@ U8 sa_sign_c1[NFLOORS] = { 15, 15, 12, 12, 9, 3 };
 U8 sa_sign_c2[NFLOORS] = { 15, 12, 15, 12, 9, 3 };
 U8 sa_sign_dith[NFLOORS] = { 0, 3, 1, 0, 0, 0 };
 
+/* how wide each floor is (tiles); the rest of the 72 columns is solid */
+I64 sa_floor_w[NFLOORS] = { 56, 56, 72, 72, 72, 56 };
+
 /* one extra light per floor (pool light, desk lamp, street lamp, ...) */
 I64 sa_lamp_x[NFLOORS] = { 448, 344, 0, 232, 600, 256 };
 I64 sa_lamp_y[NFLOORS] = { 96, 96, 0, 306, 340, 22 };
@@ -768,28 +771,28 @@ I64 sa_lamp_r[NFLOORS] = { 150, 80, 0, 62, 96, 74 };
 /* rooms: floor, x0, y0, x1, y1 (tiles, inclusive) and name */
 I64 sa_rm_f[NROOMS] = {
   0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-  2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5,
-  5, 5, 5
+  2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4,
+  4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5
 };
 I64 sa_rm_x0[NROOMS] = {
-  1, 1, 1, 8, 22, 30, 43, 1, 44, 1, 1, 8, 22, 30, 43, 8, 14, 19, 27, 42, 29, 33, 33, 45, 45,
-  30, 40, 44, 48, 1, 1, 8, 23, 32, 39, 39, 48, 34, 1, 1, 1, 8, 39, 1, 1, 32, 44, 1, 1, 8,
-  22, 30, 43
+  1, 1, 1, 8, 22, 30, 43, 1, 44, 1, 1, 8, 22, 30, 43, 8, 14, 19, 27, 42, 29, 33, 33, 30, 35,
+  42, 47, 51, 60, 64, 46, 57, 64, 45, 1, 1, 8, 23, 32, 39, 39, 48, 34, 56, 56, 38, 1, 1, 1, 8,
+  39, 1, 1, 32, 44, 1, 1, 8, 22, 30, 43
 };
 I64 sa_rm_y0[NROOMS] = {
-  1, 13, 18, 18, 18, 18, 18, 1, 1, 13, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 11, 8, 12, 8, 14,
-  1, 1, 1, 1, 18, 1, 18, 18, 18, 1, 6, 11, 10, 18, 1, 18, 18, 1, 1, 1, 1, 1, 13, 18, 18,
-  18, 18, 18
+  1, 13, 18, 18, 18, 18, 18, 1, 1, 13, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 11, 8, 12, 1, 1,
+  1, 1, 1, 1, 1, 8, 8, 8, 4, 18, 1, 18, 18, 18, 1, 5, 11, 11, 1, 11, 7, 18, 1, 18, 18,
+  1, 1, 1, 1, 1, 13, 18, 18, 18, 18, 18
 };
 I64 sa_rm_x1[NROOMS] = {
-  54, 54, 6, 20, 28, 41, 54, 42, 54, 54, 6, 20, 28, 41, 54, 12, 17, 25, 40, 54, 31, 43, 43, 54, 54,
-  38, 42, 46, 54, 6, 54, 21, 30, 54, 54, 54, 54, 46, 6, 38, 6, 54, 54, 38, 30, 42, 54, 54, 6, 20,
-  28, 41, 54
+  54, 54, 6, 20, 28, 41, 54, 42, 54, 54, 6, 20, 28, 41, 54, 12, 17, 25, 40, 54, 31, 43, 43, 33, 40,
+  44, 49, 58, 62, 70, 55, 62, 70, 70, 6, 44, 21, 30, 54, 54, 54, 54, 46, 70, 70, 70, 6, 38, 6, 70,
+  70, 38, 30, 42, 54, 54, 6, 20, 28, 41, 54
 };
 I64 sa_rm_y1[NROOMS] = {
-  11, 16, 21, 26, 26, 26, 26, 11, 11, 16, 21, 26, 26, 26, 26, 26, 26, 26, 26, 26, 16, 10, 16, 12, 16,
-  3, 3, 3, 3, 21, 17, 26, 26, 26, 4, 8, 16, 16, 21, 17, 21, 26, 17, 17, 11, 11, 11, 16, 21, 26,
-  26, 26, 26
+  11, 16, 21, 26, 26, 26, 26, 11, 11, 16, 21, 26, 26, 26, 26, 26, 26, 26, 26, 26, 16, 10, 16, 3, 3,
+  3, 3, 3, 3, 3, 16, 16, 16, 7, 21, 17, 26, 26, 26, 3, 6, 16, 16, 6, 16, 10, 21, 17, 21, 26,
+  17, 17, 11, 11, 11, 16, 21, 26, 26, 26, 26
 };
 U8 *sa_rm_name[NROOMS] = {
   "SCHWIMMHALLE", "FLUR", "TREPPENHAUS", "UMKLEIDE JUNGEN",
@@ -797,11 +800,13 @@ U8 *sa_rm_name[NROOMS] = {
   "GERAETERAUM", "FLUR", "TREPPENHAUS", "UMKLEIDE JUNGEN",
   "DUSCHEN", "UMKLEIDE MAEDCHEN", "SPORTLEHRER", "3.32 UMKLEIDE",
   "WC", "3.26 UMKLEIDE", "3.23 KUNSTRAUM", "3.20 KUNSTRAUM",
-  "RAUM 3.20", "3.14 KUNST-VORBEREITUNG", "3.14 A KUNST/WERKRAUM", "3.13 PHYSIK-RAUM",
-  "3.12 PHYSIK-VORBEREITUNG", "3.04 BUECHER-KELLER", "RAUM 3.02", "WC",
-  "3.09 PHYSIK-RAUM", "TREPPENHAUS", "FLUR", "4.36 CHEMIE-HOERSAAL",
-  "4.34/4.35 CHEMIE-SAMMLUNG", "4.33 CHEMIE-UEBUNG", "4.25 MUSIK", "4.26 MUSIK",
-  "WC", "4.32 MUSIK-VORBEREITUNG", "TREPPENHAUS", "FLUR",
+  "RAUM 3.20", "3.14 KUNST-VORBEREITUNG", "3.14 A KUNST/WERKRAUM", "WC",
+  "3.13 A", "3.14 B", "RAUM 3.02", "3.04 BUECHER-KELLER",
+  "WC", "3.09 PHYSIK-RAUM", "3.13 PHYSIK-RAUM", "PHYSIK-SAMMLUNG",
+  "3.12 PHYSIK-VORBEREITUNG", "PHYSIK-FLUR", "TREPPENHAUS", "FLUR",
+  "4.36 CHEMIE-HOERSAAL", "4.34/4.35 CHEMIE-SAMMLUNG", "4.33 CHEMIE-UEBUNG", "4.25 MUSIK",
+  "4.26 MUSIK", "WC", "4.32 MUSIK-VORBEREITUNG", "BIOLOGIE",
+  "BIOLOGIE-SAMMLUNG", "BIO-FLUR", "TREPPENHAUS", "FLUR",
   "TREPPENHAUS", "SCHULHOF", "SCHULHOF (DACHFLAECHE E4)", "UMGANG FORUM",
   "EINGANGSHALLE", "SEKRETARIAT", "DIREKTOR", "FLUR",
   "TREPPENHAUS", "HAUSMEISTER", "TOILETTEN", "KONFERENZRAUM",
@@ -810,46 +815,51 @@ U8 *sa_rm_name[NROOMS] = {
 /* 1 = corridor or staircase (nothing is hidden there, Frau Niehaus does
  * not sing there) */
 I64 sa_rm_hall[NROOMS] = {
-  0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0
+  0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0,
+  0
 };
 
 /* signs painted into the world: floor, x, y, text, colour, background */
 I64 sa_lb_f[NLABELS] = {
   0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2,
-  2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5,
-  5, 9, 9, 9, 1
+  2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 5,
+  5, 5, 5, 5, 5, 5, 5, 9, 9, 9, 1
 };
 I64 sa_lb_x[NLABELS] = {
   425, 130, 356, 482, 790, 392, 226, 818, 130, 356, 482, 790,
-  157, 251, 349, 523, 755, 568, 540, 795, 740, 500, 778, 200,
-  440, 560, 730, 730, 650, 820, 478, 364, 700, 236, 612, 812,
-  230, 360, 580, 790, 22, 20, 20, 82, 594
+  157, 251, 349, 523, 755, 568, 540, 830, 1030, 572, 708, 822,
+  961, 1092, 200, 440, 560, 730, 730, 650, 820, 1012, 980, 868,
+  478, 364, 700, 236, 612, 812, 230, 360, 580, 790, 22, 20,
+  20, 82, 594
 };
 I64 sa_lb_y[NLABELS] = {
   199, 277, 277, 277, 277, 20, 197, 197, 277, 277, 277, 277,
-  277, 277, 277, 277, 277, 117, 181, 117, 213, 69, 69, 277,
-  277, 277, 5, 85, 149, 165, 436, 320, 40, 19, 197, 197,
-  277, 277, 277, 277, 290, 290, 290, 290, 197
+  277, 277, 277, 277, 277, 117, 181, 69, 69, 69, 69, 117,
+  117, 117, 277, 277, 277, 5, 69, 165, 165, 117, 165, 117,
+  436, 320, 40, 19, 197, 197, 277, 277, 277, 277, 290, 290,
+  290, 290, 197
 };
 U8 *sa_lb_text[NLABELS] = {
   "GESPERRT", "JUNGEN", "DUSCHE", "MAEDCHEN", "BADEMEISTER", "SCHWIMMHALLE",
   "SPORTHALLE", "GERAETE", "JUNGEN", "DUSCHE", "MAEDCHEN", "SPORT",
   "3.32", "WC", "3.26", "3.23 KUNST", "3.20 KUNST", "3.14 KUNST-VORB.",
-  "3.14A", "3.13 PHYSIK", "3.12", "3.04", "3.09", "4.36 CHEMIE",
-  "4.34/35", "4.33 CHEMIE-UEBUNG", "4.25 MUSIK", "4.26 MUSIK", "4.32", "WC",
+  "3.14A", "3.04", "3.09", "3.13A", "PHYSIK", "3.13 PHYSIK",
+  "SAMMLUNG", "3.12", "4.36 CHEMIE", "4.34/35", "4.33 CHEMIE-UEBUNG", "4.25 MUSIK",
+  "4.26 MUSIK", "4.32", "WC", "BIOLOGIE", "SAMMLUNG", "BIO",
   "TOR ZU", "SCHULHOF", "DACHFLAECHE E4", "AUSGANG", "SEKRETARIAT", "DIREKTOR",
   "HAUSMEISTER", "WC", "KONFERENZ", "ARCHIV", "GESPERRT", "HOCH",
   "HOCH", "RUNTER", "STROM"
 };
 U8 sa_lb_c[NLABELS] = {
   6, 6, 6, 6, 6, 2, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
-  6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 12, 5, 5, 6, 6, 6, 6, 6, 6, 6,
-  12, 5, 5, 5, 15
+  6, 6, 15, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 15, 12, 5, 5, 6,
+  6, 6, 6, 6, 6, 6, 12, 5, 5, 5, 15
 };
 I64 sa_lb_bg[NLABELS] = {
   11, 2, 2, 2, 2, -1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-  2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, -1, -1, 14, 2, 2, 2, 2, 2, 2,
-  1, -1, -1, -1, 1
+  2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, -1, -1, 14,
+  2, 2, 2, 2, 2, 2, 1, -1, -1, -1, 1
 };
 
 /* ---- music (own compositions). MIDI note numbers, 0 = rest. ---- */
@@ -1058,6 +1068,13 @@ U8 *sa_le_say2[NTASKS] = {
   "", "", "IN 4.25 ODER 4.26. DANN GEHT EIN GEHEIMFACH AUF.", "", "DER KASTEN HAENGT IM FLUR AN DER WAND.",
   "", "", "", "", "BEVOR HERR THUENER DICH KRIEGT!" };
 
+/* the three difficulties */
+U8 *sa_mode_name[3] = { "EINFACH", "MITTEL", "SCHWER" };
+U8 *sa_mode_desc[3] = {
+  "CHECKPOINTS, PUTZKRAEFTE SEHEN WENIG",
+  "CHECKPOINTS, PUTZKRAEFTE SEHEN MEHR",
+  "KEINE CHECKPOINTS, KEIN SPEICHERN" };
+
 
 #define ST_TITLE 0
 #define ST_INTRO 1
@@ -1065,6 +1082,13 @@ U8 *sa_le_say2[NTASKS] = {
 #define ST_CAUGHT 3
 #define ST_OVER 4
 #define ST_WIN 5
+#define ST_PAUSE 6
+
+/* difficulty: 0 easy, 1 medium, 2 hard (no checkpoints) */
+#define MODE_EASY 0
+#define MODE_MEDIUM 1
+#define MODE_HARD 2
+#define SA_SAVE_N 4096
 
 /* Herr Thuener (teacher 0) */
 #define TH_SIT 0
@@ -1121,10 +1145,8 @@ U8 *sa_le_say2[NTASKS] = {
 #define SA_CJ_SPEED 520
 #define SA_CALL_CD 1200
 #define SA_CL_SPEED 110
-#define SA_CL_SEE 75
 #define SA_NI_SPEED 140
-#define SA_NI_SING 45
-#define SA_WET 900
+#define SA_WET 1500
 
 #define ENV_MAX 1048576
 
@@ -1136,7 +1158,7 @@ U8 sa_fb[64000];
 U8 sa_world[WORLD_N];
 U8 sa_map[MAP_N];
 U8 sa_vis[MAP_N];
-I64 sa_dist[9408];
+I64 sa_dist[12096];
 I64 sa_wet[MAP_N];
 I64 sa_queue[MAP_N];
 U8 sa_ltab[64];
@@ -1277,6 +1299,28 @@ I64 sa_vh_near = -1;
  * 1 Frau Niehaus, 2 a cleaner */
 I64 sa_msg_face = -1;
 I64 sa_start_room = -1;
+
+/* difficulty and the menus */
+I64 sa_mode = MODE_MEDIUM;
+I64 sa_menu = 0;
+I64 sa_pause_sel = 0;
+U8 *sa_pause_msg = "";
+I64 sa_pause_msg_t = 0;
+/* how long a cleaner needs to recognise you, how far she sees (tiles
+ * squared), and how fast Frau Niehaus gets you singing - per mode */
+I64 sa_md_clsee[3] = { 210, 150, 120 };
+I64 sa_md_clrange[3] = { 36, 64, 81 };
+I64 sa_md_sing[3] = { 70, 45, 35 };
+
+/* the parts of every floor you have already seen, for the map */
+U8 sa_seen[12096];
+
+/* the saved game: the platform keeps it (the browser in localStorage),
+ * sa_save_seq goes up every time it changes */
+U8 sa_save[SA_SAVE_N];
+I64 sa_save_ok = 0;
+I64 sa_save_seq = 0;
+I64 sa_save_pos = 0;
 
 /* Conjoke */
 I64 sa_cj_st = 0;
@@ -2974,8 +3018,10 @@ U0 SaFov()
         x = ox + dx;
         y = oy + dy;
         if (x >= 0 && y >= 0 && x < MAP_W && y < MAP_H)
-          if (SaLosTiles(ox, oy, x, y))
+          if (SaLosTiles(ox, oy, x, y)) {
             sa_vis[y * MAP_W + x] = 1;
+            sa_seen[sa_floor * MAP_N + y * MAP_W + x] = 1;
+          }
       }
 }
 
@@ -3143,8 +3189,8 @@ I64 SaCamTargetX()
     x = ((sa_px >> 8) + (sa_ex[0] >> 8)) / 2 - SCR_W / 2;
   if (x < 0)
     x = 0;
-  if (x > WORLD_W - SCR_W)
-    x = WORLD_W - SCR_W;
+  if (x > sa_floor_w[sa_floor] * 16 - SCR_W)
+    x = sa_floor_w[sa_floor] * 16 - SCR_W;
   return x;
 }
 
@@ -3550,6 +3596,8 @@ U0 SaResetGame()
   sa_ni_valid = FALSE;
   for (i = 0; i < MAP_N; i++)
     sa_wet[i] = 0;
+  for (i = 0; i < 12096; i++)
+    sa_seen[i] = 0;
   SaPlaceItems();
   SaLoadFloor(3);
   SaLerschGo();
@@ -4257,6 +4305,8 @@ U0 SaThunerTick()
   chase = SA_CHASE_BASE + sa_play_ticks / SA_CHASE_RAMP;
   if (chase > SA_CHASE_MAX)
     chase = SA_CHASE_MAX;
+  if (sa_mode == MODE_EASY)
+    chase = chase - 15;
   speed = 0;
   direct = FALSE;
   if (sa_heard_t > 0)
@@ -4617,15 +4667,15 @@ U0 SaCleanerTick(I64 c)
   dx = ptx - ex;
   dy = pty - ey;
   see = FALSE;
-  if (!sa_hidden && sa_ccd[c] == 0 && dx * dx + dy * dy <= 42)
+  if (!sa_hidden && sa_ccd[c] == 0 && dx * dx + dy * dy <= sa_md_clrange[sa_mode])
     see = SaLosTiles(ex, ey, ptx, pty);
   if (see) {
     /* she stops and stares - stay too long and she calls Herr Thuener */
     sa_csee[c]++;
     sa_cst[c] = CL_WATCH;
-    if (sa_csee[c] == 20 && sa_msg_t == 0)
+    if (sa_csee[c] == 40 && sa_msg_t == 0)
       SaSay(2, "PUTZKRAFT: NANU? WER IST DENN DA NOCH?", "(SCHNELL WEG, BEVOR SIE PETZT!)", 70);
-    if (sa_csee[c] >= SA_CL_SEE) {
+    if (sa_csee[c] >= sa_md_clsee[sa_mode]) {
       sa_csee[c] = 0;
       sa_ccd[c] = 900;
       sa_cst[c] = CL_WALK;
@@ -4635,7 +4685,7 @@ U0 SaCleanerTick(I64 c)
       SaSay(2, "PUTZKRAFT: HEEE! HERR THUENER!", "HIER LAEUFT NOCH EIN SCHUELER RUM!", 120);
     }
   } else {
-    sa_csee[c] = sa_csee[c] - 2;
+    sa_csee[c] = sa_csee[c] - 1;
     if (sa_csee[c] < 0)
       sa_csee[c] = 0;
     if (sa_cst[c] == CL_WATCH && sa_csee[c] == 0)
@@ -4773,7 +4823,7 @@ U0 SaNiehausTick()
     }
     sa_emov[e] = FALSE;
     SaFacePlayer(e);
-    if (sa_ni_meter >= SA_NI_SING) {
+    if (sa_ni_meter >= sa_md_sing[sa_mode]) {
       sa_ni_meter = 0;
       sa_ni_st = NI_SING;
       sa_sing_t = 150;
@@ -5108,9 +5158,9 @@ U0 SaPlayTick(I64 keys, I64 pressed)
       sa_wet[i]--;
 
   if ((pressed & K_ESC) != 0) {
-    sa_state = ST_TITLE;
-    sa_timer = 0;
-    sa_ring_t = 0;
+    sa_state = ST_PAUSE;
+    sa_pause_sel = 0;
+    sa_pause_msg_t = 0;
     return;
   }
 
@@ -5612,26 +5662,58 @@ U0 SaDrawWetSign(I64 x, I64 y)
   SaRectFb(x + 4, y - 3, 1, 3, 8);
 }
 
-/* wet tiles shine */
+/* Wet tiles: a blue puddle that shrinks while it dries, with a bright
+ * edge. Neighbouring puddles flow into each other. */
 U0 SaDrawWet(I64 camx, I64 camy)
 {
-  I64 tx, ty, x, y, wx, wy, w, h;
+  I64 tx, ty, x, y, wx, wy, w, r, dx, dy, d, cx, cy;
   for (ty = camy / 16; ty <= (camy + SCR_H) / 16; ty++)
     for (tx = camx / 16; tx <= (camx + SCR_W) / 16; tx++)
       if (tx >= 0 && ty >= 0 && tx < MAP_W && ty < MAP_H) {
         w = sa_wet[ty * MAP_W + tx];
-        if (w > 0)
+        if (w > 0) {
+          r = 5 + w / 180;
+          if (r > 11)
+            r = 11;
+          cx = 6 + (SaHash(tx, ty) & 3);
+          cy = 7 + (SaHash(ty, tx) & 1);
           for (y = 0; y < 16; y++)
             for (x = 0; x < 16; x++) {
-              wx = tx * 16 + x;
-              wy = ty * 16 + y;
-              h = SaHash(wx, wy + 77);
-              if (((wx + wy * 2) % 13) == 0 && h < w / 5)
-                SaPutFb(wx - camx, wy - camy, 6);
-              else if (h < 24 && w > 300)
-                SaPutFb(wx - camx, wy - camy, 13);
+              dx = x - cx;
+              dy = (y - cy) * 3 / 2;
+              d = dx * dx + dy * dy + (SaHash(tx * 16 + x, ty * 16 + y) & 7);
+              if (d < r * r) {
+                wx = tx * 16 + x - camx;
+                wy = ty * 16 + y - camy;
+                if (d > (r - 2) * (r - 2) && dy < 0)
+                  SaPutFb(wx, wy, 6);
+                else if (((x + y * 3) % 5) == 0)
+                  SaPutFb(wx, wy, 5);
+                else
+                  SaPutFb(wx, wy, 13);
+              }
             }
+        }
       }
+}
+
+/* puddles glint in the dark, like the items, so you see them coming */
+U0 SaWetGlint(I64 camx, I64 camy)
+{
+  I64 tx, ty, x, y;
+  for (ty = camy / 16; ty <= (camy + SCR_H) / 16; ty++)
+    for (tx = camx / 16; tx <= (camx + SCR_W) / 16; tx++)
+      if (tx >= 0 && ty >= 0 && tx < MAP_W && ty < MAP_H)
+        if (sa_wet[ty * MAP_W + tx] > 0 && sa_vis[ty * MAP_W + tx] != 0)
+          if (((sa_tick / 4 + tx * 3 + ty * 5) % 10) < 3) {
+            x = tx * 16 + 4 + (SaHash(tx, ty) & 7) - camx;
+            y = ty * 16 + 5 + (SaHash(ty, tx) & 3) - camy;
+            if (SaGetFb(x, y) != 6) {
+              SaPutFb(x, y, 6);
+              SaPutFb(x + 1, y, 13);
+              SaPutFb(x, y + 1, 13);
+            }
+          }
 }
 
 /* Conjoke doing his lengths in the pool, seen through the glass */
@@ -5919,7 +6001,7 @@ U0 SaHud()
   if (sa_ni_meter > 0 && sa_sing_t == 0) {
     SaTextCenter(40, "FRAU NIEHAUS WILL MIT DIR SINGEN!", 15, 1);
     SaRectFb(110, 50, 100, 5, 1);
-    SaRectFb(111, 51, sa_ni_meter * 98 / SA_NI_SING, 3, 15);
+    SaRectFb(111, 51, sa_ni_meter * 98 / sa_md_sing[sa_mode], 3, 15);
   }
   if (sa_alarm_t > 0 && ((sa_tick / 6) & 1) == 0)
     SaTextCenter(60, "! HERR THUENER IST ALARMIERT !", 12, 1);
@@ -5964,8 +6046,8 @@ U0 SaDrawPlay()
     camx = 0;
   if (camy < -26)
     camy = -26;
-  if (camx > WORLD_W - SCR_W)
-    camx = WORLD_W - SCR_W;
+  if (camx > sa_floor_w[sa_floor] * 16 - SCR_W)
+    camx = sa_floor_w[sa_floor] * 16 - SCR_W;
   if (camy > WORLD_H - SCR_H + 30)
     camy = WORLD_H - SCR_H + 30;
   for (y = 0; y < SCR_H; y++) {
@@ -6054,6 +6136,7 @@ U0 SaDrawPlay()
   if (SaTeacherHere(0))
     SaGlint((sa_ex[0] >> 8) - camx, (sa_ey[0] >> 8) - camy);
   SaDrawItems(camx, camy, amb);
+  SaWetGlint(camx, camy);
   if (sa_bomb_t > 0 && SaTeacherHere(0))
     SaDrawStink((sa_ex[0] >> 8) - camx, (sa_ey[0] >> 8) - camy);
   if (sa_cj_st == CJ_FIGHT && sa_cj_tgt >= 0)
@@ -6068,7 +6151,7 @@ U0 SaDrawPlay()
   for (i = 0; i < 2; i++)
     if (sa_cvalid[i] && sa_cf[i] == sa_floor && sa_csee[i] > 0) {
       e = E_CL + i;
-      if (sa_csee[i] > SA_CL_SEE * 2 / 3)
+      if (sa_csee[i] > sa_md_clsee[sa_mode] * 2 / 3)
         SaTextSh((sa_ex[e] >> 8) - camx - 2, (sa_ey[e] >> 8) - camy - 40, "!", 12, 1, 1);
       else
         SaTextSh((sa_ex[e] >> 8) - camx - 2, (sa_ey[e] >> 8) - camy - 40, "?", 15, 1, 1);
@@ -6106,8 +6189,305 @@ U0 SaDrawPlay()
 }
 
 /* ------------------------------------------------------------------ */
+/* saving and loading                                                  */
+/* ------------------------------------------------------------------ */
+
+U0 SaPut32(I64 v)
+{
+  if (sa_save_pos + 4 > SA_SAVE_N)
+    return;
+  sa_save[sa_save_pos] = (v & 255);
+  sa_save[sa_save_pos + 1] = ((v >> 8) & 255);
+  sa_save[sa_save_pos + 2] = ((v >> 16) & 255);
+  sa_save[sa_save_pos + 3] = ((v >> 24) & 255);
+  sa_save_pos = sa_save_pos + 4;
+}
+
+I64 SaGet32()
+{
+  I64 v;
+  if (sa_save_pos + 4 > SA_SAVE_N)
+    return 0;
+  v = sa_save[sa_save_pos] | (sa_save[sa_save_pos + 1] << 8) |
+      (sa_save[sa_save_pos + 2] << 16) | (sa_save[sa_save_pos + 3] << 24);
+  sa_save_pos = sa_save_pos + 4;
+  return v;
+}
+
+/* the 0/1 values of the map, 8 per byte */
+U0 SaPutSeen()
+{
+  I64 i, b, k;
+  for (i = 0; i < 12096; i = i + 8) {
+    b = 0;
+    for (k = 0; k < 8; k++)
+      if (sa_seen[i + k] != 0)
+        b = (b | (1 << k));
+    if (sa_save_pos < SA_SAVE_N)
+      sa_save[sa_save_pos] = b;
+    sa_save_pos++;
+  }
+}
+
+U0 SaGetSeen()
+{
+  I64 i, b, k;
+  for (i = 0; i < 12096; i = i + 8) {
+    b = 0;
+    if (sa_save_pos < SA_SAVE_N)
+      b = sa_save[sa_save_pos];
+    sa_save_pos++;
+    for (k = 0; k < 8; k++)
+      sa_seen[i + k] = ((b >> k) & 1);
+  }
+}
+
+/* writes the whole run into sa_save: progress, where everything lies,
+ * where you stand, what you have seen of the map */
+U0 SaSaveGame()
+{
+  I64 i;
+  sa_save_pos = 0;
+  SaPut32(5395265);
+  SaPut32(sa_mode);
+  SaPut32(sa_task);
+  SaPut32(sa_power);
+  SaPut32(sa_pool_open);
+  for (i = 0; i < NFLOORS; i++)
+    SaPut32(sa_unlock[i]);
+  for (i = 0; i < 3; i++)
+    SaPut32(sa_code[i]);
+  SaPut32(sa_deaths);
+  SaPut32(sa_play_ticks);
+  SaPut32(sa_floor);
+  SaPut32(sa_px);
+  SaPut32(sa_py);
+  SaPut32(sa_phone);
+  SaPut32(sa_cj_met);
+  SaPut32(sa_it_n);
+  for (i = 0; i < NITEMS; i++) {
+    SaPut32(sa_it_f[i]);
+    SaPut32(sa_it_x[i]);
+    SaPut32(sa_it_y[i]);
+    SaPut32(sa_it_t[i]);
+    SaPut32(sa_it_got[i]);
+  }
+  for (i = 0; i < NITYPES; i++)
+    SaPut32(sa_have[i]);
+  for (i = 0; i < NFLOORS; i++) {
+    SaPut32(sa_le_sx[i]);
+    SaPut32(sa_le_sy[i]);
+  }
+  SaPut32(sa_vh_n);
+  for (i = 0; i < NVEH; i++) {
+    SaPut32(sa_vh_x[i]);
+    SaPut32(sa_vh_y[i]);
+    SaPut32(sa_vh_t[i]);
+    SaPut32(sa_vh_charge[i]);
+    SaPut32(sa_vh_dir[i]);
+  }
+  SaPut32(sa_cf[0]);
+  SaPut32(sa_cf[1]);
+  SaPutSeen();
+  sa_save_ok = TRUE;
+  sa_save_seq++;
+}
+
+/* starts the saved run again where it was saved; the teachers are out of
+ * sight for a moment, like after a checkpoint */
+I64 SaLoadGame()
+{
+  I64 i, f, x, y;
+  if (!sa_save_ok)
+    return FALSE;
+  sa_save_pos = 0;
+  if (SaGet32() != 5395265)
+    return FALSE;
+  sa_mode = SaGet32();
+  if (sa_mode < 0 || sa_mode > 2)
+    sa_mode = MODE_MEDIUM;
+  SaResetGame();
+  sa_task = SaGet32();
+  sa_power = SaGet32();
+  sa_pool_open = SaGet32();
+  for (i = 0; i < NFLOORS; i++)
+    sa_unlock[i] = SaGet32();
+  for (i = 0; i < 3; i++)
+    sa_code[i] = SaGet32();
+  sa_deaths = SaGet32();
+  sa_play_ticks = SaGet32();
+  f = SaGet32();
+  x = SaGet32();
+  y = SaGet32();
+  sa_phone = SaGet32();
+  sa_cj_met = SaGet32();
+  sa_it_n = SaGet32();
+  for (i = 0; i < NITEMS; i++) {
+    sa_it_f[i] = SaGet32();
+    sa_it_x[i] = SaGet32();
+    sa_it_y[i] = SaGet32();
+    sa_it_t[i] = SaGet32();
+    sa_it_got[i] = SaGet32();
+  }
+  for (i = 0; i < NITYPES; i++)
+    sa_have[i] = SaGet32();
+  for (i = 0; i < NFLOORS; i++) {
+    sa_le_sx[i] = SaGet32();
+    sa_le_sy[i] = SaGet32();
+  }
+  sa_vh_n = SaGet32();
+  for (i = 0; i < NVEH; i++) {
+    sa_vh_x[i] = SaGet32();
+    sa_vh_y[i] = SaGet32();
+    sa_vh_t[i] = SaGet32();
+    sa_vh_charge[i] = SaGet32();
+    sa_vh_dir[i] = SaGet32();
+  }
+  sa_cf[0] = SaGet32();
+  sa_cf[1] = SaGet32();
+  SaGetSeen();
+  if (f < 0 || f >= NFLOORS)
+    f = sa_task_floor[sa_task];
+  SaLoadFloor(f);
+  sa_px = x;
+  sa_py = y;
+  if (!SaWalkCh(SaTile(sa_px >> 12, sa_py >> 12))) {
+    sa_px = (3 * 16 + 8) << 8;
+    sa_py = (19 * 16 + 10) << 8;
+  }
+  SaLerschGo();
+  SaSaveCp();
+  /* Herr Thuener and Herr Kirschbaum are somewhere else for now */
+  sa_tvalid[0] = FALSE;
+  sa_tf[0] = f + 1;
+  if (sa_tf[0] > F_TOP)
+    sa_tf[0] = f - 1;
+  sa_tst[0] = TH_WANDER;
+  sa_troam[0] = 600;
+  sa_tfollow[0] = 0;
+  sa_tvalid[1] = FALSE;
+  sa_tf[1] = f - 1;
+  if (sa_tf[1] < 0)
+    sa_tf[1] = f + 1;
+  sa_tst[1] = KB_PATROL;
+  sa_tfollow[1] = 0;
+  for (i = 0; i < 2; i++) {
+    sa_cvalid[i] = FALSE;
+    if (sa_cf[i] == f)
+      SaPlaceCleaner(i, FALSE);
+  }
+  sa_stair_cd = 20;
+  sa_stair_arm = TRUE;
+  sa_sign_t = 80;
+  sa_light_r = 92;
+  SaMsg2("SPIELSTAND GELADEN.", SaGoalText(), 100);
+  SaFov();
+  SaCamSnap();
+  sa_state = ST_PLAY;
+  sa_timer = 0;
+  return TRUE;
+}
+
+/* ------------------------------------------------------------------ */
 /* other screens                                                       */
 /* ------------------------------------------------------------------ */
+
+/* the pause menu with the map of this floor (only what you have seen) */
+U0 SaDrawMap(I64 ox, I64 oy, I64 cs)
+{
+  I64 tx, ty, ch, c, w, k;
+  w = sa_floor_w[sa_floor];
+  SaRectFb(ox - 2, oy - 2, w * cs + 4, MAP_H * cs + 4, 3);
+  SaRectFb(ox - 1, oy - 1, w * cs + 2, MAP_H * cs + 2, 0);
+  for (ty = 0; ty < MAP_H; ty++)
+    for (tx = 0; tx < w; tx++)
+      if (sa_seen[sa_floor * MAP_N + ty * MAP_W + tx] != 0) {
+        ch = SaTile(tx, ty);
+        c = 4;
+        if (SaIsWallCh(ch))
+          c = 2;
+        else if (ch == '-')
+          c = 12;
+        else if (ch == 'r')
+          c = 10;
+        else if (ch == 'A')
+          c = 1;
+        else if (ch == '~')
+          c = 13;
+        else if (ch == ';')
+          c = 14;
+        else if (ch == '_')
+          c = 3;
+        else if (ch == '^' || ch == 'v')
+          c = 15;
+        else if (ch == 'D')
+          c = 6;
+        else if (ch == 'E' || ch == 'e' || ch == 'X' || ch == 'g')
+          c = 11;
+        else if (SaIsFloorCh(ch))
+          c = 5;
+        if (ch == 'q' || ch == 'F')
+          c = 13;
+        SaRectFb(ox + tx * cs, oy + ty * cs, cs, cs, c);
+      }
+  /* Herr Lersch, what you are looking for, and you */
+  if (sa_le_f == sa_floor)
+    SaRectFb(ox + sa_le_tx * cs - 1, oy + sa_le_ty * cs - 1, cs + 2, cs + 2, 13);
+  k = sa_hint;
+  if (k >= 0 && !sa_it_got[k] && sa_it_f[k] == sa_floor && ((sa_tick / 8) & 1) == 0)
+    SaRectFb(ox + sa_it_x[k] * cs - 1, oy + sa_it_y[k] * cs - 1, cs + 2, cs + 2, 15);
+  if (((sa_tick / 6) & 1) == 0)
+    SaRectFb(ox + (sa_px >> 12) * cs - 1, oy + (sa_py >> 12) * cs - 1, cs + 2, cs + 2, 12);
+  else
+    SaRectFb(ox + (sa_px >> 12) * cs, oy + (sa_py >> 12) * cs, cs, cs, 6);
+}
+
+U8 *sa_pause_items[4] = { "WEITERSPIELEN", "SPIEL SPEICHERN", "SPIELSTAND LADEN", "ZUM HAUPTMENUE" };
+
+U0 SaDrawPause()
+{
+  I64 x, y, w, i, c;
+  SaDrawPlay();
+  /* darken the frozen game */
+  for (y = 0; y < SCR_H; y++)
+    for (x = 0; x < SCR_W; x++)
+      if (((x + y) & 1) == 0)
+        sa_fb[y * SCR_W + x] = 0;
+  SaRectFb(0, 0, SCR_W, 12, 1);
+  sa_num_buf[0] = 0;
+  SaStrCat(sa_num_buf, "PAUSE - KARTE ");
+  SaStrNum(sa_num_buf, sa_floor + 1);
+  SaStrCat(sa_num_buf, ". ETAGE");
+  SaTextSh(4, 3, sa_num_buf, 15, 1, 1);
+  SaTextSh(SCR_W - 4 - SaTextW(sa_mode_name[sa_mode], 1), 3, sa_mode_name[sa_mode], 4, 1, 1);
+  w = sa_floor_w[sa_floor] * 4;
+  SaDrawMap((SCR_W - w) / 2, 18, 4);
+  SaTextCenter(134, sa_floor_name[sa_floor], 5, 1);
+  /* legend */
+  SaRectFb(40, 145, 4, 4, 12);
+  SaTextSh(47, 144, "DU", 5, 1, 1);
+  SaRectFb(72, 145, 4, 4, 13);
+  SaTextSh(79, 144, "HERR LERSCH", 5, 1, 1);
+  SaRectFb(152, 145, 4, 4, 15);
+  SaTextSh(159, 144, "ZIEL / TREPPE", 5, 1, 1);
+  SaTextSh(246, 144, "UNERFORSCHT", 3, 1, 1);
+  /* the menu */
+  SaRectFb(70, 154, 180, 44, 1);
+  for (i = 0; i < 4; i++) {
+    c = 4;
+    if (i == sa_pause_sel)
+      c = 15;
+    if ((i == 1 && sa_mode == MODE_HARD) || (i == 2 && !sa_save_ok))
+      c = 3;
+    if (i == sa_pause_sel) {
+      SaTextSh(78, 156 + i * 10, ">", 15, 1, 1);
+      SaTextSh(236, 156 + i * 10, "<", 15, 1, 1);
+    }
+    SaTextCenter(156 + i * 10, sa_pause_items[i], c, 1);
+  }
+  if (sa_pause_msg_t > 0)
+    SaTextCenter(124, sa_pause_msg, 14, 1);
+}
 
 U0 SaDrawSky(I64 flash)
 {
@@ -6203,7 +6583,7 @@ U0 SaDrawSchool(I64 flash, I64 lit)
 
 U0 SaDrawTitle()
 {
-  I64 t, flash, lit;
+  I64 t, flash, lit, c;
   t = sa_timer % 170;
   flash = FALSE;
   if (t < 3 || (t > 6 && t < 9))
@@ -6216,11 +6596,32 @@ U0 SaDrawTitle()
   SaTextSh((SCR_W - SaTextW("ST. ANNA SCHULE", 2)) / 2, 6, "ST. ANNA SCHULE", 12, 11, 2);
   SaTextCenter(26, "HERR THUENER IST NOCH IM HAUS", 6, 1);
   SaTextCenter(37, "6 ETAGEN - 10 AUFGABEN - 18 STICKER", 4, 1);
+  /* the menu: new game with the difficulty, or the saved game */
+  SaRectFb(30, 140, 260, 58, 1);
+  SaRectFb(30, 140, 260, 1, 3);
+  c = 5;
+  if (sa_menu == 0)
+    c = 15;
+  SaStrCpy(sa_mb1, "NEUES SPIEL:  < ");
+  SaStrCat(sa_mb1, sa_mode_name[sa_mode]);
+  SaStrCat(sa_mb1, " >");
+  SaTextCenter(145, sa_mb1, c, 1);
+  c = 3;
+  if (sa_save_ok)
+    c = 5;
+  if (sa_menu == 1)
+    c = 15;
+  if (sa_save_ok)
+    SaTextCenter(157, "SPIELSTAND LADEN", c, 1);
+  else
+    SaTextCenter(157, "(NOCH KEIN SPIELSTAND)", c, 1);
+  SaTextCenter(170, sa_mode_desc[sa_mode], 4, 1);
   if (((sa_timer / 15) % 2) == 0)
-    SaTextCenter(176, SaHint("ENTER DRUECKEN", "TIPPEN ZUM STARTEN", "+ DRUECKEN"), 15, 1);
-  SaTextCenter(188, SaHint("WASD LAUFEN - SHIFT RENNEN - E AKTION - Q HANDY",
+    SaTextCenter(181, SaHint("PFEILE WAEHLEN - ENTER STARTEN", "STEUERKREUZ WAEHLEN - TIPPEN STARTEN",
+                             "STICK WAEHLEN - + STARTEN"), 15, 1);
+  SaTextCenter(191, SaHint("WASD/SHIFT LAUFEN - E AKTION - Q HANDY - ESC PAUSE",
                            "LINKS LAUFEN - RECHTS AKTION/RENNEN/HANDY",
-                           "STICK LAUFEN - B RENNEN - A AKTION - Y HANDY"), 4, 1);
+                           "STICK LAUFEN - B RENNEN - A AKTION - - PAUSE"), 4, 1);
 }
 
 U0 SaDrawIntro()
@@ -6269,7 +6670,11 @@ U0 SaDrawOver()
   SaTextCenter(140, "HERR THUENER HAT DICH ERWISCHT.", 6, 1);
   SaTextCenter(152, sa_over_reason, 4, 1);
   SaTextCenter(164, SaFmtTime("ZEIT BISHER: ", sa_end_ticks), 5, 1);
-  if (((sa_timer / 15) % 2) == 0)
+  if (sa_mode == MODE_HARD) {
+    if (((sa_timer / 15) % 2) == 0)
+      SaTextCenter(178, SaHint("SCHWER: KEIN CHECKPOINT - ENTER = NEU", "SCHWER: KEIN CHECKPOINT - TIPPEN = NEU",
+                               "SCHWER: KEIN CHECKPOINT - A = NEU"), 12, 1);
+  } else if (((sa_timer / 15) % 2) == 0)
     SaTextCenter(178, SaHint("ENTER = WEITER AB CHECKPOINT", "TIPPEN = WEITER AB CHECKPOINT",
                              "A = WEITER AB CHECKPOINT"), 15, 1);
   SaTextCenter(189, SaHint("ESC = AUFGEBEN (MENUE)", "ZURUECK = MENUE", "- = AUFGEBEN (MENUE)"), 3, 1);
@@ -6351,10 +6756,24 @@ I64 SaGameTick(I64 keys)
   if (sa_state == ST_TITLE) {
     if ((pressed & K_ESC) != 0)
       return FALSE;
+    if ((pressed & K_UP) != 0)
+      sa_menu = 0;
+    if ((pressed & K_DOWN) != 0 && sa_save_ok)
+      sa_menu = 1;
+    if (sa_menu == 0) {
+      if ((pressed & K_LEFT) != 0 && sa_mode > 0)
+        sa_mode--;
+      if ((pressed & K_RIGHT) != 0 && sa_mode < 2)
+        sa_mode++;
+    }
     if ((pressed & (K_START | K_ACT)) != 0) {
-      SaResetGame();
-      sa_state = ST_INTRO;
-      sa_timer = 0;
+      if (sa_menu == 1 && sa_save_ok)
+        SaLoadGame();
+      else {
+        SaResetGame();
+        sa_state = ST_INTRO;
+        sa_timer = 0;
+      }
     }
   } else if (sa_state == ST_INTRO) {
     if ((pressed & (K_START | K_ACT | K_ESC)) != 0 || sa_timer > 330) {
@@ -6368,10 +6787,48 @@ I64 SaGameTick(I64 keys)
       sa_state = ST_OVER;
       sa_timer = 0;
     }
+  } else if (sa_state == ST_PAUSE) {
+    if (sa_pause_msg_t > 0)
+      sa_pause_msg_t--;
+    if ((pressed & K_UP) != 0 && sa_pause_sel > 0)
+      sa_pause_sel--;
+    if ((pressed & K_DOWN) != 0 && sa_pause_sel < 3)
+      sa_pause_sel++;
+    if ((pressed & K_ESC) != 0)
+      sa_state = ST_PLAY;
+    else if ((pressed & (K_START | K_ACT)) != 0) {
+      if (sa_pause_sel == 0)
+        sa_state = ST_PLAY;
+      else if (sa_pause_sel == 1) {
+        if (sa_mode == MODE_HARD)
+          sa_pause_msg = "IM SCHWEREN MODUS KANN MAN NICHT SPEICHERN.";
+        else {
+          SaSaveGame();
+          sa_pause_msg = "GESPEICHERT!";
+        }
+        sa_pause_msg_t = 60;
+      } else if (sa_pause_sel == 2) {
+        if (!SaLoadGame()) {
+          sa_pause_msg = "ES GIBT NOCH KEINEN SPIELSTAND.";
+          sa_pause_msg_t = 60;
+        }
+      } else {
+        sa_state = ST_TITLE;
+        sa_timer = 0;
+        sa_ring_t = 0;
+        sa_sing_t = 0;
+      }
+    }
   } else if (sa_state == ST_OVER) {
     if ((pressed & (K_START | K_ACT)) != 0 && sa_timer > 20) {
-      SaContinue();
-      sa_state = ST_PLAY;
+      if (sa_mode == MODE_HARD) {
+        /* no checkpoints: the whole school again */
+        SaResetGame();
+        sa_state = ST_INTRO;
+      } else {
+        SaContinue();
+        sa_state = ST_PLAY;
+      }
       sa_timer = 0;
     } else if ((pressed & K_ESC) != 0) {
       sa_state = ST_TITLE;
@@ -6399,6 +6856,8 @@ U0 SaGameDraw()
     SaDrawCaught();
   else if (sa_state == ST_OVER)
     SaDrawOver();
+  else if (sa_state == ST_PAUSE)
+    SaDrawPause();
   else
     SaDrawWin();
 }
@@ -6716,6 +7175,10 @@ U0 SaDebugScene(I64 n)
     SaPlaceEnt(E_CL, 18, 15);
     sa_egoal[E_CL] = 15 * MAP_W + 18;
     sa_cst[0] = CL_WALK;
+    for (i = 13; i < 21; i++) {
+      SaWetTile(i, 15, SA_WET);
+      SaWetTile(i, 16, SA_WET - i * 40);
+    }
     sa_px = (11 * 16 + 8) << 8;
     sa_py = (16 * 16 + 4) << 8;
     sa_pdir = DIR_RIGHT;
@@ -6733,6 +7196,45 @@ U0 SaDebugScene(I64 n)
       for (i = 0; i < 30; i++)
         SaGameTick(0);
     }
+  } else if (n == 31) {
+    /* the pause menu with the map of the 3rd floor, half explored */
+    sa_task = TK_SHEETS;
+    sa_hint = -1;
+    SaLerschGo();
+    SaGoFloor(2);
+    SaNoThuner();
+    for (i = 0; i < 40; i++) {
+      sa_px = ((2 + i) * 16 + 8) << 8;
+      sa_py = (15 * 16 + 10) << 8;
+      if (i > 26) {
+        sa_px = (30 * 16 + 8) << 8;
+        sa_py = ((10 - (i - 27) / 2) * 16 + 10) << 8;
+      }
+      SaFov();
+    }
+    for (i = 30; i < 60; i++) {
+      sa_px = (i * 16 + 8) << 8;
+      sa_py = (5 * 16 + 10) << 8;
+      SaFov();
+    }
+    SaGameTick(0);
+    sa_state = ST_PAUSE;
+    sa_pause_sel = 1;
+  } else if (n == 32 || n == 33) {
+    /* 32: the new Physik corridor (3rd floor), 33: the Bio corridor (4th) */
+    sa_have[IT_LAMP] = 1;
+    if (n == 32) {
+      SaGoFloor(2);
+      sa_px = (50 * 16 + 8) << 8;
+      sa_py = (6 * 16 + 4) << 8;
+    } else {
+      SaGoFloor(3);
+      sa_px = (58 * 16 + 8) << 8;
+      sa_py = (9 * 16 + 4) << 8;
+    }
+    SaNoThuner();
+    sa_pdir = DIR_RIGHT;
+    SaGameTick(K_RIGHT);
   } else if (n == 30) {
     /* riding an e-scooter over the schoolyard, a bike parked nearby */
     sa_task = TK_NOTES;
