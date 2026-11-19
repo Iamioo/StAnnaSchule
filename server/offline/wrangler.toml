@@ -1,0 +1,4 @@
+# Offline-Seite: wird statt des Spiels unter demselben Worker-Namen veröffentlicht.
+name = "stanna"
+main = "worker.js"
+compatibility_date = "2025-09-01"
